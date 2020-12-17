@@ -1,0 +1,55 @@
+type User {
+  username: String!
+  password: String!
+}
+
+type Post {
+  id: ID!
+  postBody: String!
+  username: String!
+  createdAt: String!
+  modifiedAt: String!
+  comments: [Comment]!
+  likes: [Like]!
+  likesCount: Int!
+  commentsCount: Int!
+}
+
+type Comment {
+  id: ID!
+  username: String!
+  commentBody: String!
+  createdAt: String!
+  modifiedAt: String!
+  likes: [Like]!
+  likesCount: Int!
+}
+
+type Like {
+  id: ID!
+  username: String!
+  createdAt: String!
+}
+
+input RegisterInput {
+  username: String!
+  password: String!
+}
+
+type Query {
+  getPosts: [Post]
+  getPost(postId: ID!): Post
+}
+
+type Mutation {
+  register(username: String!, password: String!): String
+  login(username: String!, password: String!): String
+
+  createPost(postBody: String!): Boolean
+  deletePost(postId: ID!): Boolean
+
+  createComment(postId: ID!, commentBody: String!): Boolean
+  deleteComment(postId: ID!, commentId: ID!): Boolean
+  toggleLikePost(postId: ID!): Boolean
+  toggleLikeComment(postId: ID!, commentId: ID!): Boolean
+}
