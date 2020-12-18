@@ -1,21 +1,94 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native';
-import { Link } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+import { useState } from 'react';
+import {
+  ActivityIndicator,
+  Button,
+  NativeSyntheticEvent,
+  StyleSheet,
+  Text,
+  TextInput,
+  TextInputChangeEventData,
+  View,
+} from 'react-native';
+import { LOGIN } from 'src/requests';
+import { Link, useHistory } from 'react-router-dom';
 
-const Login: React.FC = () => (
-  <View style={styles.box}>
-    <Text style={styles.title}>Login</Text>
-    <TextInput placeholder="Login" style={styles.textInput} />
-    <TextInput placeholder="Password" style={styles.textInput} />
-    <Text style={styles.noAccount}>
-      Don't have an account yet? Click
-      <Link to="/register" style={{ color: 'teal', textDecoration: 'none' }}>
-        {' '}
-        here{' '}
-      </Link>
-      to get one!
-    </Text>
-  </View>
-);
+const Login: React.FC = () => {
+  const history = useHistory();
+  const [state, setState] = useState({
+    isSubmitted: false,
+    username: '',
+    password: '',
+  });
+
+  const [login, { loading, error }] = useMutation(LOGIN, {
+    update(_, { data: { login: token } }) {
+      if (token) {
+        history.push('/');
+      }
+    },
+    variables: {
+      username: state.username,
+      password: state.password,
+    },
+  });
+
+  const handleChange = (
+    e: NativeSyntheticEvent<TextInputChangeEventData>,
+    value: string
+  ) => {
+    setState({ ...state, [value]: e.nativeEvent.text });
+  };
+
+  const handleSubmit = () => {
+    setState({ ...state, isSubmitted: true });
+    if (state.password.trim() !== '') login();
+  };
+
+  return (
+    <View style={styles.box}>
+      <Text style={styles.title}>Login</Text>
+      <TextInput
+        autoCompleteType="username"
+        onChange={(e) => handleChange(e, 'username')}
+        placeholderTextColor="#aaa"
+        placeholder="Login"
+        style={styles.textInput}
+      />
+      <TextInput
+        autoCompleteType="password"
+        onChange={(e) => handleChange(e, 'password')}
+        placeholderTextColor="#aaa"
+        placeholder="Password"
+        style={styles.textInput}
+      />
+      <View style={styles.button}>
+        {state.isSubmitted ? (
+          <ActivityIndicator />
+        ) : (
+          <Button
+            onPress={handleSubmit}
+            title="Login"
+            color="#222"
+            accessibilityLabel="Authentication button"
+          />
+        )}
+      </View>
+      <Text style={styles.noAccount}>
+        Don't have an account yet? Click
+        <Link to="/register" style={{ color: 'teal', textDecoration: 'none' }}>
+          {' '}
+          here{' '}
+        </Link>
+        to get one!
+      </Text>
+      {loading && <Text style={styles.text}>Loading...</Text>}
+      {error && setState({ ...state, isSubmitted: false }) && (
+        <Text style={styles.text}>Error</Text>
+      )}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   box: {
@@ -42,7 +115,13 @@ const styles = StyleSheet.create({
   noAccount: {
     color: '#bbb',
     fontSize: 12,
-    marginTop: 20,
+  },
+  text: {
+    color: '#bbb',
+    fontSize: 20,
+  },
+  button: {
+    padding: 20,
   },
 });
 
