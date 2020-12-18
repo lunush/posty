@@ -22,10 +22,7 @@ const Register: React.FC = () => {
     confirmPassword: '',
   });
 
-  const [
-    register,
-    { loading: mutationLoading, error: mutationError },
-  ] = useMutation(REGISTER, {
+  const [register, { loading, error }] = useMutation(REGISTER, {
     update(_, { data: { register: token } }) {
       if (token) {
         history.push('/');
@@ -91,8 +88,10 @@ const Register: React.FC = () => {
           />
         )}
       </View>
-      {mutationLoading && <Text>Loading...</Text>}
-      {mutationError && <Text>Error</Text>}
+      {loading && <Text style={styles.text}>Loading...</Text>}
+      {error && setState({ ...state, isSubmitted: false }) && (
+        <Text style={styles.text}>Error</Text>
+      )}
     </View>
   );
 };
@@ -119,6 +118,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#222',
     fontSize: 20,
     marginTop: 10,
+  },
+  text: {
+    color: '#bbb',
+    fontSize: 20,
   },
   button: {
     padding: 20,
