@@ -11,8 +11,10 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { REGISTER } from 'src/requests';
+import { useHistory, withRouter } from 'react-router-dom';
 
 const Register: React.FC = () => {
+  const history = useHistory();
   const [state, setState] = useState({
     isSubmitted: false,
     username: '',
@@ -24,16 +26,16 @@ const Register: React.FC = () => {
     register,
     { loading: mutationLoading, error: mutationError },
   ] = useMutation(REGISTER, {
-    update(_, { data: { register: result } }) {
-      console.log(result);
+    update(_, { data: { register: token } }) {
+      if (token) {
+        history.push('/');
+      }
     },
     variables: {
       username: state.username,
       password: state.password,
     },
   });
-
-  console.log(state.username);
 
   const handleChange = (
     e: NativeSyntheticEvent<TextInputChangeEventData>,
@@ -50,8 +52,6 @@ const Register: React.FC = () => {
     )
       register();
   };
-
-  mutationError && console.log(mutationError);
 
   return (
     <View style={styles.box}>
@@ -91,8 +91,8 @@ const Register: React.FC = () => {
           />
         )}
       </View>
-      {mutationLoading && <View>Loading...</View>}
-      {mutationError && <View>Error</View>}
+      {mutationLoading && <Text>Loading...</Text>}
+      {mutationError && <Text>Error</Text>}
     </View>
   );
 };
@@ -125,4 +125,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Register;
+export default withRouter(Register);
