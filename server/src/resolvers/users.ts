@@ -6,11 +6,11 @@ import {
   validateUserLoginInput,
   validateUserRegistrationInput,
 } from '../utils/validators';
-import { generateToken } from '../utils/helpers';
+import { createTokenCookie, generateToken } from '../utils/helpers';
 
 const usersResolvers: ResolverMap = {
   Mutation: {
-    register: async (_, { username, password }) => {
+    register: async (_, { username, password }, context) => {
       const { isValid, errors } = validateUserRegistrationInput(
         username,
         password
@@ -38,10 +38,11 @@ const usersResolvers: ResolverMap = {
 
       await user.save();
       const token = generateToken(user);
+      createTokenCookie(token, context);
 
-      return token;
+      return true;
     },
-    login: async (_, { username, password }) => {
+    login: async (_, { username, password }, context) => {
       const { isValid, errors } = validateUserLoginInput(username, password);
 
       if (!isValid)
@@ -65,8 +66,9 @@ const usersResolvers: ResolverMap = {
         });
 
       const token = generateToken(user);
+      createTokenCookie(token, context);
 
-      return token;
+      return true;
     },
   },
 };

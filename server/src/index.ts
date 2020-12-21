@@ -4,6 +4,8 @@ import { ApolloServer, gql } from 'apollo-server-express';
 import mongoose from 'mongoose';
 import resolvers from './resolvers/index';
 import path from 'path';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
 const typeDefs = (gql as any)`
 ${fs.readFileSync(path.resolve(__dirname, 'schema.graphql'), 'utf-8')}
@@ -12,14 +14,23 @@ ${fs.readFileSync(path.resolve(__dirname, 'schema.graphql'), 'utf-8')}
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({ req }) => {
-    return {
-      req,
-    };
-  },
+  context: ({ req, res }) => ({
+    req,
+    res,
+  }),
 });
 
 const app = express();
+
+app.use(
+  cors({
+    credentials: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    origin: 'http://localhost:3000',
+  })
+);
+
+app.use(cookieParser());
 
 mongoose
   .connect('mongodb://localhost:27017/twibter?retryWrites=true', {
@@ -27,6 +38,6 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
-    server.applyMiddleware({ app });
+    server.applyMiddleware({ app, path: '/graphql', cors: false });
     app.listen({ port: 3456 });
   });

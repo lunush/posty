@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useMutation } from '@apollo/client';
 import {
   StyleSheet,
@@ -12,8 +12,10 @@ import {
 } from 'react-native';
 import { REGISTER } from 'src/requests';
 import { useHistory, withRouter } from 'react-router-dom';
+import { AuthContext } from 'src/utils/auth';
 
 const Register: React.FC = () => {
+  const context = useContext(AuthContext);
   const history = useHistory();
   const [state, setState] = useState({
     isSubmitted: false,
@@ -25,6 +27,7 @@ const Register: React.FC = () => {
   const [register, { loading, error }] = useMutation(REGISTER, {
     update(_, { data: { register: token } }) {
       if (token) {
+        context.login(token);
         history.push('/');
       }
     },
@@ -89,9 +92,7 @@ const Register: React.FC = () => {
         )}
       </View>
       {loading && <Text style={styles.text}>Loading...</Text>}
-      {error && setState({ ...state, isSubmitted: false }) && (
-        <Text style={styles.text}>Error</Text>
-      )}
+      {error && <Text style={styles.text}>Error</Text>}
     </View>
   );
 };

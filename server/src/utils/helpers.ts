@@ -10,8 +10,17 @@ export const generateToken = (user: UserDocument) => {
       username: user.username,
     },
     'secret',
-    { expiresIn: 60 * 60 * 24 }
+    { expiresIn: '7d' }
   );
+};
+
+export const createTokenCookie = (token: string, context: ExpressContext) => {
+  context.res.cookie('twibterToken', token, {
+    httpOnly: true,
+    sameSite: true,
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  });
 };
 
 export const checkAuth = (context: ExpressContext): any => {

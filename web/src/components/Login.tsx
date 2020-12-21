@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import {
   ActivityIndicator,
   Button,
@@ -12,8 +12,10 @@ import {
 } from 'react-native';
 import { LOGIN } from 'src/requests';
 import { Link, useHistory } from 'react-router-dom';
+import { AuthContext } from 'src/utils/auth';
 
 const Login: React.FC = () => {
+  const context = useContext(AuthContext);
   const history = useHistory();
   const [state, setState] = useState({
     isSubmitted: false,
@@ -21,9 +23,12 @@ const Login: React.FC = () => {
     password: '',
   });
 
+  console.log(document.cookie);
+
   const [login, { loading, error }] = useMutation(LOGIN, {
     update(_, { data: { login: token } }) {
       if (token) {
+        context.login(token);
         history.push('/');
       }
     },
@@ -43,6 +48,7 @@ const Login: React.FC = () => {
   const handleSubmit = () => {
     setState({ ...state, isSubmitted: true });
     if (state.password.trim() !== '') login();
+    else setState({ ...state, isSubmitted: false });
   };
 
   return (
@@ -83,9 +89,7 @@ const Login: React.FC = () => {
         to get one!
       </Text>
       {loading && <Text style={styles.text}>Loading...</Text>}
-      {error && setState({ ...state, isSubmitted: false }) && (
-        <Text style={styles.text}>Error</Text>
-      )}
+      {error && <Text style={styles.text}>Error</Text>}
     </View>
   );
 };
@@ -105,6 +109,7 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   textInput: {
+    color: '#bbb',
     height: 40,
     padding: 20,
     borderRadius: 16,

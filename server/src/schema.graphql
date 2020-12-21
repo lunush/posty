@@ -42,8 +42,8 @@ type Query {
 }
 
 type Mutation {
-  register(username: String!, password: String!): String
-  login(username: String!, password: String!): String
+  register(username: String!, password: String!): Boolean
+  login(username: String!, password: String!): Boolean
 
   createPost(postBody: String!): Boolean
   deletePost(postId: ID!): Boolean
