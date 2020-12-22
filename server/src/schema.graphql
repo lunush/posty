@@ -37,13 +37,15 @@ input RegisterInput {
 }
 
 type Query {
+  logout: Boolean
+
   getPosts: [Post]
   getPost(postId: ID!): Post
 }
 
 type Mutation {
-  register(username: String!, password: String!): Boolean
-  login(username: String!, password: String!): Boolean
+  register(username: String!, password: String!): String
+  login(username: String!, password: String!): String
 
   createPost(postBody: String!): Boolean
   deletePost(postId: ID!): Boolean

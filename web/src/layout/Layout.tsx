@@ -14,10 +14,8 @@ const Layout: React.FC = ({ children }) => (
           <LogoIcon />
         </Text>
       </Link>
-      <Link style={{ textDecorationLine: 'none' }} to="/login">
-        <Text style={styles.authText}>
-          <LoginIcon />
-        </Text>
+      <Link to="/login">
+        <Text style={styles.authText}>{<LoginIcon />}</Text>
       </Link>
     </View>
     {children}

@@ -40,7 +40,7 @@ const usersResolvers: ResolverMap = {
       const token = generateToken(user);
       createTokenCookie(token, context);
 
-      return true;
+      return token;
     },
     login: async (_, { username, password }, context) => {
       const { isValid, errors } = validateUserLoginInput(username, password);
@@ -68,7 +68,7 @@ const usersResolvers: ResolverMap = {
       const token = generateToken(user);
       createTokenCookie(token, context);
 
-      return true;
+      return token;
     },
   },
 };
