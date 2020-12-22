@@ -11,8 +11,8 @@ const PostsList: React.FC = () => {
   return (
     <ScrollView style={styles.twibtFeed}>
       {data.getPosts.map((post: any) => (
-        <View style={styles.twibtBox}>
-          <View style={styles.twibt} key={post.id}>
+        <View key={post.id} style={styles.twibtBox}>
+          <View style={styles.twibt}>
             <Text style={styles.text}>{post.postBody}</Text>
             <Text style={styles.text}>{post.username}</Text>
           </View>
