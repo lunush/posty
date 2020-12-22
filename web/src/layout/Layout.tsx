@@ -1,29 +1,52 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import LogoIcon from '../components/icons/LogoIcon';
 import LoginIcon from '../components/icons/LoginIcon';
+import LogoutIcon from '../components/icons/LogoutIcon';
+import { useContext } from 'react';
+import { AuthContext } from 'src/utils/auth';
 
-const Layout: React.FC = ({ children }) => (
-  <View style={styles.screen}>
-    <View style={styles.header}>
-      <Link to="/">
-        <Text
-          accessibilityLabel="Bird by Oksana Latysheva from the Noun Project"
-          style={styles.logo}
-        >
-          <LogoIcon />
-        </Text>
-      </Link>
-      <Link to="/login">
-        <Text style={styles.authText}>{<LoginIcon />}</Text>
-      </Link>
+const Layout: React.FC = ({ children }) => {
+  const history = useHistory();
+  const context = useContext(AuthContext);
+
+  const handleLogout = () => {
+    history.push('/');
+    context.logout();
+  };
+
+  return (
+    <View style={styles.screen}>
+      <View style={styles.header}>
+        <Link to="/">
+          <Text
+            accessibilityLabel="Bird by Oksana Latysheva from the Noun Project"
+            style={styles.logo}
+          >
+            <LogoIcon />
+          </Text>
+        </Link>
+        {sessionStorage.getItem('twibterToken') ? (
+          <Link onClick={() => handleLogout()} to="/">
+            <Text style={styles.authText}>
+              <LogoutIcon />
+            </Text>
+          </Link>
+        ) : (
+          <Link to="/login">
+            <Text style={styles.authText}>
+              <LoginIcon />
+            </Text>
+          </Link>
+        )}
+      </View>
+      {children}
+      <View style={styles.footer}>
+        <Text style={styles.footerText}>Twibter</Text>
+      </View>
     </View>
-    {children}
-    <View style={styles.footer}>
-      <Text style={styles.copyrightText}>Twibter</Text>
-    </View>
-  </View>
-);
+  );
+};
 
 const styles = StyleSheet.create({
   screen: {
@@ -52,7 +75,7 @@ const styles = StyleSheet.create({
   body: {
     height: '100%',
   },
-  copyrightText: {
+  footerText: {
     fontWeight: '700',
     color: '#bbb',
     textAlign: 'center',

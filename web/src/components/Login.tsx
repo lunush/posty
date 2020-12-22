@@ -25,7 +25,6 @@ const Login: React.FC = () => {
 
   const [login, { loading, error }] = useMutation(LOGIN, {
     update(_, { data: { login: token } }) {
-      console.log(token);
       if (token) {
         context.login(token);
         history.push('/');
