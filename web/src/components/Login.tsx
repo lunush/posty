@@ -55,19 +55,21 @@ const Login: React.FC = () => {
       <TextInput
         autoCompleteType="username"
         onChange={(e) => handleChange(e, 'username')}
-        placeholderTextColor="#aaa"
+        value={state.username}
+        placeholderTextColor="#555"
         placeholder="Login"
         style={styles.textInput}
       />
       <TextInput
         autoCompleteType="password"
         onChange={(e) => handleChange(e, 'password')}
-        placeholderTextColor="#aaa"
+        value={state.password}
+        placeholderTextColor="#555"
         placeholder="Password"
         style={styles.textInput}
       />
       <View style={styles.button}>
-        {state.isSubmitted ? (
+        {state.isSubmitted && !error ? (
           <ActivityIndicator />
         ) : (
           <Button

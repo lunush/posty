@@ -10,6 +10,12 @@ export const GET_POSTS = gql`
   }
 `;
 
+export const CREATE_POST = gql`
+  mutation CreatePost($postBody: String!) {
+    createPost(postBody: $postBody)
+  }
+`;
+
 export const REGISTER = gql`
   mutation Register($username: String!, $password: String!) {
     register(username: $username, password: $password)

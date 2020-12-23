@@ -60,7 +60,7 @@ const Register: React.FC = () => {
         autoCompleteType="username"
         onChange={(e) => handleChange(e, 'username')}
         placeholder="Login"
-        placeholderTextColor="#aaa"
+        placeholderTextColor="#555"
         style={styles.textInput}
       />
       <TextInput
@@ -68,7 +68,7 @@ const Register: React.FC = () => {
         onChange={(e) => handleChange(e, 'password')}
         placeholder="Password"
         secureTextEntry
-        placeholderTextColor="#aaa"
+        placeholderTextColor="#555"
         style={styles.textInput}
       />
       <TextInput
@@ -76,11 +76,11 @@ const Register: React.FC = () => {
         onChange={(e) => handleChange(e, 'confirmPassword')}
         placeholder="Confirm Password"
         secureTextEntry
-        placeholderTextColor="#aaa"
+        placeholderTextColor="#555"
         style={styles.textInput}
       />
       <View style={styles.button}>
-        {state.isSubmitted ? (
+        {state.isSubmitted && !error ? (
           <ActivityIndicator />
         ) : (
           <Button

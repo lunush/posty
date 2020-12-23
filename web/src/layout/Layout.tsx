@@ -26,7 +26,7 @@ const Layout: React.FC = ({ children }) => {
             <LogoIcon />
           </Text>
         </Link>
-        {sessionStorage.getItem('twibterToken') ? (
+        {context.token ? (
           <Link onClick={() => handleLogout()} to="/">
             <Text style={styles.authText}>
               <LogoutIcon />
