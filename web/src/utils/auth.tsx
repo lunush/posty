@@ -27,7 +27,7 @@ export const AuthProvider = (props: any) => {
   const [state, dispatch] = useReducer(reducer, { token: '' });
 
   const login = (token: string) => {
-    sessionStorage.setItem('twibterToken', token);
+    sessionStorage.setItem('postyToken', token);
     dispatch({
       type: 'login',
       token,
@@ -35,7 +35,7 @@ export const AuthProvider = (props: any) => {
   };
 
   const logout = () => {
-    sessionStorage.removeItem('twibterToken');
+    sessionStorage.removeItem('postyToken');
     dispatch({
       type: 'logout',
     });

@@ -13,7 +13,7 @@ import Register from './components/Register';
 import Layout from './layout/Layout';
 import { AuthProvider } from './utils/auth';
 
-const token = sessionStorage.getItem('twibterToken');
+const token = sessionStorage.getItem('postyToken');
 
 const client = new ApolloClient({
   link: createHttpLink({

@@ -15,7 +15,7 @@ export const generateToken = (user: UserDocument) => {
 };
 
 export const createTokenCookie = (token: string, context: ExpressContext) => {
-  context.res.cookie('twibterToken', token, {
+  context.res.cookie('postyToken', token, {
     httpOnly: true,
     sameSite: true,
     secure: process.env.NODE_ENV === 'production',

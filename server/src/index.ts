@@ -33,7 +33,7 @@ app.use(
 app.use(cookieParser());
 
 mongoose
-  .connect('mongodb://localhost:27017/twibter?retryWrites=true', {
+  .connect('mongodb://localhost:27017/posty?retryWrites=true', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

@@ -1,4 +1,4 @@
-# Twibter - a very unique social media
+# Posty - a very unique social media
 
 Built with TypeScript, GraphQL, MongoDB, and React Native Web
 

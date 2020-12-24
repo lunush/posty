@@ -12,30 +12,30 @@ import {
 import { CREATE_POST, GET_POSTS } from 'src/requests';
 
 const initialState = {
-  twibt: '',
+  post: '',
   count: 0,
 };
 
-const NewTwibt = () => {
+const NewPost = () => {
   const [state, setState] = useState(initialState);
 
   const [createPost] = useMutation(CREATE_POST, {
-    update(proxy, { data: { twibt } }) {
-      const cachedTwibts: any = proxy.readQuery({
+    update(proxy, { data: { post } }) {
+      const cachedPosts: any = proxy.readQuery({
         query: GET_POSTS,
       });
-      const updatedCachedTwibts = [twibt, ...cachedTwibts.getPosts];
+      const updatedCachedPosts = [post, ...cachedPosts.getPosts];
       proxy.writeQuery({
         query: GET_POSTS,
         data: {
-          ...cachedTwibts,
-          getPosts: { updatedCachedTwibts },
+          ...cachedPosts,
+          getPosts: { updatedCachedPosts },
         },
       });
       setState(initialState);
     },
     variables: {
-      postBody: state.twibt,
+      postBody: state.post,
     },
   });
 
@@ -43,7 +43,7 @@ const NewTwibt = () => {
     const {
       nativeEvent: { text },
     } = e;
-    setState({ twibt: text, count: text.length });
+    setState({ post: text, count: text.length });
   };
 
   const handleSubmit = () => {
@@ -51,18 +51,18 @@ const NewTwibt = () => {
   };
 
   return (
-    <View style={styles.newTwibtBox}>
-      <View style={styles.twibt}>
+    <View style={styles.newPostBox}>
+      <View style={styles.post}>
         <TextInput
-          value={state.twibt}
+          value={state.post}
           onChange={(e) => handleChange(e)}
           placeholderTextColor="#555"
-          placeholder="New Twibt"
+          placeholder="New Post"
           multiline
           maxLength={140}
           style={styles.textInput}
         />
-        <View style={styles.twibtBottom}>
+        <View style={styles.postBottom}>
           <Text style={styles.countText}>{state.count}/140</Text>
           <Pressable
             style={styles.button}
@@ -70,7 +70,7 @@ const NewTwibt = () => {
             disabled={state.count === 0 ? true : false}
             accessibilityLabel="Submit button"
           >
-            <Text style={styles.text}>Twibt</Text>
+            <Text style={styles.text}>Post</Text>
           </Pressable>
         </View>
       </View>
@@ -79,7 +79,7 @@ const NewTwibt = () => {
 };
 
 const styles = StyleSheet.create({
-  twibtBottom: {
+  postBottom: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -89,12 +89,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 28,
   },
-  newTwibtBox: {
+  newPostBox: {
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  twibt: {
+  post: {
     margin: 10,
     borderRadius: 15,
     height: '12rem',
@@ -128,4 +128,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NewTwibt;
+export default NewPost;

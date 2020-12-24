@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { GET_POSTS } from '../requests';
 import { AuthContext } from 'src/utils/auth';
 import { useContext } from 'react';
-import NewTwibt from './NewTwibt';
+import NewPost from './NewPost';
 
 const PostsList: React.FC = () => {
   const { loading, error, data } = useQuery(GET_POSTS);
@@ -13,11 +13,11 @@ const PostsList: React.FC = () => {
   if (error) return <Text style={styles.text}>Error.</Text>;
 
   return (
-    <ScrollView style={styles.twibtFeed}>
-      {context.token ? <NewTwibt /> : null}
+    <ScrollView style={styles.postsFeed}>
+      {context.token ? <NewPost /> : null}
       {data.getPosts.map((post: any) => (
-        <View key={post.id} style={styles.twibtBox}>
-          <View style={styles.twibt}>
+        <View key={post.id} style={styles.postBox}>
+          <View style={styles.post}>
             <Text style={styles.text}>{post.postBody}</Text>
             <Text style={styles.text}>{post.username}</Text>
           </View>
@@ -28,17 +28,17 @@ const PostsList: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  twibtFeed: {
+  postsFeed: {
     flex: 1,
     flexDirection: 'column',
     height: '100%',
   },
-  twibtBox: {
+  postBox: {
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  twibt: {
+  post: {
     padding: 20,
     margin: 10,
     borderRadius: 15,

@@ -20,7 +20,7 @@ const Layout: React.FC = ({ children }) => {
       <View style={styles.header}>
         <Link to="/">
           <Text
-            accessibilityLabel="Bird by Oksana Latysheva from the Noun Project"
+            accessibilityLabel="Writing by Nubaia Karim Barsha from the Noun Project"
             style={styles.logo}
           >
             <LogoIcon />
@@ -42,7 +42,7 @@ const Layout: React.FC = ({ children }) => {
       </View>
       {children}
       <View style={styles.footer}>
-        <Text style={styles.footerText}>Twibter</Text>
+        <Text style={styles.footerText}>Posty</Text>
       </View>
     </View>
   );
@@ -52,32 +52,32 @@ const styles = StyleSheet.create({
   screen: {
     height: '100vh',
     width: '100vw',
-    padding: '1.5rem',
     overflow: 'visible',
     backgroundColor: '#111',
   },
   header: {
     width: '100%',
-    marginBottom: '1rem',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingBottom: '1.5rem',
+    padding: '1rem',
   },
   footer: {
     width: '100%',
-    marginTop: '1rem',
-    paddingTop: '1.5rem',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    padding: '1rem',
+    borderWidth: 1,
+    borderColor: 'transparent',
+    borderTopColor: '#777',
   },
   body: {
     height: '100%',
   },
   footerText: {
-    fontWeight: '700',
     color: '#bbb',
+    fontWeight: '700',
     textAlign: 'center',
   },
   authText: {
