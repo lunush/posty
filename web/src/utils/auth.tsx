@@ -1,7 +1,7 @@
 import { createContext, useReducer } from 'react';
 
 export const AuthContext = createContext({
-  token: '',
+  token: sessionStorage.getItem('postyToken') || '',
   login: (_: string) => {},
   logout: () => {},
 });
@@ -24,7 +24,9 @@ const reducer = (state: { token: string }, action: any) => {
 };
 
 export const AuthProvider = (props: any) => {
-  const [state, dispatch] = useReducer(reducer, { token: '' });
+  const [state, dispatch] = useReducer(reducer, {
+    token: sessionStorage.getItem('postyToken') || '',
+  });
 
   const login = (token: string) => {
     sessionStorage.setItem('postyToken', token);

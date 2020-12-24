@@ -1,6 +1,7 @@
 import { useMutation } from '@apollo/client';
 import { useState } from 'react';
 import {
+  ActivityIndicator,
   NativeSyntheticEvent,
   Pressable,
   StyleSheet,
@@ -19,7 +20,7 @@ const initialState = {
 const NewPost = () => {
   const [state, setState] = useState(initialState);
 
-  const [createPost] = useMutation(CREATE_POST, {
+  const [createPost, { loading }] = useMutation(CREATE_POST, {
     update(proxy, { data: { post } }) {
       const cachedPosts: any = proxy.readQuery({
         query: GET_POSTS,
@@ -64,14 +65,18 @@ const NewPost = () => {
         />
         <View style={styles.postBottom}>
           <Text style={styles.countText}>{state.count}/140</Text>
-          <Pressable
-            style={styles.button}
-            onPress={handleSubmit}
-            disabled={state.count === 0 ? true : false}
-            accessibilityLabel="Submit button"
-          >
-            <Text style={styles.text}>Post</Text>
-          </Pressable>
+          {loading ? (
+            <ActivityIndicator style={styles.activityIndicator} />
+          ) : (
+            <Pressable
+              style={styles.button}
+              onPress={handleSubmit}
+              disabled={state.count === 0 ? true : false}
+              accessibilityLabel="Submit button"
+            >
+              <Text style={styles.text}>Post</Text>
+            </Pressable>
+          )}
         </View>
       </View>
     </View>
@@ -79,6 +84,10 @@ const NewPost = () => {
 };
 
 const styles = StyleSheet.create({
+  activityIndicator: {
+    padding: 14,
+    marginBottom: 10,
+  },
   postBottom: {
     flex: 1,
     flexDirection: 'row',

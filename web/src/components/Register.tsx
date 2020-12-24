@@ -7,8 +7,8 @@ import {
   View,
   NativeSyntheticEvent,
   TextInputChangeEventData,
-  Button,
   ActivityIndicator,
+  Pressable,
 } from 'react-native';
 import { REGISTER } from 'src/requests';
 import { useHistory, withRouter } from 'react-router-dom';
@@ -79,18 +79,17 @@ const Register: React.FC = () => {
         placeholderTextColor="#555"
         style={styles.textInput}
       />
-      <View style={styles.button}>
-        {state.isSubmitted && !error ? (
-          <ActivityIndicator />
-        ) : (
-          <Button
-            onPress={handleSubmit}
-            title="Login"
-            color="#222"
-            accessibilityLabel="Authentication button"
-          />
-        )}
-      </View>
+      {state.isSubmitted && !error ? (
+        <ActivityIndicator style={styles.activityIndicator} />
+      ) : (
+        <Pressable
+          onPress={handleSubmit}
+          accessibilityLabel="Authentication button"
+          style={styles.button}
+        >
+          <Text style={styles.buttonText}>Login</Text>
+        </Pressable>
+      )}
       {loading && <Text style={styles.text}>Loading...</Text>}
       {error && <Text style={styles.text}>Error</Text>}
     </View>
@@ -98,6 +97,10 @@ const Register: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
+  activityIndicator: {
+    padding: 14,
+    marginVertical: 10,
+  },
   box: {
     flex: 1,
     flexDirection: 'column',
@@ -124,8 +127,12 @@ const styles = StyleSheet.create({
     color: '#bbb',
     fontSize: 20,
   },
+  buttonText: { fontWeight: 'bold', color: '#bbb' },
   button: {
-    padding: 20,
+    backgroundColor: '#333',
+    padding: 14,
+    borderRadius: 14,
+    marginVertical: 10,
   },
 });
 

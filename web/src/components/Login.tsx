@@ -2,8 +2,8 @@ import { useMutation } from '@apollo/client';
 import { useContext, useState } from 'react';
 import {
   ActivityIndicator,
-  Button,
   NativeSyntheticEvent,
+  Pressable,
   StyleSheet,
   Text,
   TextInput,
@@ -62,24 +62,24 @@ const Login: React.FC = () => {
       />
       <TextInput
         autoCompleteType="password"
+        secureTextEntry
         onChange={(e) => handleChange(e, 'password')}
         value={state.password}
         placeholderTextColor="#555"
         placeholder="Password"
         style={styles.textInput}
       />
-      <View style={styles.button}>
-        {state.isSubmitted && !error ? (
-          <ActivityIndicator />
-        ) : (
-          <Button
-            onPress={handleSubmit}
-            title="Login"
-            color="#222"
-            accessibilityLabel="Authentication button"
-          />
-        )}
-      </View>
+      {state.isSubmitted && !error ? (
+        <ActivityIndicator style={styles.activityIndicator} />
+      ) : (
+        <Pressable
+          onPress={handleSubmit}
+          accessibilityLabel="Authentication button"
+          style={styles.button}
+        >
+          <Text style={styles.buttonText}>Login</Text>
+        </Pressable>
+      )}
       <Text style={styles.noAccount}>
         Don't have an account yet? Click
         <Link to="/register" style={{ color: 'teal', textDecoration: 'none' }}>
@@ -95,6 +95,10 @@ const Login: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
+  activityIndicator: {
+    padding: 14,
+    marginVertical: 10,
+  },
   box: {
     flex: 1,
     flexDirection: 'column',
@@ -125,8 +129,12 @@ const styles = StyleSheet.create({
     color: '#bbb',
     fontSize: 20,
   },
+  buttonText: { fontWeight: 'bold', color: '#bbb' },
   button: {
-    padding: 20,
+    backgroundColor: '#333',
+    padding: 14,
+    borderRadius: 14,
+    marginVertical: 10,
   },
 });
 
