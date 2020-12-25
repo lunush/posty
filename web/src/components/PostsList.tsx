@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import { ScrollView, StyleSheet, Text } from 'react-native';
+import { ActivityIndicator, ScrollView, StyleSheet, Text } from 'react-native';
 import { GET_POSTS } from '../requests';
 import { AuthContext } from 'src/utils/auth';
 import { useContext } from 'react';
@@ -10,8 +10,9 @@ const PostsList: React.FC = () => {
   const { loading, error, data } = useQuery(GET_POSTS);
   const context = useContext(AuthContext);
 
-  if (loading) return <Text style={styles.text}>Loading...</Text>;
-  if (error) return <Text style={styles.text}>Error.</Text>;
+  if (loading) return <ActivityIndicator style={styles.loading} />;
+  if (error)
+    return <Text style={styles.error}>{error.graphQLErrors[0].message}</Text>;
 
   return (
     <ScrollView style={styles.postsFeed}>
@@ -30,6 +31,15 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   text: { color: '#bbb' },
+  loading: {
+    height: 50,
+    width: 50,
+  },
+  error: {
+    color: 'red',
+    fontWeight: 'bold',
+    fontSize: 20,
+  },
 });
 
 export default PostsList;

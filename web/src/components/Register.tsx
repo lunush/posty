@@ -27,7 +27,7 @@ const Register: React.FC = () => {
 
   if (context.token) history.push('/');
 
-  const [register, { loading, error }] = useMutation(REGISTER, {
+  const [register, { error }] = useMutation(REGISTER, {
     update(_, { data: { register: token } }) {
       if (token) {
         context.login(token);
@@ -103,8 +103,9 @@ const Register: React.FC = () => {
           <Text style={styles.buttonText}>Register</Text>
         </Pressable>
       )}
-      {loading && <Text style={styles.text}>Loading...</Text>}
-      {error && <Text style={styles.text}>Error</Text>}
+      {error && (
+        <Text style={styles.text}>{error.graphQLErrors[0].message}</Text>
+      )}
     </View>
   );
 };

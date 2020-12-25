@@ -25,7 +25,7 @@ const Login: React.FC = () => {
 
   if (context.token) history.push('/');
 
-  const [login, { loading, error }] = useMutation(LOGIN, {
+  const [login, { error }] = useMutation(LOGIN, {
     update(_, { data: { login: token } }) {
       if (token) {
         context.login(token);
@@ -90,8 +90,9 @@ const Login: React.FC = () => {
         </Link>
         to get one!
       </Text>
-      {loading && <Text style={styles.text}>Loading...</Text>}
-      {error && <Text style={styles.text}>Error</Text>}
+      {error && (
+        <Text style={styles.text}>{error.graphQLErrors[0].message}</Text>
+      )}
     </View>
   );
 };
