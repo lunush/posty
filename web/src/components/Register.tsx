@@ -20,9 +20,12 @@ const Register: React.FC = () => {
   const [state, setState] = useState({
     isSubmitted: false,
     username: '',
+    name: '',
     password: '',
     confirmPassword: '',
   });
+
+  if (context.token) history.push('/');
 
   const [register, { loading, error }] = useMutation(REGISTER, {
     update(_, { data: { register: token } }) {
@@ -33,6 +36,7 @@ const Register: React.FC = () => {
     },
     variables: {
       username: state.username,
+      name: state.name,
       password: state.password,
     },
   });
@@ -47,6 +51,8 @@ const Register: React.FC = () => {
   const handleSubmit = () => {
     setState({ ...state, isSubmitted: true });
     if (
+      state.username.trim() !== '' &&
+      state.name.trim() !== '' &&
       state.password.trim() !== '' &&
       state.password === state.confirmPassword
     )
@@ -59,7 +65,14 @@ const Register: React.FC = () => {
       <TextInput
         autoCompleteType="username"
         onChange={(e) => handleChange(e, 'username')}
-        placeholder="Login"
+        placeholder="Username"
+        placeholderTextColor="#555"
+        style={styles.textInput}
+      />
+      <TextInput
+        autoCompleteType="name"
+        onChange={(e) => handleChange(e, 'name')}
+        placeholder="Name"
         placeholderTextColor="#555"
         style={styles.textInput}
       />
@@ -87,7 +100,7 @@ const Register: React.FC = () => {
           accessibilityLabel="Authentication button"
           style={styles.button}
         >
-          <Text style={styles.buttonText}>Login</Text>
+          <Text style={styles.buttonText}>Register</Text>
         </Pressable>
       )}
       {loading && <Text style={styles.text}>Loading...</Text>}

@@ -3,6 +3,7 @@ import { model, Schema, Document } from 'mongoose';
 interface PostDocument extends Document {
   postBody: string;
   username: string;
+  name: string;
   likes: {
     username: string;
   }[];
@@ -10,6 +11,7 @@ interface PostDocument extends Document {
     {
       commentBody: string;
       username: string;
+      name: string;
       likes: {
         username: string;
       }[];
@@ -20,6 +22,7 @@ interface PostDocument extends Document {
 const postSchema = new Schema({
   postBody: { type: String, required: true },
   username: { type: String, required: true },
+  name: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
   modifiedAt: { type: Date, default: Date.now },
   user: {
@@ -36,6 +39,7 @@ const postSchema = new Schema({
     {
       commentBody: { type: String, required: true },
       username: { type: String, required: true },
+      name: { type: String, required: true },
       createdAt: { type: Date, default: Date.now },
       modifiedAt: { type: Date, default: Date.now },
       likes: [

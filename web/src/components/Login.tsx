@@ -23,6 +23,8 @@ const Login: React.FC = () => {
     password: '',
   });
 
+  if (context.token) history.push('/');
+
   const [login, { loading, error }] = useMutation(LOGIN, {
     update(_, { data: { login: token } }) {
       if (token) {

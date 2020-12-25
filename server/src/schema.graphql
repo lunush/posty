@@ -1,12 +1,15 @@
 type User {
   username: String!
+  name: String!
   password: String!
+  profilePicture: String!
 }
 
 type Post {
   id: ID!
   postBody: String!
   username: String!
+  name: String!
   createdAt: String!
   modifiedAt: String!
   comments: [Comment]!
@@ -18,6 +21,7 @@ type Post {
 type Comment {
   id: ID!
   username: String!
+  name: String!
   commentBody: String!
   createdAt: String!
   modifiedAt: String!
@@ -31,20 +35,15 @@ type Like {
   createdAt: String!
 }
 
-input RegisterInput {
-  username: String!
-  password: String!
-}
-
 type Query {
-  logout: Boolean
+  getProfilePicture(username: String!): String
 
   getPosts: [Post]
   getPost(postId: ID!): Post
 }
 
 type Mutation {
-  register(username: String!, password: String!): String
+  register(username: String!, name: String!, password: String!): String
   login(username: String!, password: String!): String
 
   createPost(postBody: String!): Boolean

@@ -37,6 +37,7 @@ const postsResolvers = {
         const post = new Post({
           postBody,
           user: decryptedToken.id,
+          name: decryptedToken.name,
           username: decryptedToken.username,
         });
 
@@ -71,7 +72,7 @@ const postsResolvers = {
       { postId, commentBody }: { postId: string; commentBody: string },
       context: ExpressContext
     ) => {
-      const { username } = checkAuth(context);
+      const { username, name } = checkAuth(context);
 
       if (commentBody.trim() === '')
         throw new UserInputError('Empty comment', {
@@ -83,7 +84,7 @@ const postsResolvers = {
       const post = await Post.findById(postId);
 
       if (post) {
-        post.comments.push({ commentBody, username, likes: [] });
+        post.comments.push({ commentBody, username, name, likes: [] });
       } else throw new UserInputError('WTF');
 
       return true;

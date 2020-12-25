@@ -6,13 +6,25 @@ import {
   validateUserLoginInput,
   validateUserRegistrationInput,
 } from '../utils/validators';
-import { generateToken } from '../utils/helpers';
+import { generateProfilePicture, generateToken } from '../utils/helpers';
 
 const usersResolvers: ResolverMap = {
+  Query: {
+    getProfilePicture: async (_, { username }) => {
+      try {
+        const user = await User.findOne({ username });
+        if (user) return user.profilePicture;
+        else throw new Error('User not found');
+      } catch (e) {
+        throw new Error(e);
+      }
+    },
+  },
   Mutation: {
-    register: async (_, { username, password }) => {
+    register: async (_, { username, name, password }) => {
       const { isValid, errors } = validateUserRegistrationInput(
         username,
+        name,
         password
       );
 
@@ -33,7 +45,9 @@ const usersResolvers: ResolverMap = {
 
       const user = new User({
         username,
+        name,
         password: hashedPassword,
+        profilePicture: await generateProfilePicture(),
       });
 
       await user.save();

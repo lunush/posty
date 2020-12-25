@@ -2,16 +2,31 @@ import { AuthenticationError } from 'apollo-server-express';
 import { ExpressContext } from 'apollo-server-express/dist/ApolloServer';
 import jwt from 'jsonwebtoken';
 import { UserDocument } from '../models/User';
+import imageToBase64 from 'image-to-base64';
 
 export const generateToken = (user: UserDocument) => {
   return jwt.sign(
     {
       id: user._id,
       username: user.username,
+      name: user.name,
     },
     'secret',
     { expiresIn: '7d' }
   );
+};
+
+export const generateProfilePicture = async () => {
+  let profilePicture;
+  try {
+    profilePicture = await imageToBase64(
+      'https://thispersondoesnotexist.com/image'
+    );
+  } catch (e) {
+    throw new Error(e);
+  }
+
+  return profilePicture;
 };
 
 export const createTokenCookie = (token: string, context: ExpressContext) => {
@@ -36,7 +51,7 @@ export const checkAuth = (context: ExpressContext): any => {
         throw new AuthenticationError('Invalid token');
       }
     }
-    throw new AuthenticationError('Invalid token');
+    throw new AuthenticationError('No token');
   }
-  throw new AuthenticationError('Invalid token');
+  throw new AuthenticationError('token???');
 };
