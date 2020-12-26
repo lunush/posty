@@ -1,17 +1,7 @@
-import jwtDecode from 'jwt-decode';
 import { createContext, useReducer } from 'react';
-
-interface UserPayload {
-  username: string;
-  id: string;
-}
 
 export const AuthContext = createContext({
   token: sessionStorage.getItem('postyToken') || '',
-  get decodedToken() {
-    if (!this.token) return null;
-    return jwtDecode<UserPayload>(this.token);
-  },
   login: (_: string) => {},
   logout: () => {},
 });

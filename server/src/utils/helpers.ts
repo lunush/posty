@@ -39,6 +39,7 @@ export const createTokenCookie = (token: string, context: ExpressContext) => {
 };
 
 export const checkAuth = (context: ExpressContext): any => {
+  console.log(context.req.headers);
   const authHeader = context.req.headers.authorization;
 
   if (authHeader) {

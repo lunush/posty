@@ -1,18 +1,39 @@
-import { StyleSheet, Text, View } from 'react-native';
-import { Link, useHistory } from 'react-router-dom';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Link } from 'react-router-dom';
 import LogoIcon from '../components/icons/LogoIcon';
 import LoginIcon from '../components/icons/LoginIcon';
-import LogoutIcon from '../components/icons/LogoutIcon';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { AuthContext } from 'src/utils/auth';
+import { GET_PROFILE_PICTURE } from 'src/requests';
+import { useQuery } from '@apollo/client';
+import jwtDecode from 'jwt-decode';
+import Popup from './Popup';
+
+interface UserPayload {
+  username: string;
+  id: string;
+}
 
 const Layout: React.FC = ({ children }) => {
-  const history = useHistory();
+  // const history = useHistory();
   const context = useContext(AuthContext);
+  const [isPopupVisible, toggleIsPopupVisible] = useState(false);
+  const username = context.token
+    ? jwtDecode<UserPayload>(context.token).username
+    : null;
 
-  const handleLogout = () => {
-    history.push('/');
-    context.logout();
+  const { data } = useQuery(GET_PROFILE_PICTURE, {
+    variables: { username },
+  });
+
+  const profilePicture = data?.getProfilePicture
+    ? 'data:image/jpeg;base64,' + data.getProfilePicture
+    : null;
+
+  const handlePress = () => {
+    // context.logout();
+    // history.push('/');
+    toggleIsPopupVisible(!isPopupVisible);
   };
 
   return (
@@ -27,11 +48,12 @@ const Layout: React.FC = ({ children }) => {
           </Text>
         </Link>
         {context.token ? (
-          <Link onClick={() => handleLogout()} to="/">
-            <Text style={styles.authText}>
-              <LogoutIcon />
-            </Text>
-          </Link>
+          <Pressable onPress={handlePress}>
+            <Image
+              source={{ uri: profilePicture as string }}
+              style={styles.image}
+            />
+          </Pressable>
         ) : (
           <Link to="/login">
             <Text style={styles.authText}>
@@ -40,6 +62,9 @@ const Layout: React.FC = ({ children }) => {
           </Link>
         )}
       </View>
+      {isPopupVisible && (
+        <Popup isVisible={isPopupVisible} toggle={toggleIsPopupVisible} />
+      )}
       {children}
       <View style={styles.footer}>
         <Text style={styles.footerText}>Posty</Text>
@@ -85,6 +110,11 @@ const styles = StyleSheet.create({
   },
   logo: {
     color: '#bbb',
+  },
+  image: {
+    height: 50,
+    width: 50,
+    borderRadius: 9999,
   },
 });
 
