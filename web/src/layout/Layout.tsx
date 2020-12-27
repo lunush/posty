@@ -6,8 +6,8 @@ import { GET_PROFILE_PICTURE } from 'src/requests';
 import { useQuery } from '@apollo/client';
 import jwtDecode from 'jwt-decode';
 import Popup from './Popup';
-import { IoIosText } from 'react-icons/io';
 import { AiOutlineLogin } from 'react-icons/ai';
+import { IoIosText } from 'react-icons/io';
 
 interface UserPayload {
   username: string;
@@ -15,7 +15,6 @@ interface UserPayload {
 }
 
 const Layout: React.FC = ({ children }) => {
-  // const history = useHistory();
   const context = useContext(AuthContext);
   const [isPopupVisible, toggleIsPopupVisible] = useState(false);
   const username = context.token
@@ -31,8 +30,6 @@ const Layout: React.FC = ({ children }) => {
     : null;
 
   const handlePress = () => {
-    // context.logout();
-    // history.push('/');
     toggleIsPopupVisible(!isPopupVisible);
   };
 
@@ -41,7 +38,7 @@ const Layout: React.FC = ({ children }) => {
       <View style={styles.header}>
         <Link to="/">
           <Text style={styles.logo}>
-            <IoIosText />
+            <IoIosText transform="translate(0, 5)" />
           </Text>
         </Link>
         {context.token ? (
@@ -63,9 +60,6 @@ const Layout: React.FC = ({ children }) => {
         <Popup isVisible={isPopupVisible} toggle={toggleIsPopupVisible} />
       )}
       {children}
-      <View style={styles.footer}>
-        <Text style={styles.footerText}>Posty</Text>
-      </View>
     </View>
   );
 };
@@ -82,25 +76,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: '1rem',
-  },
-  footer: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: '1rem',
+    paddingHorizontal: '1rem',
+    paddingVertical: '0.5rem',
     borderWidth: 1,
     borderColor: 'transparent',
-    borderTopColor: '#777',
+    borderBottomColor: '#777',
+    backgroundColor: '#222',
   },
   body: {
     height: '100%',
-  },
-  footerText: {
-    color: '#bbb',
-    fontWeight: '700',
-    textAlign: 'center',
   },
   authText: {
     color: '#bbb',
@@ -108,11 +92,11 @@ const styles = StyleSheet.create({
   },
   logo: {
     color: '#bbb',
-    fontSize: 35,
+    fontSize: 32,
   },
   image: {
-    height: 50,
-    width: 50,
+    height: 40,
+    width: 40,
     borderRadius: 9999,
   },
 });
