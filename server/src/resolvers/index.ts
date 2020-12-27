@@ -3,11 +3,11 @@ import usersResolvers from './users';
 
 const resolvers = {
   Post: {
-    likesCount: (parent: any) => parent.likes.length,
-    commentsCount: (parent: any) => parent.comments.length,
+    likeCount: (parent: any) => parent.likes.length,
+    commentCount: (parent: any) => parent.comments.length,
   },
   Comment: {
-    likesCount: (parent: any, { commentId }: { commentId: string }) => {
+    likeCount: (parent: any, { commentId }: { commentId: string }) => {
       const commentIndex = parent.comments.findIndex(
         (comment: any) => comment.id === commentId
       );

@@ -103,9 +103,7 @@ const Register: React.FC = () => {
           <Text style={styles.buttonText}>Register</Text>
         </Pressable>
       )}
-      {error && (
-        <Text style={styles.text}>{error.graphQLErrors[0].message}</Text>
-      )}
+      {error && <Text style={styles.text}>{error}</Text>}
     </View>
   );
 };

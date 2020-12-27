@@ -26,8 +26,8 @@ const Layout: React.FC = ({ children }) => {
     variables: { username },
   });
 
-  const profilePicture = data?.getProfilePicture
-    ? 'data:image/jpeg;base64,' + data.getProfilePicture
+  const profilePicture = data?.getUser.profilePicture
+    ? 'data:image/jpeg;base64,' + data.getUser.profilePicture
     : null;
 
   const handlePress = () => {

@@ -10,10 +10,10 @@ import { generateProfilePicture, generateToken } from '../utils/helpers';
 
 const usersResolvers: ResolverMap = {
   Query: {
-    getProfilePicture: async (_, { username }) => {
+    getUser: async (_, { username }) => {
       try {
         const user = await User.findOne({ username });
-        if (user) return user.profilePicture;
+        if (user) return user;
         else throw new Error('User not found');
       } catch (e) {
         throw new Error(e);

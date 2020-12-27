@@ -1,16 +1,22 @@
 import { useQuery } from '@apollo/client';
-import { Image, StyleSheet, Text, View } from 'react-native';
-import { GET_PROFILE_PICTURE } from 'src/requests';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { GET_PROFILE_PICTURE, TOGGLE_POST_LIKE } from 'src/requests';
 import { FaComments } from 'react-icons/fa';
-import { AiFillHeart } from 'react-icons/ai';
+import LikeButton from './LikeButton';
+import { Link } from 'react-router-dom';
+import { getRelativeDate } from 'src/utils/helpers';
+import { BsThreeDots } from 'react-icons/bs';
 
 interface Props {
   post: {
     id: string;
+    createdAt: string;
     username: string;
     name: string;
     postBody: string;
-    profilePicture: string;
+    likeCount: number;
+    likes: any[];
+    commentCount: number;
   };
 }
 
@@ -19,38 +25,62 @@ const PostCard: React.FC<Props> = ({ post }) => {
     variables: { username: post.username },
   });
 
-  const profilePicture = data?.getProfilePicture
-    ? 'data:image/jpeg;base64,' + data.getProfilePicture
+  const profilePicture = data?.getUser.profilePicture
+    ? 'data:image/jpeg;base64,' + data.getUser.profilePicture
     : null;
+
+  const handlePress = () => alert('oh mah gawd no popup');
 
   return (
     <View key={post.id} style={styles.postBox}>
       <View style={styles.post}>
         <View style={styles.postTop}>
-          <View style={styles.imageContainer}>
-            {profilePicture ? (
-              <Image source={{ uri: profilePicture }} style={styles.image} />
-            ) : (
-              <Text style={styles.noProfilePictureText}>Profile Picture</Text>
-            )}
+          <View style={styles.flex}>
+            <Link to={post.username}>
+              <View style={styles.imageContainer}>
+                {profilePicture ? (
+                  <Image
+                    source={{ uri: profilePicture }}
+                    style={styles.image}
+                  />
+                ) : (
+                  <Text style={styles.noProfilePictureText}>
+                    Profile Picture
+                  </Text>
+                )}
+              </View>
+            </Link>
+            <View>
+              <Text style={styles.name}>{post.name}</Text>
+              <Text style={styles.username}>@{post.username}</Text>
+            </View>
           </View>
-          <Text style={styles.name}>{post.name}</Text>
-          <Text style={styles.username}>@{post.username}</Text>
+          <Text style={styles.username}>
+            {getRelativeDate((post.createdAt as any) * 1)}
+          </Text>
         </View>
         <Text style={styles.postText}>{post.postBody}</Text>
         <View style={styles.postBottom}>
-          <View style={styles.reactionBox}>
-            <Text style={styles.text}>
-              <AiFillHeart />
-            </Text>
-            <Text style={styles.text}> 1</Text>
+          <View style={styles.flex}>
+            <LikeButton
+              id={post.id}
+              likes={post.likes}
+              username={post.username}
+              likeCount={post.likeCount}
+              MUTATION={TOGGLE_POST_LIKE}
+            />
+            <View style={styles.commentContainer}>
+              <Text style={styles.icon}>
+                <FaComments />
+              </Text>
+              <Text style={styles.text}> {post.commentCount}</Text>
+            </View>
           </View>
-          <View style={styles.reactionBox}>
-            <Text style={styles.text}>
-              <FaComments />
+          <Pressable onPress={handlePress}>
+            <Text style={styles.icon}>
+              <BsThreeDots />
             </Text>
-            <Text style={styles.text}> 1</Text>
-          </View>
+          </Pressable>
         </View>
       </View>
     </View>
@@ -58,6 +88,11 @@ const PostCard: React.FC<Props> = ({ post }) => {
 };
 
 const styles = StyleSheet.create({
+  flex: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   postBox: {
     width: '100%',
     justifyContent: 'center',
@@ -74,13 +109,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#222',
   },
   postTop: {
-    // width: '100%',
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
   postBottom: {
-    width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -93,7 +126,8 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: 50,
   },
-  text: { color: '#bbb', fontSize: 20 },
+  icon: { color: '#bbb', fontSize: 20 },
+  text: { color: '#bbb', fontSize: 14 },
   username: {
     marginLeft: 10,
     fontSize: 12,
@@ -117,7 +151,8 @@ const styles = StyleSheet.create({
     padding: 8,
     marginVertical: 10,
   },
-  reactionBox: {
+  commentContainer: {
+    marginLeft: 10,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',

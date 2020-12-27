@@ -14,8 +14,8 @@ type Post {
   modifiedAt: String!
   comments: [Comment]!
   likes: [Like]!
-  likesCount: Int!
-  commentsCount: Int!
+  likeCount: Int!
+  commentCount: Int!
 }
 
 type Comment {
@@ -26,7 +26,7 @@ type Comment {
   createdAt: String!
   modifiedAt: String!
   likes: [Like]!
-  likesCount: Int!
+  likeCount: Int!
 }
 
 type Like {
@@ -36,7 +36,7 @@ type Like {
 }
 
 type Query {
-  getProfilePicture(username: String!): String
+  getUser(username: String!): User
 
   getPosts: [Post]
   getPost(postId: ID!): Post
@@ -48,9 +48,9 @@ type Mutation {
 
   createPost(postBody: String!): Boolean
   deletePost(postId: ID!): Boolean
+  togglePostLike(postId: ID!): Post
 
   createComment(postId: ID!, commentBody: String!): Boolean
   deleteComment(postId: ID!, commentId: ID!): Boolean
-  toggleLikePost(postId: ID!): Boolean
-  toggleLikeComment(postId: ID!, commentId: ID!): Boolean
+  toggleCommentLike(postId: ID!, commentId: ID!): Post
 }

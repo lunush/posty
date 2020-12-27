@@ -112,18 +112,46 @@ const postsResolvers = {
       return true;
     },
 
-    toggleLikePost: async (
+    togglePostLike: async (
       _: any,
       { postId }: { postId: string },
       context: ExpressContext
     ) => {
       const { username } = checkAuth(context);
+      if (!username) throw new AuthenticationError('Not permitted');
+      const post = await Post.findById(postId);
 
-      if (username) {
-        const post = await Post.findById(postId);
+      if (post) {
+        if (post.likes.find((like) => like.username === username)) {
+          post.likes = post.likes.filter((like) => like.username !== username);
+        } else {
+          post.likes.push({ username });
+        }
+        await post.save();
+      } else throw new UserInputError('Nice try, but not today.');
 
-        if (post) {
-          if (post.likes.find((like) => like.username === username)) {
+      return post;
+    },
+
+    toggleCommentLike: async (
+      _: any,
+      { postId, commentId }: { postId: string; commentId: string },
+      context: ExpressContext
+    ) => {
+      const { username } = checkAuth(context);
+
+      if (!username) throw new AuthenticationError('Not permitted');
+      const post = await Post.findById(postId);
+      if (post) {
+        const commentIndex = post.comments.findIndex(
+          (comment: any) => comment.id === commentId
+        );
+        if (commentIndex >= 0) {
+          if (
+            post.comments[commentIndex].likes.find(
+              (like) => like.username === username
+            )
+          ) {
             post.likes = post.likes.filter(
               (like) => like.username !== username
             );
@@ -133,43 +161,9 @@ const postsResolvers = {
 
           await post.save();
         } else throw new UserInputError('Nice try, but not today.');
-      } else throw new AuthenticationError('Not permitted');
+      } else throw new UserInputError('Nice try, but not today.');
 
-      return true;
-    },
-
-    toggleLikeComment: async (
-      _: any,
-      { postId, commentId }: { postId: string; commentId: string },
-      context: ExpressContext
-    ) => {
-      const { username } = checkAuth(context);
-
-      if (username) {
-        const post = await Post.findById(postId);
-        if (post) {
-          const commentIndex = post.comments.findIndex(
-            (comment: any) => comment.id === commentId
-          );
-          if (commentIndex >= 0) {
-            if (
-              post.comments[commentIndex].likes.find(
-                (like) => like.username === username
-              )
-            ) {
-              post.likes = post.likes.filter(
-                (like) => like.username !== username
-              );
-            } else {
-              post.likes.push({ username });
-            }
-
-            await post.save();
-          } else throw new UserInputError('Nice try, but not today.');
-        } else throw new UserInputError('Nice try, but not today.');
-      } else throw new AuthenticationError('Not permitted');
-
-      return true;
+      return post;
     },
   },
 };

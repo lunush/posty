@@ -11,8 +11,7 @@ const PostsList: React.FC = () => {
   const context = useContext(AuthContext);
 
   if (loading) return <ActivityIndicator style={styles.loading} />;
-  if (error)
-    return <Text style={styles.error}>{error.graphQLErrors[0].message}</Text>;
+  if (error) return <Text style={styles.error}>{error}</Text>;
 
   return (
     <ScrollView style={styles.postsFeed}>

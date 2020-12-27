@@ -90,9 +90,7 @@ const Login: React.FC = () => {
         </Link>
         to get one!
       </Text>
-      {error && (
-        <Text style={styles.text}>{error.graphQLErrors[0].message}</Text>
-      )}
+      {error && <Text style={styles.text}>{error}</Text>}
     </View>
   );
 };
