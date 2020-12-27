@@ -38,7 +38,7 @@ const Layout: React.FC = ({ children }) => {
       <View style={styles.header}>
         <Link to="/">
           <Text style={styles.logo}>
-            <IoIosText transform="translate(0, 5)" />
+            <IoIosText transform="translate(-1, 5)" />
           </Text>
         </Link>
         {context.token ? (
