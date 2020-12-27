@@ -1,13 +1,13 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Link } from 'react-router-dom';
-import LogoIcon from '../components/icons/LogoIcon';
-import LoginIcon from '../components/icons/LoginIcon';
 import { useContext, useState } from 'react';
 import { AuthContext } from 'src/utils/auth';
 import { GET_PROFILE_PICTURE } from 'src/requests';
 import { useQuery } from '@apollo/client';
 import jwtDecode from 'jwt-decode';
 import Popup from './Popup';
+import { IoIosText } from 'react-icons/io';
+import { AiOutlineLogin } from 'react-icons/ai';
 
 interface UserPayload {
   username: string;
@@ -40,11 +40,8 @@ const Layout: React.FC = ({ children }) => {
     <View style={styles.screen}>
       <View style={styles.header}>
         <Link to="/">
-          <Text
-            accessibilityLabel="Writing by Nubaia Karim Barsha from the Noun Project"
-            style={styles.logo}
-          >
-            <LogoIcon />
+          <Text style={styles.logo}>
+            <IoIosText />
           </Text>
         </Link>
         {context.token ? (
@@ -57,7 +54,7 @@ const Layout: React.FC = ({ children }) => {
         ) : (
           <Link to="/login">
             <Text style={styles.authText}>
-              <LoginIcon />
+              <AiOutlineLogin />
             </Text>
           </Link>
         )}
@@ -107,9 +104,11 @@ const styles = StyleSheet.create({
   },
   authText: {
     color: '#bbb',
+    fontSize: 25,
   },
   logo: {
     color: '#bbb',
+    fontSize: 35,
   },
   image: {
     height: 50,

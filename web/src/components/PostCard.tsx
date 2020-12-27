@@ -1,8 +1,8 @@
 import { useQuery } from '@apollo/client';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { GET_PROFILE_PICTURE } from 'src/requests';
-import LikeIcon from 'src/components/icons/LikeIcon';
-import CommentIcon from 'src/components/icons/CommentIcon';
+import { FaComments } from 'react-icons/fa';
+import { AiFillHeart } from 'react-icons/ai';
 
 interface Props {
   post: {
@@ -40,14 +40,14 @@ const PostCard: React.FC<Props> = ({ post }) => {
         <Text style={styles.postText}>{post.postBody}</Text>
         <View style={styles.postBottom}>
           <View style={styles.reactionBox}>
-            <Text style={styles.notLiked}>
-              <LikeIcon />
+            <Text style={styles.text}>
+              <AiFillHeart />
             </Text>
-            <Text style={styles.notLiked}> 1</Text>
+            <Text style={styles.text}> 1</Text>
           </View>
           <View style={styles.reactionBox}>
             <Text style={styles.text}>
-              <CommentIcon />
+              <FaComments />
             </Text>
             <Text style={styles.text}> 1</Text>
           </View>
@@ -93,11 +93,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: 50,
   },
-  text: { color: '#bbb' },
-  liked: { color: 'red' },
-  notLiked: {
-    color: '#bbb',
-  },
+  text: { color: '#bbb', fontSize: 20 },
   username: {
     marginLeft: 10,
     fontSize: 12,
