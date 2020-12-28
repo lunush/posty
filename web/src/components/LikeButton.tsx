@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from 'react';
 import { DocumentNode } from 'graphql';
 import { useMutation } from '@apollo/client';
 import { GET_POSTS } from 'src/requests';
+import { useHistory } from 'react-router-dom';
 
 interface Props {
   likeCount: number;
@@ -22,6 +23,8 @@ const LikeButton: React.FC<Props> = ({
   MUTATION,
 }) => {
   const { token } = useContext(AuthContext);
+  const history = useHistory();
+
   const [isLiked, setIsLiked] = useState(false);
   const [togglePostLike] = useMutation(MUTATION, {
     variables: { postId: id },
@@ -51,10 +54,13 @@ const LikeButton: React.FC<Props> = ({
     else setIsLiked(false);
   }, [token, username, likes]);
 
-  const handlePress = () => togglePostLike();
+  const handlePress = () => {
+    if (token) togglePostLike();
+    else history.push('/login');
+  };
 
   return (
-    <Pressable style={styles.reactionBox} onPress={handlePress}>
+    <Pressable style={styles.commentsContainer} onPress={handlePress}>
       <Text style={styles.icon}>
         {isLiked ? <AiFillHeart /> : <AiOutlineHeart />}
       </Text>
@@ -66,7 +72,7 @@ const LikeButton: React.FC<Props> = ({
 const styles = StyleSheet.create({
   text: { color: '#bbb', fontSize: 14 },
   icon: { color: '#bbb', fontSize: 20 },
-  reactionBox: {
+  commentsContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
