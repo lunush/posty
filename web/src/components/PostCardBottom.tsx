@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { TOGGLE_POST_LIKE } from 'src/requests';
-import { FaComments } from 'react-icons/fa';
+import { FaRegComments } from 'react-icons/fa';
 import LikeButton from './LikeButton';
 import { Link } from 'react-router-dom';
 import { BsThreeDots } from 'react-icons/bs';
@@ -37,7 +37,7 @@ const PostCardBottom: React.FC<Props> = ({ post }) => {
         >
           <View style={styles.commentContainer}>
             <Text style={styles.icon}>
-              <FaComments />
+              <FaRegComments />
             </Text>
             <Text style={styles.commentCountText}> {post.commentCount}</Text>
           </View>
