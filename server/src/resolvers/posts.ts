@@ -87,6 +87,7 @@ const postsResolvers = {
         post.comments.push({ commentBody, username, name, likes: [] });
       } else throw new UserInputError('WTF');
 
+      await post.save();
       return true;
     },
 
@@ -139,9 +140,10 @@ const postsResolvers = {
       context: ExpressContext
     ) => {
       const { username } = checkAuth(context);
-
       if (!username) throw new AuthenticationError('Not permitted');
+
       const post = await Post.findById(postId);
+
       if (post) {
         const commentIndex = post.comments.findIndex(
           (comment: any) => comment.id === commentId

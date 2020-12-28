@@ -1,4 +1,5 @@
 type User {
+  id: ID!
   username: String!
   name: String!
   password: String!
@@ -53,4 +54,6 @@ type Mutation {
   createComment(postId: ID!, commentBody: String!): Boolean
   deleteComment(postId: ID!, commentId: ID!): Boolean
   toggleCommentLike(postId: ID!, commentId: ID!): Post
+
+  generateNewProfilePicture: String
 }

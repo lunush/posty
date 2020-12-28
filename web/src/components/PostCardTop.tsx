@@ -1,8 +1,7 @@
-import { useQuery } from '@apollo/client';
 import { getRelativeDate } from 'src/utils/helpers';
+import { useProfilePicture } from 'src/utils/hooks';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { Link } from 'react-router-dom';
-import { GET_PROFILE_PICTURE } from 'src/requests';
 
 interface Props {
   post: {
@@ -18,13 +17,7 @@ interface Props {
 }
 
 const PostCardTop: React.FC<Props> = ({ post }) => {
-  const { data } = useQuery(GET_PROFILE_PICTURE, {
-    variables: { username: post.username },
-  });
-
-  const profilePicture = data?.getUser.profilePicture
-    ? 'data:image/jpeg;base64,' + data.getUser.profilePicture
-    : null;
+  const profilePicture = useProfilePicture(post.username);
 
   return (
     <View style={styles.postTopContainer}>

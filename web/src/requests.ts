@@ -53,3 +53,9 @@ export const GET_PROFILE_PICTURE = gql`
     }
   }
 `;
+
+export const GENERATE_NEW_PROFILE_PICTURE = gql`
+  mutation GenerateNewProfilePicture {
+    generateNewProfilePicture
+  }
+`;

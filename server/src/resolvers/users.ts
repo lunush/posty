@@ -1,12 +1,17 @@
 import bcrypt from 'bcryptjs';
 import User from '../models/User';
 import { ResolverMap } from 'src/types/graphql-utils';
-import { UserInputError } from 'apollo-server-express';
+import { AuthenticationError, UserInputError } from 'apollo-server-express';
 import {
   validateUserLoginInput,
   validateUserRegistrationInput,
 } from '../utils/validators';
-import { generateProfilePicture, generateToken } from '../utils/helpers';
+import {
+  checkAuth,
+  generateProfilePicture,
+  generateToken,
+} from '../utils/helpers';
+import { ExpressContext } from 'apollo-server-express/dist/ApolloServer';
 
 const usersResolvers: ResolverMap = {
   Query: {
@@ -81,6 +86,24 @@ const usersResolvers: ResolverMap = {
       const token = generateToken(user);
 
       return token;
+    },
+    generateNewProfilePicture: async (
+      _: any,
+      __: any,
+      context: ExpressContext
+    ) => {
+      try {
+        const decryptedToken = checkAuth(context);
+        const user = await User.findById(decryptedToken.id);
+        if (!user) throw new AuthenticationError("You can't do that");
+
+        const newProfilePicture = await generateProfilePicture();
+        user!.profilePicture = newProfilePicture;
+        await user.save();
+        return newProfilePicture;
+      } catch (e) {
+        throw new Error(e);
+      }
     },
   },
 };

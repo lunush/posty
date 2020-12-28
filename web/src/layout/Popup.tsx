@@ -1,27 +1,19 @@
-import jwtDecode from 'jwt-decode';
 import { useContext, useRef } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Link, useHistory } from 'react-router-dom';
 import { AuthContext } from 'src/utils/auth';
-import { useComponentVisible } from 'src/utils/hooks';
+import { useComponentVisible, useCurrentUserData } from 'src/utils/hooks';
 
 interface Props {
   isVisible: boolean;
   toggle: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-interface UserPayload {
-  username: string;
-  id: string;
-}
-
 const DropdownMenu: React.FC<Props> = ({ isVisible, toggle }) => {
   const history = useHistory();
   const context = useContext(AuthContext);
 
-  const username = context.token
-    ? jwtDecode<UserPayload>(context.token).username
-    : null;
+  const currentUserUsername = useCurrentUserData()!.username;
 
   const handleLogout = () => {
     context.logout();
@@ -35,14 +27,14 @@ const DropdownMenu: React.FC<Props> = ({ isVisible, toggle }) => {
   return (
     <View ref={ref} style={styles.popup}>
       <Link
-        to={username as string}
+        to={currentUserUsername as string}
         style={{ textDecoration: 'none', width: '100%' }}
       >
         <View style={styles.item}>
           <Text style={styles.itemText}>Profile</Text>
         </View>
       </Link>
-      <Link to="/settings" style={{ textDecoration: 'none', width: '100%' }}>
+      <Link to="settings" style={{ textDecoration: 'none', width: '100%' }}>
         <View style={styles.item}>
           <Text style={styles.itemText}>Settings</Text>
         </View>
