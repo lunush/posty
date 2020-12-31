@@ -14,6 +14,8 @@ import Settings from './components/Settings';
 import Layout from './layout/Layout';
 import { AuthProvider } from './utils/auth';
 import { setContext } from '@apollo/client/link/context';
+import Post from './components/Post';
+import { MenuProvider } from 'react-native-popup-menu';
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:3456/graphql',
@@ -39,16 +41,19 @@ const App: React.FC = () => {
   return (
     <AuthProvider>
       <ApolloProvider client={client}>
-        <Router>
-          <Layout>
-            <Switch>
-              <Route path="/settings" component={Settings} />
-              <Route path="/register" component={Register} />
-              <Route path="/login" component={Login} />
-              <Route path="/" component={Home} />
-            </Switch>
-          </Layout>
-        </Router>
+        <MenuProvider>
+          <Router>
+            <Layout>
+              <Switch>
+                <Route path="/:username/:postId" component={Post} />
+                <Route path="/settings" component={Settings} />
+                <Route path="/register" component={Register} />
+                <Route path="/login" component={Login} />
+                <Route path="/" component={Home} />
+              </Switch>
+            </Layout>
+          </Router>
+        </MenuProvider>
       </ApolloProvider>
     </AuthProvider>
   );

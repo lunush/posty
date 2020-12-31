@@ -1,7 +1,12 @@
 import { StyleSheet, Text, View } from 'react-native';
+// @ts-ignore
+import Twemoji from 'react-twemoji';
 
 const NotFound = () => (
   <View style={styles.container}>
+    <Text style={styles.text}>
+      <Twemoji>😢</Twemoji>
+    </Text>
     <Text style={styles.text}>Not Found</Text>
   </View>
 );

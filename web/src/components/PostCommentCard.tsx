@@ -1,39 +1,37 @@
 import { StyleSheet, Text, View } from 'react-native';
-import PostCardBottom from './PostCardBottom';
-import PostCardTop from './PostCardTop';
+import PostCommentCardBottom from './PostCommentCardBottom';
+import PostCommentCardTop from './PostCommentCardTop';
 
 interface Props {
-  post: {
+  comment: {
     id: string;
     createdAt: string;
     username: string;
     name: string;
-    postBody: string;
+    commentBody: string;
     likeCount: number;
     likes: any[];
-    commentCount: number;
   };
+  postId: string;
 }
 
-const PostCard: React.FC<Props> = ({ post }) => (
-  <View key={post.id} style={styles.postContainer}>
-    <View style={styles.postInnerContainer}>
-      <View style={styles.full}>
-        <PostCardTop post={post} />
-        <Text style={styles.postBody}>{post.postBody}</Text>
-        <PostCardBottom post={post} />
-      </View>
+const PostCommentCard: React.FC<Props> = ({ comment, postId }) => (
+  <View key={comment.id} style={styles.commentContainer}>
+    <View style={styles.commentInnerContainer}>
+      <PostCommentCardTop comment={comment} />
+      <Text style={styles.commentBody}>{comment.commentBody}</Text>
+      <PostCommentCardBottom comment={comment} postId={postId} />
     </View>
   </View>
 );
 
 const styles = StyleSheet.create({
-  postContainer: {
+  commentContainer: {
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  postInnerContainer: {
+  commentInnerContainer: {
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
@@ -45,15 +43,7 @@ const styles = StyleSheet.create({
     maxWidth: 300,
     backgroundColor: '#222',
   },
-  link: {
-    height: '13rem',
-    width: '100%',
-  },
-  full: {
-    height: '100%',
-    width: '100%',
-  },
-  postBody: {
+  commentBody: {
     color: '#bbb',
     height: '100%',
     width: '100%',
@@ -62,4 +52,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PostCard;
+export default PostCommentCard;

@@ -18,23 +18,22 @@ const Login: React.FC = () => {
   const context = useContext(AuthContext);
   const history = useHistory();
   const [state, setState] = useState({
-    isSubmitted: false,
     username: '',
     password: '',
   });
 
   if (context.token) history.push('/');
 
-  const [login, { error }] = useMutation(LOGIN, {
+  const [login, { error, loading }] = useMutation(LOGIN, {
+    variables: {
+      username: state.username,
+      password: state.password,
+    },
     update(_, { data: { login: token } }) {
       if (token) {
         context.login(token);
         history.push('/');
       }
-    },
-    variables: {
-      username: state.username,
-      password: state.password,
     },
   });
 
@@ -46,9 +45,7 @@ const Login: React.FC = () => {
   };
 
   const handleSubmit = () => {
-    setState({ ...state, isSubmitted: true });
     if (state.password.trim() !== '') login();
-    else setState({ ...state, isSubmitted: false });
   };
 
   return (
@@ -71,7 +68,7 @@ const Login: React.FC = () => {
         placeholder="Password"
         style={styles.textInput}
       />
-      {state.isSubmitted && !error ? (
+      {loading ? (
         <ActivityIndicator style={styles.activityIndicator} />
       ) : (
         <Pressable

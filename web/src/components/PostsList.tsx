@@ -1,21 +1,22 @@
 import { useQuery } from '@apollo/client';
-import { ActivityIndicator, ScrollView, StyleSheet, Text } from 'react-native';
+import { ScrollView, StyleSheet, Text } from 'react-native';
 import { GET_POSTS } from '../requests';
 import { AuthContext } from 'src/utils/auth';
 import { useContext } from 'react';
-import NewPost from './NewPost';
+import PostsNewPost from './PostsNewPost';
 import PostCard from './PostCard';
+import LoadingScreen from './LoadingScreen';
 
 const PostsList: React.FC = () => {
   const { loading, error, data } = useQuery(GET_POSTS);
   const context = useContext(AuthContext);
 
-  if (loading) return <ActivityIndicator style={styles.loading} />;
+  if (loading) return <LoadingScreen />;
   if (error) return <Text style={styles.error}>{error}</Text>;
 
   return (
     <ScrollView style={styles.postsFeed}>
-      {context.token ? <NewPost /> : null}
+      {context.token ? <PostsNewPost /> : null}
       {data.getPosts.map((post: any) => (
         <PostCard post={post} />
       ))}
@@ -30,10 +31,6 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   text: { color: '#bbb' },
-  loading: {
-    height: 50,
-    width: 50,
-  },
   error: {
     color: 'red',
     fontWeight: 'bold',

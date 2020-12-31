@@ -2,10 +2,7 @@ import { useMutation } from '@apollo/client';
 import { useContext } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useHistory } from 'react-router-dom';
-import {
-  GENERATE_NEW_PROFILE_PICTURE,
-  GET_PROFILE_PICTURE,
-} from 'src/requests';
+import { GENERATE_NEW_PROFILE_PICTURE, GET_USER } from 'src/requests';
 import { AuthContext } from 'src/utils/auth';
 import { useCurrentUserData } from 'src/utils/hooks';
 
@@ -20,14 +17,13 @@ const Settings: React.FC = () => {
     {
       update(proxy, data: any) {
         const cachedProfilePicture: any = proxy.readQuery({
-          query: GET_PROFILE_PICTURE,
+          query: GET_USER,
           variables: {
             username: 'mario',
           },
         });
-        console.log(data, cachedProfilePicture);
         proxy.writeQuery({
-          query: GET_PROFILE_PICTURE,
+          query: GET_USER,
           variables: {
             username,
           },

@@ -18,7 +18,6 @@ const Register: React.FC = () => {
   const context = useContext(AuthContext);
   const history = useHistory();
   const [state, setState] = useState({
-    isSubmitted: false,
     username: '',
     name: '',
     password: '',
@@ -27,17 +26,17 @@ const Register: React.FC = () => {
 
   if (context.token) history.push('/');
 
-  const [register, { error }] = useMutation(REGISTER, {
+  const [register, { error, loading }] = useMutation(REGISTER, {
+    variables: {
+      username: state.username,
+      name: state.name,
+      password: state.password,
+    },
     update(_, { data: { register: token } }) {
       if (token) {
         context.login(token);
         history.push('/');
       }
-    },
-    variables: {
-      username: state.username,
-      name: state.name,
-      password: state.password,
     },
   });
 
@@ -49,7 +48,6 @@ const Register: React.FC = () => {
   };
 
   const handleSubmit = () => {
-    setState({ ...state, isSubmitted: true });
     if (
       state.username.trim() !== '' &&
       state.name.trim() !== '' &&
@@ -92,7 +90,7 @@ const Register: React.FC = () => {
         placeholderTextColor="#555"
         style={styles.textInput}
       />
-      {state.isSubmitted && !error ? (
+      {loading ? (
         <ActivityIndicator style={styles.activityIndicator} />
       ) : (
         <Pressable

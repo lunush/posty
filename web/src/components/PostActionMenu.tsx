@@ -1,8 +1,6 @@
-import { StyleSheet, Text, View } from 'react-native';
-import { FaRegComments } from 'react-icons/fa';
-import PostCardLikeButton from './PostCardLikeButton';
-import { Link } from 'react-router-dom';
 import { BsFillTrashFill, BsThreeDots } from 'react-icons/bs';
+import { FaRegComments } from 'react-icons/fa';
+import { StyleSheet, Text, View } from 'react-native';
 import {
   Menu,
   MenuOption,
@@ -10,8 +8,10 @@ import {
   MenuTrigger,
 } from 'react-native-popup-menu';
 import { useCurrentUserData } from 'src/utils/hooks';
+import PostLikeButton from './PostLikeButton';
 import { DELETE_POST, GET_POSTS } from 'src/requests';
 import { useMutation } from '@apollo/client';
+import { useHistory } from 'react-router-dom';
 
 interface Props {
   post: {
@@ -23,33 +23,32 @@ interface Props {
     likeCount: number;
     likes: any[];
     commentCount: number;
+    comments: any[];
   };
 }
 
-const PostCardBottom: React.FC<Props> = ({ post }) => {
+const PostActionMenu: React.FC<Props> = ({ post }) => {
   const currentUser = useCurrentUserData();
+  const history = useHistory();
 
   const [deletePost] = useMutation(DELETE_POST, {
     variables: { postId: post.id },
+    update() {
+      history.push('/');
+    },
     refetchQueries: [{ query: GET_POSTS }],
   });
 
   const handleDelete = () => deletePost();
+
   return (
-    <View style={styles.postBottomContainer}>
-      <View style={styles.flexContainer}>
-        <PostCardLikeButton post={post} />
-        <Link
-          to={`${post.username}/${post.id}`}
-          style={{ textDecoration: 'none' }}
-        >
-          <View style={styles.commentContainer}>
-            <Text style={styles.icon}>
-              <FaRegComments />
-            </Text>
-            <Text style={styles.commentCountText}> {post.commentCount}</Text>
-          </View>
-        </Link>
+    <View style={styles.actionMenu}>
+      <PostLikeButton post={post} />
+      <View style={styles.commentContainer}>
+        <Text style={styles.icon}>
+          <FaRegComments />
+        </Text>
+        <Text style={styles.commentCountText}> {post.commentCount}</Text>
       </View>
       <Menu>
         <MenuTrigger>
@@ -85,11 +84,23 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  postBottomContainer: {
+  actionMenu: {
     width: '100%',
+    height: 50,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'transparent',
+    borderTopColor: '#333',
+    borderBottomColor: '#333',
+    padding: 10,
+    overflow: 'hidden',
+  },
+  text: {
+    color: '#bbb',
+    fontSize: 40,
+    fontWeight: 'bold',
   },
   commentContainer: {
     marginLeft: 10,
@@ -97,7 +108,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
-  icon: { color: '#bbb', fontSize: 20, paddingTop: 5 },
+  icon: { color: '#bbb', fontSize: 20, paddingTop: 2 },
   commentCountText: { color: '#bbb', fontSize: 14 },
 });
 
@@ -114,4 +125,4 @@ const optionsStyles = {
   },
 };
 
-export default PostCardBottom;
+export default PostActionMenu;

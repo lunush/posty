@@ -17,9 +17,64 @@ export const GET_POSTS = gql`
   }
 `;
 
+export const GET_POST = gql`
+  query GetPost($postId: ID!) {
+    getPost(postId: $postId) {
+      id
+      createdAt
+      username
+      name
+      postBody
+      likeCount
+      likes {
+        username
+      }
+      commentCount
+      comments {
+        id
+        username
+        name
+        createdAt
+        commentBody
+        likeCount
+        likes {
+          username
+        }
+      }
+    }
+  }
+`;
+
 export const CREATE_POST = gql`
   mutation CreatePost($postBody: String!) {
-    createPost(postBody: $postBody)
+    createPost(postBody: $postBody) {
+      id
+      createdAt
+      username
+      name
+      postBody
+      likeCount
+      likes {
+        username
+      }
+      commentCount
+      comments {
+        id
+        username
+        name
+        createdAt
+        likeCount
+        likes {
+          username
+        }
+      }
+    }
+  }
+`;
+
+export const DELETE_POST = gql`
+  mutation DeletePost($postId: ID!) {
+    deletePost(postId: $postId)
   }
 `;
 
@@ -31,6 +86,50 @@ export const TOGGLE_POST_LIKE = gql`
       }
       likeCount
     }
+  }
+`;
+
+export const TOGGLE_COMMENT_LIKE = gql`
+  mutation ToggleCommentLike($postId: ID!, $commentId: ID!) {
+    toggleCommentLike(postId: $postId, commentId: $commentId) {
+      likes {
+        username
+      }
+      likeCount
+    }
+  }
+`;
+
+export const CREATE_COMMENT = gql`
+  mutation CreateComment($postId: ID!, $commentBody: String!) {
+    createComment(postId: $postId, commentBody: $commentBody) {
+      id
+      createdAt
+      username
+      name
+      postBody
+      likeCount
+      likes {
+        username
+      }
+      commentCount
+      comments {
+        id
+        username
+        name
+        createdAt
+        likeCount
+        likes {
+          username
+        }
+      }
+    }
+  }
+`;
+
+export const DELETE_COMMENT = gql`
+  mutation DeleteComment($postId: ID!, $commentId: ID!) {
+    deleteComment(postId: $postId, commentId: $commentId)
   }
 `;
 
@@ -46,10 +145,14 @@ export const LOGIN = gql`
   }
 `;
 
-export const GET_PROFILE_PICTURE = gql`
-  query GetProfilePicture($username: String!) {
+export const GET_USER = gql`
+  query GetUser($username: String!) {
     getUser(username: $username) {
+      id
+      username
+      name
       profilePicture
+      createdAt
     }
   }
 `;

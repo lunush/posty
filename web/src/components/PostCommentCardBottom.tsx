@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { FaRegComments } from 'react-icons/fa';
-import PostCardLikeButton from './PostCardLikeButton';
+import PostCommentCardLikeButton from './PostCommentCardLikeButton';
 import { Link } from 'react-router-dom';
 import { BsFillTrashFill, BsThreeDots } from 'react-icons/bs';
 import {
@@ -10,46 +9,44 @@ import {
   MenuTrigger,
 } from 'react-native-popup-menu';
 import { useCurrentUserData } from 'src/utils/hooks';
-import { DELETE_POST, GET_POSTS } from 'src/requests';
 import { useMutation } from '@apollo/client';
+import { DELETE_COMMENT, GET_POST } from 'src/requests';
 
 interface Props {
-  post: {
+  comment: {
     id: string;
     createdAt: string;
     username: string;
     name: string;
-    postBody: string;
+    commentBody: string;
     likeCount: number;
     likes: any[];
-    commentCount: number;
   };
+  postId: string;
 }
 
-const PostCardBottom: React.FC<Props> = ({ post }) => {
+const PostCommentCardBottom: React.FC<Props> = ({ comment, postId }) => {
   const currentUser = useCurrentUserData();
 
-  const [deletePost] = useMutation(DELETE_POST, {
-    variables: { postId: post.id },
-    refetchQueries: [{ query: GET_POSTS }],
+  const [deleteComment] = useMutation(DELETE_COMMENT, {
+    variables: { commentId: comment.id, postId },
+    refetchQueries: [
+      {
+        query: GET_POST,
+        variables: { postId },
+      },
+    ],
   });
+  const handleDelete = () => deleteComment();
 
-  const handleDelete = () => deletePost();
   return (
     <View style={styles.postBottomContainer}>
       <View style={styles.flexContainer}>
-        <PostCardLikeButton post={post} />
+        <PostCommentCardLikeButton comment={comment} postId={postId} />
         <Link
-          to={`${post.username}/${post.id}`}
+          to={`${comment.username}/${comment.id}`}
           style={{ textDecoration: 'none' }}
-        >
-          <View style={styles.commentContainer}>
-            <Text style={styles.icon}>
-              <FaRegComments />
-            </Text>
-            <Text style={styles.commentCountText}> {post.commentCount}</Text>
-          </View>
-        </Link>
+        ></Link>
       </View>
       <Menu>
         <MenuTrigger>
@@ -58,7 +55,7 @@ const PostCardBottom: React.FC<Props> = ({ post }) => {
           </Text>
         </MenuTrigger>
         <MenuOptions customStyles={optionsStyles}>
-          {currentUser?.username === post.username ? (
+          {currentUser?.username === comment.username ? (
             <MenuOption onSelect={handleDelete}>
               <View style={styles.flexContainer}>
                 <Text style={{ color: 'red' }}>
@@ -91,14 +88,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  commentContainer: {
-    marginLeft: 10,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-  },
-  icon: { color: '#bbb', fontSize: 20, paddingTop: 5 },
-  commentCountText: { color: '#bbb', fontSize: 14 },
+  icon: { color: '#bbb', fontSize: 20 },
 });
 
 const optionsStyles = {
@@ -114,4 +104,4 @@ const optionsStyles = {
   },
 };
 
-export default PostCardBottom;
+export default PostCommentCardBottom;

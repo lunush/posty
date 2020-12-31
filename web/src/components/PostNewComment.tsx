@@ -10,60 +10,69 @@ import {
   TextInputChangeEventData,
   View,
 } from 'react-native';
-import { CREATE_POST, GET_POSTS } from 'src/requests';
+import { CREATE_COMMENT, GET_POST } from 'src/requests';
 
 const initialState = {
-  post: '',
+  comment: '',
   count: 0,
 };
 
-const NewPost = () => {
+interface Props {
+  post: {
+    id: string;
+    createdAt: string;
+    username: string;
+    name: string;
+    postBody: string;
+    likeCount: number;
+    likes: any[];
+    commentCount: number;
+  };
+}
+
+const PostNewComment: React.FC<Props> = ({ post }) => {
   const [state, setState] = useState(initialState);
 
-  const [createPost, { loading }] = useMutation(CREATE_POST, {
-    update(proxy, { data: { post } }) {
-      const cachedPosts: any = proxy.readQuery({
-        query: GET_POSTS,
-      });
-      const updatedCachedPosts = [post, ...cachedPosts.getPosts];
-      proxy.writeQuery({
-        query: GET_POSTS,
-        data: {
-          ...cachedPosts,
-          getPosts: { updatedCachedPosts },
-        },
-      });
+  const [createComment, { loading }] = useMutation(CREATE_COMMENT, {
+    variables: {
+      commentBody: state.comment,
+      postId: post.id,
+    },
+    update() {
       setState(initialState);
     },
-    variables: {
-      postBody: state.post,
-    },
+    refetchQueries: [
+      {
+        query: GET_POST,
+        variables: {
+          postId: post.id,
+        },
+      },
+    ],
   });
 
   const handleChange = (e: NativeSyntheticEvent<TextInputChangeEventData>) => {
     const {
       nativeEvent: { text },
     } = e;
-    setState({ post: text, count: text.length });
+    setState({ comment: text, count: text.length });
   };
 
-  const handleSubmit = () => {
-    createPost();
-  };
+  const handleSubmit = () => createComment();
 
   return (
-    <View style={styles.newPostBox}>
-      <View style={styles.post}>
+    <View style={styles.newCommentBox}>
+      <View style={styles.comment}>
         <TextInput
-          value={state.post}
+          value={state.comment}
           onChange={(e) => handleChange(e)}
           placeholderTextColor="#555"
-          placeholder="New Post"
+          placeholder="What do you thing?"
           multiline
           maxLength={140}
           style={styles.textInput}
         />
-        <View style={styles.postBottom}>
+        <View style={styles.commentBottom}>
           <Text style={styles.countText}>{state.count}/140</Text>
           {loading ? (
             <ActivityIndicator style={styles.activityIndicator} />
@@ -74,7 +83,7 @@ const NewPost = () => {
               disabled={state.count === 0 ? true : false}
               accessibilityLabel="Submit button"
             >
-              <Text style={styles.text}>Post</Text>
+              <Text style={styles.text}>Comment</Text>
             </Pressable>
           )}
         </View>
@@ -88,7 +97,7 @@ const styles = StyleSheet.create({
     padding: 14,
     marginBottom: 10,
   },
-  postBottom: {
+  commentBottom: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -98,12 +107,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 28,
   },
-  newPostBox: {
+  newCommentBox: {
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  post: {
+  comment: {
     margin: 10,
     borderRadius: 15,
     height: '12rem',
@@ -137,4 +146,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NewPost;
+export default PostNewComment;

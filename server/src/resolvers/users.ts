@@ -95,10 +95,14 @@ const usersResolvers: ResolverMap = {
       try {
         const decryptedToken = checkAuth(context);
         const user = await User.findById(decryptedToken.id);
+
         if (!user) throw new AuthenticationError("You can't do that");
 
         const newProfilePicture = await generateProfilePicture();
-        user!.profilePicture = newProfilePicture;
+
+        user.profilePicture = newProfilePicture;
+        user.modifiedAt = new Date()
+
         await user.save();
         return newProfilePicture;
       } catch (e) {

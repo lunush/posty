@@ -1,4 +1,6 @@
-export const getRelativeDate = (unformattedDate: number) => {
+export const getRelativeDate = (unformattedDate: number | string) => {
+  unformattedDate = (unformattedDate as any) * 1;
+
   const now = new Date();
   const date = new Date(unformattedDate);
 
@@ -16,21 +18,13 @@ export const getRelativeDate = (unformattedDate: number) => {
     style: 'long',
   });
 
-  // Past
-  if (yearsDiff <= -1) return rtf.format(yearsDiff, 'year');
-  if (monthsDiff <= -1) return rtf.format(monthsDiff, 'month');
-  if (weeksDiff <= -1) return rtf.format(weeksDiff, 'week');
-  if (daysDiff <= -1) return rtf.format(daysDiff, 'day');
-  if (hoursDiff <= -1) return rtf.format(hoursDiff, 'hour');
-  if (minutesDiff <= -1) return rtf.format(minutesDiff, 'minute');
-  if (secondsDiff <= -1) return rtf.format(secondsDiff, 'second');
-
-  // Future
-  if (yearsDiff >= 1) return rtf.format(yearsDiff, 'year');
-  if (monthsDiff >= 1) return rtf.format(monthsDiff, 'month');
-  if (weeksDiff >= 1) return rtf.format(weeksDiff, 'week');
-  if (daysDiff >= 1) return rtf.format(daysDiff, 'day');
-  if (hoursDiff >= 1) return rtf.format(hoursDiff, 'hour');
-  if (minutesDiff >= 1) return rtf.format(minutesDiff, 'minute');
+  if (yearsDiff <= -1 || yearsDiff >= 1) return rtf.format(yearsDiff, 'year');
+  if (monthsDiff <= -1 || monthsDiff >= 1)
+    return rtf.format(monthsDiff, 'month');
+  if (weeksDiff <= -1 || weeksDiff >= 1) return rtf.format(weeksDiff, 'week');
+  if (daysDiff <= -1 || daysDiff >= 1) return rtf.format(daysDiff, 'day');
+  if (hoursDiff <= -1 || hoursDiff >= 1) return rtf.format(hoursDiff, 'hour');
+  if (minutesDiff <= -1 || minutesDiff >= 1)
+    return rtf.format(minutesDiff, 'minute');
   return rtf.format(secondsDiff, 'second');
 };

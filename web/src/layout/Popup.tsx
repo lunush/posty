@@ -9,7 +9,7 @@ interface Props {
   toggle: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const DropdownMenu: React.FC<Props> = ({ isVisible, toggle }) => {
+const Popup: React.FC<Props> = ({ isVisible, toggle }) => {
   const history = useHistory();
   const context = useContext(AuthContext);
 
@@ -34,7 +34,7 @@ const DropdownMenu: React.FC<Props> = ({ isVisible, toggle }) => {
           <Text style={styles.itemText}>Profile</Text>
         </View>
       </Link>
-      <Link to="settings" style={{ textDecoration: 'none', width: '100%' }}>
+      <Link to="/settings" style={{ textDecoration: 'none', width: '100%' }}>
         <View style={styles.item}>
           <Text style={styles.itemText}>Settings</Text>
         </View>
@@ -79,4 +79,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DropdownMenu;
+export default Popup;

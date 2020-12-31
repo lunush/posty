@@ -2,7 +2,7 @@ import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Link } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { AuthContext } from 'src/utils/auth';
-import { GET_PROFILE_PICTURE } from 'src/requests';
+import { GET_USER } from 'src/requests';
 import { useQuery } from '@apollo/client';
 import jwtDecode from 'jwt-decode';
 import Popup from './Popup';
@@ -21,7 +21,7 @@ const Layout: React.FC = ({ children }) => {
     ? jwtDecode<UserPayload>(context.token).username
     : null;
 
-  const { data } = useQuery(GET_PROFILE_PICTURE, {
+  const { data } = useQuery(GET_USER, {
     variables: { username },
   });
 
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     paddingVertical: '0.5rem',
     borderWidth: 1,
     borderColor: 'transparent',
-    borderBottomColor: '#777',
+    borderBottomColor: '#333',
     backgroundColor: '#222',
   },
   body: {

@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import { GET_PROFILE_PICTURE } from 'src/requests';
+import { GET_USER } from 'src/requests';
 import { useContext, useEffect } from 'react';
 import { AuthContext } from './auth';
 import jwtDecode from 'jwt-decode';
@@ -31,10 +31,9 @@ export const useComponentVisible = (
 };
 
 export const useProfilePicture = (username: string) => {
-  const { data } = useQuery(GET_PROFILE_PICTURE, {
+  const { data } = useQuery(GET_USER, {
     variables: { username },
   });
-  console.log(data, 'profile');
 
   return data?.getUser.profilePicture
     ? 'data:image/jpeg;base64,' + data.getUser.profilePicture

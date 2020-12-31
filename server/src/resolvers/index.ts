@@ -7,12 +7,7 @@ const resolvers = {
     commentCount: (parent: any) => parent.comments.length,
   },
   Comment: {
-    likeCount: (parent: any, { commentId }: { commentId: string }) => {
-      const commentIndex = parent.comments.findIndex(
-        (comment: any) => comment.id === commentId
-      );
-      return parent.comments[commentIndex].likes.length;
-    },
+    likeCount: (parent: any) => parent.likes.length,
   },
   Query: {
     ...usersResolvers.Query,

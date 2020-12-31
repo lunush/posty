@@ -4,25 +4,24 @@ import { Image, StyleSheet, Text, View } from 'react-native';
 import { Link } from 'react-router-dom';
 
 interface Props {
-  post: {
+  comment: {
     id: string;
     createdAt: string;
     username: string;
     name: string;
-    postBody: string;
+    commentBody: string;
     likeCount: number;
     likes: any[];
-    commentCount: number;
   };
 }
 
-const PostCardTop: React.FC<Props> = ({ post }) => {
-  const profilePicture = useProfilePicture(post.username);
+const PostCardTop: React.FC<Props> = ({ comment }) => {
+  const profilePicture = useProfilePicture(comment.username);
 
   return (
-    <View style={styles.postTopContainer}>
+    <View style={styles.commentTopContainer}>
       <View style={styles.flexContainer}>
-        <Link to={`/${post.username}`}>
+        <Link to={comment.username}>
           {profilePicture ? (
             <Image
               source={{ uri: profilePicture }}
@@ -33,13 +32,13 @@ const PostCardTop: React.FC<Props> = ({ post }) => {
           )}
         </Link>
         <View>
-          <Text style={styles.name}>{post.name}</Text>
-          <Link to={`/${post.username}`} style={{ textDecoration: 'none' }}>
-            <Text style={styles.username}>@{post.username}</Text>
+          <Text style={styles.name}>{comment.name}</Text>
+          <Link to={comment.username} style={{ textDecoration: 'none' }}>
+            <Text style={styles.username}>@{comment.username}</Text>
           </Link>
         </View>
       </View>
-      <Text style={styles.createdAt}>{getRelativeDate(post.createdAt)}</Text>
+      <Text style={styles.createdAt}>{getRelativeDate(comment.createdAt)}</Text>
     </View>
   );
 };
@@ -50,7 +49,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  postTopContainer: {
+  commentTopContainer: {
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
