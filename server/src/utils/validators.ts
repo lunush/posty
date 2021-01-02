@@ -1,3 +1,5 @@
+import User from '../models/User';
+
 interface ErrorObject {
   [key: string]: any;
 }
@@ -7,8 +9,14 @@ export const validatePassword = (password: string, errors: ErrorObject) => {
   return errors;
 };
 
-export const validateUsername = (username: string, errors: ErrorObject) => {
+export const validateUsername = async (
+  username: string,
+  errors: ErrorObject
+) => {
   if (username.trim() === '') errors.username = 'Username must not be empty';
+  const user = await User.findOne({ username });
+  if (!user) errors.username = 'This username is taken';
+
   return errors;
 };
 
@@ -39,6 +47,25 @@ export const validateUserLoginInput = (username: string, password: string) => {
 
   validatePassword(password, errors);
   validateUsername(username, errors);
+
+  return {
+    errors,
+    isValid: Object.keys(errors).length < 1,
+  };
+};
+
+export const validateUserProfileInput = (
+  username: string,
+  name: string,
+  bio: string,
+  location: string
+) => {
+  const errors: ErrorObject = {};
+
+  validateUsername(username, errors);
+  validateName(name, errors);
+  //do something to others
+  console.log(bio, location);
 
   return {
     errors,

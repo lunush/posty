@@ -12,7 +12,7 @@ const PostsList: React.FC = () => {
   const context = useContext(AuthContext);
 
   if (loading) return <LoadingScreen />;
-  if (error) return <Text style={styles.error}>{error}</Text>;
+  if (error) return <Text style={styles.error}>{error.message}</Text>;
 
   return (
     <ScrollView style={styles.postsFeed}>

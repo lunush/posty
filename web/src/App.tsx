@@ -6,7 +6,6 @@ import {
 } from '@apollo/client';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import React from 'react';
-import './App.css';
 import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';

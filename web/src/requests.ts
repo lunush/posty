@@ -151,6 +151,8 @@ export const GET_USER = gql`
       id
       username
       name
+      location
+      bio
       profilePicture
       createdAt
     }
@@ -160,5 +162,21 @@ export const GET_USER = gql`
 export const GENERATE_NEW_PROFILE_PICTURE = gql`
   mutation GenerateNewProfilePicture {
     generateNewProfilePicture
+  }
+`;
+
+export const UPDATE_USER_PROFILE = gql`
+  mutation UpdateUserProfile(
+    $username: String
+    $name: String
+    $bio: String
+    $location: String
+  ) {
+    updateUserProfile(
+      username: $username
+      name: $name
+      bio: $bio
+      location: $location
+    )
   }
 `;

@@ -3,12 +3,18 @@ import { createContext, useReducer } from 'react';
 export const AuthContext = createContext({
   token: sessionStorage.getItem('postyToken') || '',
   login: (_: string) => {},
+  updateToken: (_: string) => {},
   logout: () => {},
 });
 
 const reducer = (state: { token: string }, action: any) => {
   switch (action.type) {
     case 'login':
+      return {
+        ...state,
+        token: action.token,
+      };
+    case 'updateToken':
       return {
         ...state,
         token: action.token,
@@ -36,6 +42,14 @@ export const AuthProvider = (props: any) => {
     });
   };
 
+  const updateToken = (token: string) => {
+    sessionStorage.setItem('postyToken', token);
+    dispatch({
+      type: 'updateToken',
+      token,
+    });
+  };
+
   const logout = () => {
     sessionStorage.removeItem('postyToken');
     dispatch({
@@ -45,7 +59,7 @@ export const AuthProvider = (props: any) => {
 
   return (
     <AuthContext.Provider
-      value={{ token: state.token, login, logout }}
+      value={{ token: state.token, login, logout, updateToken }}
       {...props}
     />
   );

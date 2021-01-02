@@ -1,36 +1,38 @@
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
-import { Link } from 'react-router-dom';
-import { useContext, useState } from 'react';
+import { Image, StyleSheet, Text, View } from 'react-native';
+import { Link, useHistory } from 'react-router-dom';
+import { useContext } from 'react';
 import { AuthContext } from 'src/utils/auth';
 import { GET_USER } from 'src/requests';
 import { useQuery } from '@apollo/client';
-import jwtDecode from 'jwt-decode';
-import Popup from './Popup';
 import { AiOutlineLogin } from 'react-icons/ai';
 import { IoIosText } from 'react-icons/io';
-
-interface UserPayload {
-  username: string;
-  id: string;
-}
+import {
+  Menu,
+  MenuOption,
+  MenuOptions,
+  MenuTrigger,
+} from 'react-native-popup-menu';
+import { useCurrentUserData } from 'src/utils/hooks';
 
 const Layout: React.FC = ({ children }) => {
+  const history = useHistory();
   const context = useContext(AuthContext);
-  const [isPopupVisible, toggleIsPopupVisible] = useState(false);
-  const username = context.token
-    ? jwtDecode<UserPayload>(context.token).username
-    : null;
+  const username = useCurrentUserData()?.username;
 
   const { data } = useQuery(GET_USER, {
     variables: { username },
   });
 
+  const currentUserUsername = useCurrentUserData()?.username;
   const profilePicture = data?.getUser.profilePicture
     ? 'data:image/jpeg;base64,' + data.getUser.profilePicture
     : null;
 
-  const handlePress = () => {
-    toggleIsPopupVisible(!isPopupVisible);
+  const handleProfile = () => history.push(`/${currentUserUsername}`);
+  const handleSettings = () => history.push('/settings');
+  const handleLogout = () => {
+    context.logout();
+    history.push('/');
   };
 
   return (
@@ -42,12 +44,19 @@ const Layout: React.FC = ({ children }) => {
           </Text>
         </Link>
         {context.token ? (
-          <Pressable onPress={handlePress}>
-            <Image
-              source={{ uri: profilePicture as string }}
-              style={styles.image}
-            />
-          </Pressable>
+          <Menu>
+            <MenuTrigger>
+              <Image
+                source={{ uri: profilePicture as string }}
+                style={styles.image}
+              />
+            </MenuTrigger>
+            <MenuOptions customStyles={optionsStyles}>
+              <MenuOption onSelect={handleProfile} text="Profile" />
+              <MenuOption onSelect={handleSettings} text="Settings" />
+              <MenuOption onSelect={handleLogout} text="Logout" />
+            </MenuOptions>
+          </Menu>
         ) : (
           <Link to="/login">
             <Text style={styles.authText}>
@@ -56,15 +65,17 @@ const Layout: React.FC = ({ children }) => {
           </Link>
         )}
       </View>
-      {isPopupVisible && (
-        <Popup isVisible={isPopupVisible} toggle={toggleIsPopupVisible} />
-      )}
       {children}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  flexContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   screen: {
     height: '100vh',
     width: '100vw',
@@ -100,5 +111,22 @@ const styles = StyleSheet.create({
     borderRadius: 9999,
   },
 });
+
+const optionsStyles = {
+  optionsContainer: {
+    backgroundColor: '#222',
+    padding: 14,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#333',
+    maxWidth: 120,
+    textAlign: 'center',
+  },
+  optionText: {
+    color: '#bbb',
+    fontSize: 18,
+    width: '100%',
+  },
+};
 
 export default Layout;

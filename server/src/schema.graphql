@@ -3,6 +3,8 @@ type User {
   username: String!
   name: String!
   password: String!
+  bio: String!
+  location: String!
   profilePicture: String!
   createdAt: String!
   modifiedAt: String!
@@ -48,6 +50,13 @@ type Query {
 type Mutation {
   register(username: String!, name: String!, password: String!): String
   login(username: String!, password: String!): String
+  updateUserProfile(
+    username: String
+    name: String
+    bio: String
+    location: String
+  ): String
+  generateNewProfilePicture: String
 
   createPost(postBody: String!): Post
   deletePost(postId: ID!): Boolean
@@ -56,6 +65,4 @@ type Mutation {
   createComment(postId: ID!, commentBody: String!): Post
   deleteComment(postId: ID!, commentId: ID!): Boolean
   toggleCommentLike(postId: ID!, commentId: ID!): Post
-
-  generateNewProfilePicture: String
 }

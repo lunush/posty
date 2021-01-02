@@ -11,6 +11,7 @@ import {
   View,
 } from 'react-native';
 import { CREATE_POST, GET_POSTS } from 'src/requests';
+import { useCurrentUserData } from 'src/utils/hooks';
 
 const initialState = {
   post: '',
@@ -19,6 +20,7 @@ const initialState = {
 
 const PostsNewPost = () => {
   const [state, setState] = useState(initialState);
+  const currentUser = useCurrentUserData();
 
   const [createPost, { loading }] = useMutation(CREATE_POST, {
     variables: {
@@ -54,9 +56,9 @@ const PostsNewPost = () => {
       <View style={styles.post}>
         <TextInput
           value={state.post}
-          onChange={(e) => handleChange(e)}
+          onChange={handleChange}
           placeholderTextColor="#555"
-          placeholder="What's on your mind?"
+          placeholder={`Hey, ${currentUser?.name}! What's on your mind?`}
           multiline
           maxLength={140}
           style={styles.textInput}

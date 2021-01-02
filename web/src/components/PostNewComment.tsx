@@ -67,7 +67,7 @@ const PostNewComment: React.FC<Props> = ({ post }) => {
           value={state.comment}
           onChange={(e) => handleChange(e)}
           placeholderTextColor="#555"
-          placeholder="What do you thing?"
+          placeholder="What do you think?"
           multiline
           maxLength={140}
           style={styles.textInput}

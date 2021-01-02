@@ -3,34 +3,33 @@ import { useMutation } from '@apollo/client';
 import {
   StyleSheet,
   Text,
-  TextInput,
   View,
   NativeSyntheticEvent,
-  TextInputChangeEventData,
   ActivityIndicator,
-  Pressable,
 } from 'react-native';
 import { REGISTER } from 'src/requests';
 import { useHistory, withRouter } from 'react-router-dom';
 import { AuthContext } from 'src/utils/auth';
+import StandardTextInput from './common/StandardTextInput';
+import StandardButton from './common/StandardButton';
 
 const Register: React.FC = () => {
   const context = useContext(AuthContext);
   const history = useHistory();
   const [state, setState] = useState({
-    username: '',
-    name: '',
-    password: '',
-    confirmPassword: '',
+    Username: '',
+    Name: '',
+    Password: '',
+    'Confirm Password': '',
   });
 
   if (context.token) history.push('/');
 
   const [register, { error, loading }] = useMutation(REGISTER, {
     variables: {
-      username: state.username,
-      name: state.name,
-      password: state.password,
+      username: state.Username,
+      name: state.Name,
+      password: state.Password,
     },
     update(_, { data: { register: token } }) {
       if (token) {
@@ -40,19 +39,19 @@ const Register: React.FC = () => {
     },
   });
 
-  const handleChange = (
-    e: NativeSyntheticEvent<TextInputChangeEventData>,
-    value: string
-  ) => {
-    setState({ ...state, [value]: e.nativeEvent.text });
+  const handleChange = (e: NativeSyntheticEvent<any>) => {
+    setState({
+      ...state,
+      [e.nativeEvent.srcElement.placeholder]: e.nativeEvent.text,
+    });
   };
 
   const handleSubmit = () => {
     if (
-      state.username.trim() !== '' &&
-      state.name.trim() !== '' &&
-      state.password.trim() !== '' &&
-      state.password === state.confirmPassword
+      state.Username.trim() !== '' &&
+      state.Name.trim() !== '' &&
+      state.Password.trim() !== '' &&
+      state.Password === state['Confirm Password']
     )
       register();
   };
@@ -60,48 +59,34 @@ const Register: React.FC = () => {
   return (
     <View style={styles.box}>
       <Text style={styles.title}>Register</Text>
-      <TextInput
-        autoCompleteType="username"
-        onChange={(e) => handleChange(e, 'username')}
-        placeholder="Username"
-        placeholderTextColor="#555"
-        style={styles.textInput}
+      <StandardTextInput
+        value={state.Username}
+        onChange={handleChange}
+        title="Username"
       />
-      <TextInput
-        autoCompleteType="name"
-        onChange={(e) => handleChange(e, 'name')}
-        placeholder="Name"
-        placeholderTextColor="#555"
-        style={styles.textInput}
+      <StandardTextInput
+        value={state.Name}
+        onChange={handleChange}
+        title="Name"
       />
-      <TextInput
-        autoCompleteType="password"
-        onChange={(e) => handleChange(e, 'password')}
-        placeholder="Password"
+      <StandardTextInput
+        value={state.Password}
+        onChange={handleChange}
+        title="Password"
         secureTextEntry
-        placeholderTextColor="#555"
-        style={styles.textInput}
       />
-      <TextInput
-        autoCompleteType="password"
-        onChange={(e) => handleChange(e, 'confirmPassword')}
-        placeholder="Confirm Password"
+      <StandardTextInput
+        value={state['Confirm Password']}
+        onChange={handleChange}
+        title="Confirm Password"
         secureTextEntry
-        placeholderTextColor="#555"
-        style={styles.textInput}
       />
       {loading ? (
         <ActivityIndicator style={styles.activityIndicator} />
       ) : (
-        <Pressable
-          onPress={handleSubmit}
-          accessibilityLabel="Authentication button"
-          style={styles.button}
-        >
-          <Text style={styles.buttonText}>Register</Text>
-        </Pressable>
+        <StandardButton title="Register" onPress={handleSubmit} />
       )}
-      {error && <Text style={styles.text}>{error}</Text>}
+      {error && <Text style={styles.error}>{error.message}</Text>}
     </View>
   );
 };
@@ -137,12 +122,9 @@ const styles = StyleSheet.create({
     color: '#bbb',
     fontSize: 20,
   },
-  buttonText: { fontWeight: 'bold', color: '#bbb' },
-  button: {
-    backgroundColor: '#333',
-    padding: 14,
-    borderRadius: 14,
-    marginVertical: 10,
+  error: {
+    color: 'red',
+    fontSize: 20,
   },
 });
 

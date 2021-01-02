@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { GET_POSTS, TOGGLE_POST_LIKE } from 'src/requests';
 import { useHistory } from 'react-router-dom';
+import { useCurrentUserData } from 'src/utils/hooks';
 
 interface Props {
   post: {
@@ -22,6 +23,7 @@ interface Props {
 const LikeButton: React.FC<Props> = ({ post }) => {
   const { token } = useContext(AuthContext);
   const history = useHistory();
+  const currentUser = useCurrentUserData();
 
   const [isLiked, setIsLiked] = useState(false);
   const [togglePostLike] = useMutation(TOGGLE_POST_LIKE, {
@@ -34,10 +36,14 @@ const LikeButton: React.FC<Props> = ({ post }) => {
   });
 
   useEffect(() => {
-    if (token && post.likes.find((e) => e.username === post.username))
+    if (
+      currentUser &&
+      currentUser.username &&
+      post.likes.find((like) => like.username === currentUser.username)
+    )
       setIsLiked(true);
     else setIsLiked(false);
-  }, [token, post.username, post.likes]);
+  }, [token, currentUser, post.likes]);
 
   const handlePress = () => {
     if (token) togglePostLike();

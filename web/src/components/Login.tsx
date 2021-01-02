@@ -3,31 +3,30 @@ import { useContext, useState } from 'react';
 import {
   ActivityIndicator,
   NativeSyntheticEvent,
-  Pressable,
   StyleSheet,
   Text,
-  TextInput,
-  TextInputChangeEventData,
   View,
 } from 'react-native';
 import { LOGIN } from 'src/requests';
 import { Link, useHistory } from 'react-router-dom';
 import { AuthContext } from 'src/utils/auth';
+import StandardTextInput from './common/StandardTextInput';
+import StandardButton from './common/StandardButton';
 
 const Login: React.FC = () => {
   const context = useContext(AuthContext);
   const history = useHistory();
   const [state, setState] = useState({
-    username: '',
-    password: '',
+    Username: '',
+    Password: '',
   });
 
   if (context.token) history.push('/');
 
   const [login, { error, loading }] = useMutation(LOGIN, {
     variables: {
-      username: state.username,
-      password: state.password,
+      username: state.Username,
+      password: state.Password,
     },
     update(_, { data: { login: token } }) {
       if (token) {
@@ -37,47 +36,35 @@ const Login: React.FC = () => {
     },
   });
 
-  const handleChange = (
-    e: NativeSyntheticEvent<TextInputChangeEventData>,
-    value: string
-  ) => {
-    setState({ ...state, [value]: e.nativeEvent.text });
+  const handleChange = (e: NativeSyntheticEvent<any>) => {
+    setState({
+      ...state,
+      [e.nativeEvent.srcElement.placeholder]: e.nativeEvent.text,
+    });
   };
 
   const handleSubmit = () => {
-    if (state.password.trim() !== '') login();
+    if (state.Password.trim() !== '' && state.Username.trim() !== '') login();
   };
 
   return (
     <View style={styles.box}>
       <Text style={styles.title}>Login</Text>
-      <TextInput
-        autoCompleteType="username"
-        onChange={(e) => handleChange(e, 'username')}
-        value={state.username}
-        placeholderTextColor="#555"
-        placeholder="Login"
-        style={styles.textInput}
+      <StandardTextInput
+        value={state.Username}
+        onChange={handleChange}
+        title="Username"
       />
-      <TextInput
-        autoCompleteType="password"
+      <StandardTextInput
+        value={state.Password}
+        onChange={handleChange}
+        title="Password"
         secureTextEntry
-        onChange={(e) => handleChange(e, 'password')}
-        value={state.password}
-        placeholderTextColor="#555"
-        placeholder="Password"
-        style={styles.textInput}
       />
       {loading ? (
         <ActivityIndicator style={styles.activityIndicator} />
       ) : (
-        <Pressable
-          onPress={handleSubmit}
-          accessibilityLabel="Authentication button"
-          style={styles.button}
-        >
-          <Text style={styles.buttonText}>Login</Text>
-        </Pressable>
+        <StandardButton title="Login" onPress={handleSubmit} />
       )}
       <Text style={styles.noAccount}>
         Don't have an account yet? Click
@@ -87,7 +74,7 @@ const Login: React.FC = () => {
         </Link>
         to get one!
       </Text>
-      {error && <Text style={styles.text}>{error}</Text>}
+      {error && <Text style={styles.text}>{error.message}</Text>}
     </View>
   );
 };
@@ -108,7 +95,6 @@ const styles = StyleSheet.create({
     color: '#bbb',
     fontSize: 32,
     height: 40,
-    marginBottom: 40,
   },
   textInput: {
     color: '#bbb',
@@ -126,13 +112,6 @@ const styles = StyleSheet.create({
   text: {
     color: '#bbb',
     fontSize: 20,
-  },
-  buttonText: { fontWeight: 'bold', color: '#bbb' },
-  button: {
-    backgroundColor: '#333',
-    padding: 14,
-    borderRadius: 14,
-    marginVertical: 10,
   },
 });
 
