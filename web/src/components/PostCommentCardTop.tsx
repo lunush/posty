@@ -15,13 +15,13 @@ interface Props {
   };
 }
 
-const PostCardTop: React.FC<Props> = ({ comment }) => {
+const PostCommentCardTop: React.FC<Props> = ({ comment }) => {
   const profilePicture = useProfilePicture(comment.username);
 
   return (
     <View style={styles.commentTopContainer}>
       <View style={styles.flexContainer}>
-        <Link to={comment.username}>
+        <Link to={`/${comment.username}`} style={{ textDecoration: 'none' }}>
           {profilePicture ? (
             <Image
               source={{ uri: profilePicture }}
@@ -30,13 +30,11 @@ const PostCardTop: React.FC<Props> = ({ comment }) => {
           ) : (
             <Text style={styles.noProfilePictureText}>Profile Picture</Text>
           )}
-        </Link>
-        <View>
-          <Text style={styles.name}>{comment.name}</Text>
-          <Link to={comment.username} style={{ textDecoration: 'none' }}>
+          <View>
+            <Text style={styles.name}>{comment.name}</Text>
             <Text style={styles.username}>@{comment.username}</Text>
-          </Link>
-        </View>
+          </View>
+        </Link>
       </View>
       <Text style={styles.createdAt}>{getRelativeDate(comment.createdAt)}</Text>
     </View>
@@ -85,4 +83,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PostCardTop;
+export default PostCommentCardTop;

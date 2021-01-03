@@ -43,7 +43,7 @@ type Like {
 type Query {
   getUser(username: String!): User
 
-  getPosts: [Post]
+  getPosts(username: String): [Post]
   getPost(postId: ID!): Post
 }
 

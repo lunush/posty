@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { GET_POST } from 'src/requests';
-import { getRelativeDate } from 'src/utils/helpers';
+import { getRelativeDate, truncate } from 'src/utils/helpers';
 import { useProfilePicture } from 'src/utils/hooks';
 import LoadingScreen from './LoadingScreen';
 import NotFound from './NotFound';
@@ -38,8 +38,10 @@ const Post: React.FC = () => {
               <Text style={styles.noProfilePictureText}>Profile Picture</Text>
             )}
             <View>
-              <Text style={styles.name}>{post.name}</Text>
-              <Text style={styles.username}>@{post.username}</Text>
+              <Text style={styles.name}>{truncate(post.name, 16)}</Text>
+              <Text style={styles.username}>
+                @{truncate(post.username, 30)}
+              </Text>
             </View>
           </View>
         </Link>

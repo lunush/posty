@@ -5,9 +5,14 @@ import { AuthenticationError, UserInputError } from 'apollo-server-express';
 
 const postsResolvers = {
   Query: {
-    getPosts: async () => {
+    getPosts: async (_: any, { username }: any) => {
       try {
-        const posts = await Post.find().sort({ createdAt: -1 });
+        let posts;
+        if (username) {
+          posts = await Post.find({ username }).sort({ createdAt: -1 });
+        } else {
+          posts = await Post.find().sort({ createdAt: -1 });
+        }
         return posts;
       } catch (e) {
         throw new Error(e);
@@ -85,7 +90,7 @@ const postsResolvers = {
 
       if (post) {
         post.comments.push({ commentBody, username, name, likes: [] });
-        post.comments.sort((a, b) => a.likes.length - b.likes.length);
+        post.comments.sort((a: any, b: any) => a.likes.length - b.likes.length);
       } else throw new UserInputError('WTF');
 
       await post.save();
@@ -124,8 +129,10 @@ const postsResolvers = {
       const post = await Post.findById(postId);
 
       if (post) {
-        if (post.likes.find((like) => like.username === username))
-          post.likes = post.likes.filter((like) => like.username !== username);
+        if (post.likes.find((like: any) => like.username === username))
+          post.likes = post.likes.filter(
+            (like: any) => like.username !== username
+          );
         else post.likes.push({ username });
 
         await post.save();
@@ -151,17 +158,19 @@ const postsResolvers = {
         if (commentIndex >= 0) {
           if (
             post.comments[commentIndex].likes.find(
-              (like) => like.username === username
+              (like: any) => like.username === username
             )
           ) {
             post.comments[commentIndex].likes = post.comments[
               commentIndex
-            ].likes.filter((like) => like.username !== username);
+            ].likes.filter((like: any) => like.username !== username);
           } else {
             post.comments[commentIndex].likes.push({ username });
           }
 
-          post.comments.sort((a, b) => b.likes.length - a.likes.length);
+          post.comments.sort(
+            (a: any, b: any) => b.likes.length - a.likes.length
+          );
           await post.save();
         } else throw new UserInputError('Nice try, but not today.');
       } else throw new UserInputError("The post doesn't appear to exist");

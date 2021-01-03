@@ -1,4 +1,4 @@
-import { getRelativeDate } from 'src/utils/helpers';
+import { getRelativeDate, truncate } from 'src/utils/helpers';
 import { useProfilePicture } from 'src/utils/hooks';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { Link } from 'react-router-dom';
@@ -21,8 +21,8 @@ const PostCardTop: React.FC<Props> = ({ post }) => {
 
   return (
     <View style={styles.postTopContainer}>
-      <View style={styles.flexContainer}>
-        <Link to={`/${post.username}`}>
+      <Link to={`/${post.username}`} style={{ textDecoration: 'none' }}>
+        <View style={styles.flexContainer}>
           {profilePicture ? (
             <Image
               source={{ uri: profilePicture }}
@@ -31,14 +31,12 @@ const PostCardTop: React.FC<Props> = ({ post }) => {
           ) : (
             <Text style={styles.noProfilePictureText}>Profile Picture</Text>
           )}
-        </Link>
-        <View>
-          <Text style={styles.name}>{post.name}</Text>
-          <Link to={`/${post.username}`} style={{ textDecoration: 'none' }}>
-            <Text style={styles.username}>@{post.username}</Text>
-          </Link>
+          <View>
+            <Text style={styles.name}>{truncate(post.name)}</Text>
+            <Text style={styles.username}>@{truncate(post.username, 20)}</Text>
+          </View>
         </View>
-      </View>
+      </Link>
       <Text style={styles.createdAt}>{getRelativeDate(post.createdAt)}</Text>
     </View>
   );

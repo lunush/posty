@@ -10,6 +10,7 @@ import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
 import Settings from './components/Settings';
+import Profile from './components/Profile';
 import Layout from './layout/Layout';
 import { AuthProvider } from './utils/auth';
 import { setContext } from '@apollo/client/link/context';
@@ -48,6 +49,7 @@ const App: React.FC = () => {
                 <Route path="/settings" component={Settings} />
                 <Route path="/register" component={Register} />
                 <Route path="/login" component={Login} />
+                <Route path="/:username" component={Profile} />
                 <Route path="/" component={Home} />
               </Switch>
             </Layout>
