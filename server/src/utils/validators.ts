@@ -14,6 +14,12 @@ export const validateUsername = async (
   errors: ErrorObject
 ) => {
   if (username.trim() === '') errors.username = 'Username must not be empty';
+  if (
+    username === 'login' ||
+    username === 'register' ||
+    username === 'settings'
+  )
+    errors.username = 'Illegal username';
   const user = await User.findOne({ username });
   if (!user) errors.username = 'This username is taken';
 

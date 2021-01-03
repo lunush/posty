@@ -133,7 +133,6 @@ const usersResolvers: ResolverMap = {
 
       await user.save();
       const token = generateToken(user);
-      console.log(token);
 
       return token;
     },
