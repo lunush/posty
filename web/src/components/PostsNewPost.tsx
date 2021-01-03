@@ -12,6 +12,8 @@ import {
 } from 'react-native';
 import { CREATE_POST, GET_POSTS } from 'src/requests';
 import { useCurrentUserData } from 'src/utils/hooks';
+import Card from 'src/components/common/Card';
+import { color, globalStyles } from 'src/globalStyles';
 
 const initialState = {
   post: '',
@@ -52,34 +54,36 @@ const PostsNewPost = () => {
   const handleSubmit = () => createPost();
 
   return (
-    <View style={styles.newPostBox}>
-      <View style={styles.post}>
-        <TextInput
-          value={state.post}
-          onChange={handleChange}
-          placeholderTextColor="#555"
-          placeholder={`Hey, ${currentUser?.name}! What's on your mind?`}
-          multiline
-          maxLength={140}
-          style={styles.textInput}
-        />
-        <View style={styles.postBottom}>
-          <Text style={styles.countText}>{state.count}/140</Text>
-          {loading ? (
-            <ActivityIndicator style={styles.activityIndicator} />
-          ) : (
-            <Pressable
-              style={styles.button}
-              onPress={handleSubmit}
-              disabled={state.count === 0 ? true : false}
-              accessibilityLabel="Submit button"
-            >
-              <Text style={styles.text}>Post</Text>
-            </Pressable>
-          )}
-        </View>
+    <Card>
+      <TextInput
+        value={state.post}
+        onChange={handleChange}
+        placeholderTextColor="#555"
+        placeholder={`Hey, ${currentUser?.name}! What's on your mind?`}
+        multiline
+        maxLength={140}
+        style={styles.textInput}
+      />
+      <View style={styles.postBottom}>
+        <Text style={[globalStyles.smallText, { fontWeight: 'bold' }]}>
+          {state.count}/140
+        </Text>
+        {loading ? (
+          <ActivityIndicator style={styles.activityIndicator} />
+        ) : (
+          <Pressable
+            style={styles.button}
+            onPress={handleSubmit}
+            disabled={state.count === 0 ? true : false}
+            accessibilityLabel="Submit button"
+          >
+            <Text style={[globalStyles.smallText, { fontWeight: 'bold' }]}>
+              Post
+            </Text>
+          </Pressable>
+        )}
       </View>
-    </View>
+    </Card>
   );
 };
 
@@ -95,45 +99,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     marginTop: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 28,
-  },
-  newPostBox: {
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  post: {
-    margin: 10,
-    borderRadius: 15,
-    height: '12rem',
-    overflow: 'hidden',
-    width: '100%',
-    maxWidth: 300,
-    backgroundColor: '#222',
+    paddingVertical: 20,
   },
   textInput: {
-    color: '#bbb',
+    color: color.primary,
     height: '100%',
     width: '100%',
     padding: 20,
     borderRadius: 16,
-    backgroundColor: '#222',
+    backgroundColor: color.bgSecondary,
     fontSize: 16,
     marginTop: 10,
     overflow: 'hidden',
   },
-  text: { fontWeight: 'bold', color: '#bbb' },
-  countText: {
-    fontWeight: 'bold',
-    color: '#bbb',
-    marginLeft: 8,
-  },
   button: {
-    backgroundColor: '#333',
+    backgroundColor: color.border,
     padding: 14,
     borderRadius: 14,
-    marginBottom: 10,
   },
 });
 

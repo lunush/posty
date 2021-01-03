@@ -12,6 +12,7 @@ import { useHistory, withRouter } from 'react-router-dom';
 import { AuthContext } from 'src/utils/auth';
 import StandardTextInput from './common/StandardTextInput';
 import StandardButton from './common/StandardButton';
+import { color } from 'src/globalStyles';
 
 const Register: React.FC = () => {
   const context = useContext(AuthContext);
@@ -104,26 +105,26 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   title: {
-    color: '#bbb',
+    color: color.primary,
     fontSize: 32,
     height: 40,
     marginBottom: 10,
   },
   textInput: {
-    color: '#bbb',
+    color: color.primary,
     height: 40,
     padding: 20,
     borderRadius: 16,
-    backgroundColor: '#222',
+    backgroundColor: color.bgSecondary,
     fontSize: 20,
     marginTop: 10,
   },
   text: {
-    color: '#bbb',
+    color: color.primary,
     fontSize: 20,
   },
   error: {
-    color: 'red',
+    color: color.danger,
     fontSize: 20,
   },
 });

@@ -1,10 +1,11 @@
-import { Pressable, StyleSheet, Text } from 'react-native';
+import { Pressable, Text } from 'react-native';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { AuthContext } from 'src/utils/auth';
 import { useContext, useEffect, useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { GET_POST, TOGGLE_COMMENT_LIKE } from 'src/requests';
 import { useHistory } from 'react-router-dom';
+import { globalStyles } from 'src/globalStyles';
 
 interface Props {
   comment: {
@@ -46,23 +47,17 @@ const PostCommentCardLikeButton: React.FC<Props> = ({ comment, postId }) => {
   };
 
   return (
-    <Pressable style={styles.commentsContainer} onPress={handlePress}>
-      <Text style={styles.icon}>
+    <Pressable
+      style={[globalStyles.centeredContainer, globalStyles.flexRow]}
+      onPress={handlePress}
+    >
+      <Text style={[globalStyles.mediumText, { paddingTop: 5 }]}>
         {isLiked ? <AiFillHeart /> : <AiOutlineHeart />}
       </Text>
-      <Text style={styles.text}> {comment.likeCount}</Text>
+
+      <Text style={globalStyles.smallText}> {comment.likeCount}</Text>
     </Pressable>
   );
 };
-
-const styles = StyleSheet.create({
-  text: { color: '#bbb', fontSize: 14 },
-  icon: { color: '#bbb', fontSize: 20, paddingTop: 5 },
-  commentsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
 export default PostCommentCardLikeButton;

@@ -12,6 +12,7 @@ import {
 import { useCurrentUserData } from 'src/utils/hooks';
 import { DELETE_POST, GET_POSTS } from 'src/requests';
 import { useMutation } from '@apollo/client';
+import { color, globalStyles, optionsStyles } from 'src/globalStyles';
 
 interface Props {
   post: {
@@ -37,34 +38,36 @@ const PostCardBottom: React.FC<Props> = ({ post }) => {
   const handleDelete = () => deletePost();
   return (
     <View style={styles.postBottomContainer}>
-      <View style={styles.flexContainer}>
+      <View style={[globalStyles.centeredContainer, globalStyles.flexRow]}>
         <PostCardLikeButton post={post} />
         <Link
           to={`${post.username}/${post.id}`}
           style={{ textDecoration: 'none' }}
         >
           <View style={styles.commentContainer}>
-            <Text style={styles.icon}>
+            <Text style={[globalStyles.mediumText, { paddingTop: 5 }]}>
               <FaRegComments />
             </Text>
-            <Text style={styles.commentCountText}> {post.commentCount}</Text>
+            <Text style={globalStyles.smallText}> {post.commentCount}</Text>
           </View>
         </Link>
       </View>
       <Menu>
         <MenuTrigger>
-          <Text style={styles.icon}>
+          <Text style={[globalStyles.mediumText, { paddingTop: 5 }]}>
             <BsThreeDots />
           </Text>
         </MenuTrigger>
         <MenuOptions customStyles={optionsStyles}>
           {currentUser?.username === post.username ? (
             <MenuOption onSelect={handleDelete}>
-              <View style={styles.flexContainer}>
-                <Text style={{ color: 'red' }}>
+              <View
+                style={[globalStyles.centeredContainer, globalStyles.flexRow]}
+              >
+                <Text style={{ color: color.danger }}>
                   <BsFillTrashFill />{' '}
                 </Text>
-                <Text style={{ color: 'red' }}>Delete</Text>
+                <Text style={{ color: color.danger }}>Delete</Text>
               </View>
             </MenuOption>
           ) : (
@@ -80,11 +83,6 @@ const PostCardBottom: React.FC<Props> = ({ post }) => {
 };
 
 const styles = StyleSheet.create({
-  flexContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   postBottomContainer: {
     width: '100%',
     flexDirection: 'row',
@@ -97,21 +95,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
-  icon: { color: '#bbb', fontSize: 20, paddingTop: 5 },
-  commentCountText: { color: '#bbb', fontSize: 14 },
 });
-
-const optionsStyles = {
-  optionsContainer: {
-    backgroundColor: '#222',
-    padding: 10,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#333',
-  },
-  optionText: {
-    color: '#bbb',
-  },
-};
 
 export default PostCardBottom;

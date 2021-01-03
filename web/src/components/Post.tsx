@@ -9,6 +9,7 @@ import NotFound from './NotFound';
 import PostActionMenu from './PostActionMenu';
 import PostNewComment from './PostNewComment';
 import PostCommentCard from './PostCommentCard';
+import { color, globalStyles } from 'src/globalStyles';
 
 const Post: React.FC = () => {
   const {
@@ -25,27 +26,34 @@ const Post: React.FC = () => {
   if (error) return <NotFound />;
 
   return (
-    <ScrollView style={styles.postContainer}>
+    <ScrollView style={globalStyles.fullSpace}>
       <View style={styles.postTopContainer}>
         <Link to={`/${post.username}`} style={{ textDecoration: 'none' }}>
-          <View style={styles.flexContainer}>
+          <View style={[globalStyles.centeredContainer, globalStyles.flexRow]}>
             {profilePicture ? (
               <Image
                 source={{ uri: profilePicture }}
                 style={styles.profilePicture}
               />
             ) : (
-              <Text style={styles.noProfilePictureText}>Profile Picture</Text>
+              <Text style={globalStyles.smallText}>Profile Picture</Text>
             )}
             <View>
               <Text style={styles.name}>{truncate(post.name, 16)}</Text>
-              <Text style={styles.username}>
+              <Text
+                style={[
+                  globalStyles.smallText,
+                  { marginLeft: 10, color: color.secondary },
+                ]}
+              >
                 @{truncate(post.username, 30)}
               </Text>
             </View>
           </View>
         </Link>
-        <Text style={styles.text}>{getRelativeDate(post.createdAt)}</Text>
+        <Text style={globalStyles.smallText}>
+          {getRelativeDate(post.createdAt)}
+        </Text>
       </View>
       <View style={styles.postBodyContainer}>
         <Text style={styles.postBodyText}>{post.postBody}</Text>
@@ -60,15 +68,6 @@ const Post: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  postContainer: {
-    height: '100%',
-    width: '100%',
-  },
-  flexContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   postTopContainer: {
     width: '100%',
     flexDirection: 'row',
@@ -89,35 +88,21 @@ const styles = StyleSheet.create({
     width: 70,
     borderRadius: 9999,
   },
-  noProfilePictureText: {
-    fontSize: 10,
-    color: '#bbb',
-    fontWeight: 'bold',
-  },
   commentContainer: {
     marginLeft: 10,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
-  icon: { color: '#bbb', fontSize: 20 },
-  text: { color: '#bbb', fontSize: 14 },
   postBodyText: {
-    color: '#bbb',
+    color: color.primary,
     fontSize: 20,
     padding: 32,
-    // textAlign: 'left',
-  },
-  username: {
-    marginLeft: 10,
-    fontSize: 12,
-    color: '#999',
-    fontWeight: 'bold',
   },
   name: {
     marginLeft: 10,
     fontSize: 18,
-    color: '#bbb',
+    color: color.primary,
     fontWeight: 'bold',
   },
 });

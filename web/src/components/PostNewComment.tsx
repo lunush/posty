@@ -11,6 +11,8 @@ import {
   View,
 } from 'react-native';
 import { CREATE_COMMENT, GET_POST } from 'src/requests';
+import Card from 'src/components/common/Card';
+import { color, globalStyles } from 'src/globalStyles';
 
 const initialState = {
   comment: '',
@@ -61,34 +63,36 @@ const PostNewComment: React.FC<Props> = ({ post }) => {
   const handleSubmit = () => createComment();
 
   return (
-    <View style={styles.newCommentBox}>
-      <View style={styles.comment}>
-        <TextInput
-          value={state.comment}
-          onChange={(e) => handleChange(e)}
-          placeholderTextColor="#555"
-          placeholder="What do you think?"
-          multiline
-          maxLength={140}
-          style={styles.textInput}
-        />
-        <View style={styles.commentBottom}>
-          <Text style={styles.countText}>{state.count}/140</Text>
-          {loading ? (
-            <ActivityIndicator style={styles.activityIndicator} />
-          ) : (
-            <Pressable
-              style={styles.button}
-              onPress={handleSubmit}
-              disabled={state.count === 0 ? true : false}
-              accessibilityLabel="Submit button"
-            >
-              <Text style={styles.text}>Comment</Text>
-            </Pressable>
-          )}
-        </View>
+    <Card>
+      <TextInput
+        value={state.comment}
+        onChange={(e) => handleChange(e)}
+        placeholderTextColor="#555"
+        placeholder="What do you think?"
+        multiline
+        maxLength={140}
+        style={styles.textInput}
+      />
+      <View style={styles.commentBottom}>
+        <Text style={[globalStyles.smallText, { fontWeight: 'bold' }]}>
+          {state.count}/140
+        </Text>
+        {loading ? (
+          <ActivityIndicator style={styles.activityIndicator} />
+        ) : (
+          <Pressable
+            style={styles.button}
+            onPress={handleSubmit}
+            disabled={state.count === 0 ? true : false}
+            accessibilityLabel="Submit button"
+          >
+            <Text style={[globalStyles.smallText, { fontWeight: 'bold' }]}>
+              Comment
+            </Text>
+          </Pressable>
+        )}
       </View>
-    </View>
+    </Card>
   );
 };
 
@@ -104,45 +108,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     marginTop: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 28,
-  },
-  newCommentBox: {
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  comment: {
-    margin: 10,
-    borderRadius: 15,
-    height: '12rem',
-    overflow: 'hidden',
-    width: '100%',
-    maxWidth: 300,
-    backgroundColor: '#222',
+    paddingVertical: 20,
   },
   textInput: {
-    color: '#bbb',
+    color: color.primary,
     height: '100%',
     width: '100%',
     padding: 20,
     borderRadius: 16,
-    backgroundColor: '#222',
+    backgroundColor: color.bgSecondary,
     fontSize: 16,
-    marginTop: 10,
     overflow: 'hidden',
   },
-  text: { fontWeight: 'bold', color: '#bbb' },
-  countText: {
-    fontWeight: 'bold',
-    color: '#bbb',
-    marginLeft: 8,
-  },
   button: {
-    backgroundColor: '#333',
+    backgroundColor: color.border,
     padding: 14,
     borderRadius: 14,
-    marginBottom: 10,
   },
 });
 

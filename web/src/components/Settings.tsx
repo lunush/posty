@@ -22,6 +22,7 @@ import { useCurrentUserData } from 'src/utils/hooks';
 import { VscRefresh } from 'react-icons/vsc';
 import StandardTextInput from './common/StandardTextInput';
 import StandardButton from './common/StandardButton';
+import { color } from 'src/globalStyles';
 
 const Settings: React.FC = () => {
   const context = useContext(AuthContext);
@@ -176,7 +177,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   title: {
-    color: '#bbb',
+    color: color.primary,
     fontSize: 32,
     height: 40,
     marginBottom: 40,
@@ -185,7 +186,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     right: 0,
-    backgroundColor: '#222',
+    backgroundColor: color.bgSecondary,
     padding: 20,
     borderRadius: 9999,
     height: 10,
@@ -194,7 +195,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   updateAvatarText: {
-    color: '#bbb',
+    color: color.primary,
     fontWeight: 'bold',
     fontSize: 24,
     paddingTop: 6,

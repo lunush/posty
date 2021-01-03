@@ -13,6 +13,7 @@ import {
   MenuTrigger,
 } from 'react-native-popup-menu';
 import { useCurrentUserData } from 'src/utils/hooks';
+import { color } from 'src/globalStyles';
 
 const Layout: React.FC = ({ children }) => {
   const history = useHistory();
@@ -71,16 +72,11 @@ const Layout: React.FC = ({ children }) => {
 };
 
 const styles = StyleSheet.create({
-  flexContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   screen: {
     height: '100vh',
     width: '100vw',
     overflow: 'visible',
-    backgroundColor: '#111',
+    backgroundColor: color.bgPrimary,
   },
   header: {
     width: '100%',
@@ -91,18 +87,15 @@ const styles = StyleSheet.create({
     paddingVertical: '0.5rem',
     borderWidth: 1,
     borderColor: 'transparent',
-    borderBottomColor: '#333',
-    backgroundColor: '#222',
-  },
-  body: {
-    height: '100%',
+    borderBottomColor: color.border,
+    backgroundColor: color.bgSecondary,
   },
   authText: {
-    color: '#bbb',
+    color: color.primary,
     fontSize: 25,
   },
   logo: {
-    color: '#bbb',
+    color: color.primary,
     fontSize: 32,
   },
   image: {
@@ -114,16 +107,16 @@ const styles = StyleSheet.create({
 
 const optionsStyles = {
   optionsContainer: {
-    backgroundColor: '#222',
+    backgroundColor: color.bgSecondary,
     padding: 14,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#333',
+    borderColor: color.border,
     maxWidth: 120,
     textAlign: 'center',
   },
   optionText: {
-    color: '#bbb',
+    color: color.primary,
     fontSize: 18,
     width: '100%',
   },

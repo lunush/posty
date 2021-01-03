@@ -1,5 +1,6 @@
 import { IconType } from 'react-icons';
 import { Pressable, StyleSheet, Text } from 'react-native';
+import { color } from 'src/globalStyles';
 
 interface Props {
   title?: string | IconType;
@@ -29,7 +30,7 @@ const styles = StyleSheet.create({
   button: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#333',
+    backgroundColor: color.border,
     padding: 14,
     borderRadius: 8,
   },

@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text } from 'react-native';
+import { Pressable, Text } from 'react-native';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { AuthContext } from 'src/utils/auth';
 import { useContext, useEffect, useState } from 'react';
@@ -6,6 +6,7 @@ import { useMutation } from '@apollo/client';
 import { GET_POSTS, TOGGLE_POST_LIKE } from 'src/requests';
 import { useHistory } from 'react-router-dom';
 import { useCurrentUserData } from 'src/utils/hooks';
+import { globalStyles } from 'src/globalStyles';
 
 interface Props {
   post: {
@@ -51,23 +52,16 @@ const LikeButton: React.FC<Props> = ({ post }) => {
   };
 
   return (
-    <Pressable style={styles.commentsContainer} onPress={handlePress}>
-      <Text style={styles.icon}>
+    <Pressable
+      style={[globalStyles.centeredContainer, globalStyles.flexRow]}
+      onPress={handlePress}
+    >
+      <Text style={[globalStyles.mediumText, { paddingTop: 5 }]}>
         {isLiked ? <AiFillHeart /> : <AiOutlineHeart />}
       </Text>
-      <Text style={styles.text}> {post.likeCount}</Text>
+      <Text style={globalStyles.smallText}> {post.likeCount}</Text>
     </Pressable>
   );
 };
-
-const styles = StyleSheet.create({
-  text: { color: '#bbb', fontSize: 14 },
-  icon: { color: '#bbb', fontSize: 20, paddingTop: 5 },
-  commentsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
 export default LikeButton;

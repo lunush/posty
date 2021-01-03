@@ -7,6 +7,7 @@ import LoadingScreen from './LoadingScreen';
 import NotFound from './NotFound';
 import PostCard from './PostCard';
 import { truncate } from 'src/utils/helpers';
+import { color, globalStyles } from 'src/globalStyles';
 
 const Profile: React.FC = () => {
   const {
@@ -31,22 +32,44 @@ const Profile: React.FC = () => {
   if (userError) return <NotFound />;
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.userInfoContainer}>
+    <ScrollView style={globalStyles.fullSpace}>
+      <View style={[globalStyles.centeredContainer, { padding: 16 }]}>
         {profilePicture ? (
           <Image
             source={{ uri: profilePicture }}
             style={styles.profilePicture}
           />
         ) : (
-          <Text style={styles.noProfilePictureText}>Profile Picture</Text>
+          <Text style={globalStyles.mediumText}>Profile Picture</Text>
         )}
-        <View style={styles.nameContainer}>
-          <Text style={styles.name}>{truncate(user.name)}</Text>
-          <Text style={styles.username}>@{truncate(user.username, 20)}</Text>
+        <View
+          style={[
+            globalStyles.centeredContainer,
+            globalStyles.flexRow,
+            { marginTop: 10 },
+          ]}
+        >
+          <Text style={[globalStyles.bigText, { fontWeight: 'bold' }]}>
+            {truncate(user.name)}
+          </Text>
+          <Text
+            style={[
+              globalStyles.smallText,
+              { marginLeft: 10, color: color.secondary },
+            ]}
+          >
+            @{truncate(user.username, 20)}
+          </Text>
         </View>
-        <Text style={styles.bio}>{user.bio}</Text>
-        <Text style={styles.postsByUserText}>Posts by {user.name}:</Text>
+        <Text style={globalStyles.mediumText}>{user.bio}</Text>
+        <Text
+          style={[
+            globalStyles.mediumText,
+            { marginTop: 10, paddingHorizontal: 16 },
+          ]}
+        >
+          Posts by {user.name}:
+        </Text>
       </View>
       {postsLoading ? (
         <LoadingScreen />
@@ -60,48 +83,10 @@ const Profile: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    height: '100%',
-  },
-  userInfoContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 16,
-  },
-  nameContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  name: {
-    color: '#bbb',
-    fontSize: 32,
-  },
-  username: {
-    color: '#777',
-    fontSize: 14,
-    marginLeft: 10,
-  },
-  bio: {
-    color: '#bbb',
-    fontSize: 18,
-  },
-  postsByUserText: {
-    color: '#bbb',
-    fontSize: 18,
-    marginTop: 20,
-    paddingHorizontal: 16,
-  },
   profilePicture: {
     height: 240,
     width: 240,
     borderRadius: 9999,
-  },
-  noProfilePictureText: {
-    fontSize: 20,
-    color: '#bbb',
-    fontWeight: 'bold',
   },
 });
 

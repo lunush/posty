@@ -2,6 +2,7 @@ import { getRelativeDate, truncate } from 'src/utils/helpers';
 import { useProfilePicture } from 'src/utils/hooks';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { Link } from 'react-router-dom';
+import { color, globalStyles } from 'src/globalStyles';
 
 interface Props {
   post: {
@@ -22,32 +23,38 @@ const PostCardTop: React.FC<Props> = ({ post }) => {
   return (
     <View style={styles.postTopContainer}>
       <Link to={`/${post.username}`} style={{ textDecoration: 'none' }}>
-        <View style={styles.flexContainer}>
+        <View style={[globalStyles.centeredContainer, globalStyles.flexRow]}>
           {profilePicture ? (
             <Image
               source={{ uri: profilePicture }}
               style={styles.profilePicture}
             />
           ) : (
-            <Text style={styles.noProfilePictureText}>Profile Picture</Text>
+            <Text style={globalStyles.smallText}>Profile Picture</Text>
           )}
           <View>
-            <Text style={styles.name}>{truncate(post.name)}</Text>
-            <Text style={styles.username}>@{truncate(post.username, 20)}</Text>
+            <Text style={[globalStyles.mediumText, { marginLeft: 10 }]}>
+              {truncate(post.name)}
+            </Text>
+            <Text
+              style={[
+                globalStyles.smallText,
+                { marginLeft: 10, color: color.secondary },
+              ]}
+            >
+              @{truncate(post.username, 20)}
+            </Text>
           </View>
         </View>
       </Link>
-      <Text style={styles.createdAt}>{getRelativeDate(post.createdAt)}</Text>
+      <Text style={globalStyles.smallText}>
+        {getRelativeDate(post.createdAt)}
+      </Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  flexContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   postTopContainer: {
     width: '100%',
     flexDirection: 'row',
@@ -58,29 +65,6 @@ const styles = StyleSheet.create({
     height: 50,
     width: 50,
     borderRadius: 9999,
-  },
-  noProfilePictureText: {
-    fontSize: 10,
-    color: '#bbb',
-    fontWeight: 'bold',
-  },
-  username: {
-    marginLeft: 10,
-    fontSize: 12,
-    color: '#999',
-    fontWeight: 'bold',
-  },
-  name: {
-    marginLeft: 10,
-    fontSize: 18,
-    color: '#bbb',
-    fontWeight: 'bold',
-  },
-  createdAt: {
-    marginLeft: 10,
-    fontSize: 12,
-    color: '#999',
-    fontWeight: 'bold',
   },
 });
 

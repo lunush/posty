@@ -12,6 +12,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { AuthContext } from 'src/utils/auth';
 import StandardTextInput from './common/StandardTextInput';
 import StandardButton from './common/StandardButton';
+import { color, globalStyles } from 'src/globalStyles';
 
 const Login: React.FC = () => {
   const context = useContext(AuthContext);
@@ -48,7 +49,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <View style={styles.box}>
+    <View style={[globalStyles.fullSpace, globalStyles.centeredContainer]}>
       <Text style={styles.title}>Login</Text>
       <StandardTextInput
         value={state.Username}
@@ -66,15 +67,18 @@ const Login: React.FC = () => {
       ) : (
         <StandardButton title="Login" onPress={handleSubmit} />
       )}
-      <Text style={styles.noAccount}>
+      <Text style={globalStyles.smallText}>
         Don't have an account yet? Click
-        <Link to="/register" style={{ color: 'teal', textDecoration: 'none' }}>
+        <Link
+          to="/register"
+          style={{ color: color.link, textDecoration: 'none' }}
+        >
           {' '}
           here{' '}
         </Link>
         to get one!
       </Text>
-      {error && <Text style={styles.text}>{error.message}</Text>}
+      {error && <Text style={globalStyles.mediumText}>{error.message}</Text>}
     </View>
   );
 };
@@ -84,34 +88,10 @@ const styles = StyleSheet.create({
     padding: 14,
     marginVertical: 10,
   },
-  box: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100%',
-  },
   title: {
-    color: '#bbb',
+    color: color.primary,
     fontSize: 32,
     height: 40,
-  },
-  textInput: {
-    color: '#bbb',
-    height: 40,
-    padding: 20,
-    borderRadius: 16,
-    backgroundColor: '#222',
-    fontSize: 20,
-    marginTop: 10,
-  },
-  noAccount: {
-    color: '#bbb',
-    fontSize: 12,
-  },
-  text: {
-    color: '#bbb',
-    fontSize: 20,
   },
 });
 

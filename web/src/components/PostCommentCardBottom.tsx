@@ -11,6 +11,7 @@ import {
 import { useCurrentUserData } from 'src/utils/hooks';
 import { useMutation } from '@apollo/client';
 import { DELETE_COMMENT, GET_POST } from 'src/requests';
+import { color, globalStyles, optionsStyles } from 'src/globalStyles';
 
 interface Props {
   comment: {
@@ -41,7 +42,7 @@ const PostCommentCardBottom: React.FC<Props> = ({ comment, postId }) => {
 
   return (
     <View style={styles.postBottomContainer}>
-      <View style={styles.flexContainer}>
+      <View style={[globalStyles.flexRow, globalStyles.centeredContainer]}>
         <PostCommentCardLikeButton comment={comment} postId={postId} />
         <Link
           to={`${comment.username}/${comment.id}`}
@@ -50,18 +51,20 @@ const PostCommentCardBottom: React.FC<Props> = ({ comment, postId }) => {
       </View>
       <Menu>
         <MenuTrigger>
-          <Text style={styles.icon}>
+          <Text style={globalStyles.mediumText}>
             <BsThreeDots />
           </Text>
         </MenuTrigger>
         <MenuOptions customStyles={optionsStyles}>
           {currentUser?.username === comment.username ? (
             <MenuOption onSelect={handleDelete}>
-              <View style={styles.flexContainer}>
-                <Text style={{ color: 'red' }}>
+              <View
+                style={[globalStyles.flexRow, globalStyles.centeredContainer]}
+              >
+                <Text style={{ color: color.danger }}>
                   <BsFillTrashFill />{' '}
                 </Text>
-                <Text style={{ color: 'red' }}>Delete</Text>
+                <Text style={{ color: color.danger }}>Delete</Text>
               </View>
             </MenuOption>
           ) : (
@@ -77,31 +80,12 @@ const PostCommentCardBottom: React.FC<Props> = ({ comment, postId }) => {
 };
 
 const styles = StyleSheet.create({
-  flexContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   postBottomContainer: {
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  icon: { color: '#bbb', fontSize: 20 },
 });
-
-const optionsStyles = {
-  optionsContainer: {
-    backgroundColor: '#222',
-    padding: 10,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#333',
-  },
-  optionText: {
-    color: '#bbb',
-  },
-};
 
 export default PostCommentCardBottom;

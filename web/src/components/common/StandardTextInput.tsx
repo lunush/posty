@@ -1,4 +1,5 @@
 import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { color } from 'src/globalStyles';
 
 interface Props {
   maxLength?: number;
@@ -34,11 +35,11 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   textInput: {
-    color: '#bbb',
+    color: color.primary,
     height: 40,
     padding: 20,
     borderRadius: 8,
-    backgroundColor: '#222',
+    backgroundColor: color.bgSecondary,
     fontSize: 18,
   },
 });

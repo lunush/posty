@@ -1,7 +1,8 @@
-import { getRelativeDate } from 'src/utils/helpers';
+import { getRelativeDate, truncate } from 'src/utils/helpers';
 import { useProfilePicture } from 'src/utils/hooks';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { Link } from 'react-router-dom';
+import { color, globalStyles } from 'src/globalStyles';
 
 interface Props {
   comment: {
@@ -20,33 +21,44 @@ const PostCommentCardTop: React.FC<Props> = ({ comment }) => {
 
   return (
     <View style={styles.commentTopContainer}>
-      <View style={styles.flexContainer}>
-        <Link to={`/${comment.username}`} style={{ textDecoration: 'none' }}>
+      <Link to={`/${comment.username}`} style={{ textDecoration: 'none' }}>
+        <View style={[globalStyles.centeredContainer, globalStyles.flexRow]}>
           {profilePicture ? (
             <Image
               source={{ uri: profilePicture }}
               style={styles.profilePicture}
             />
           ) : (
-            <Text style={styles.noProfilePictureText}>Profile Picture</Text>
+            <Text style={globalStyles.smallText}>Profile Picture</Text>
           )}
           <View>
-            <Text style={styles.name}>{comment.name}</Text>
-            <Text style={styles.username}>@{comment.username}</Text>
+            <Text
+              style={[
+                globalStyles.mediumText,
+                { marginLeft: 10, fontWeight: 'bold' },
+              ]}
+            >
+              {truncate(comment.name)}
+            </Text>
+            <Text
+              style={[
+                globalStyles.smallText,
+                { marginLeft: 10, color: color.secondary },
+              ]}
+            >
+              @{truncate(comment.username, 20)}
+            </Text>
           </View>
-        </Link>
-      </View>
-      <Text style={styles.createdAt}>{getRelativeDate(comment.createdAt)}</Text>
+        </View>
+      </Link>
+      <Text style={globalStyles.smallText}>
+        {getRelativeDate(comment.createdAt)}
+      </Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  flexContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   commentTopContainer: {
     width: '100%',
     flexDirection: 'row',
@@ -57,29 +69,6 @@ const styles = StyleSheet.create({
     height: 50,
     width: 50,
     borderRadius: 9999,
-  },
-  noProfilePictureText: {
-    fontSize: 10,
-    color: '#bbb',
-    fontWeight: 'bold',
-  },
-  username: {
-    marginLeft: 10,
-    fontSize: 12,
-    color: '#999',
-    fontWeight: 'bold',
-  },
-  name: {
-    marginLeft: 10,
-    fontSize: 18,
-    color: '#bbb',
-    fontWeight: 'bold',
-  },
-  createdAt: {
-    marginLeft: 10,
-    fontSize: 12,
-    color: '#999',
-    fontWeight: 'bold',
   },
 });
 

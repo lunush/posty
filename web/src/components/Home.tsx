@@ -13,7 +13,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     height: '100%',
   },
-  text: { fontWeight: 'bold', color: '#bbb' },
 });
 
 export default Home;

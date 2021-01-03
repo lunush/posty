@@ -1,9 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native';
 // @ts-ignore
 import Twemoji from 'react-twemoji';
+import { color, globalStyles } from 'src/globalStyles';
 
 const NotFound = () => (
-  <View style={styles.container}>
+  <View style={[styles.container, globalStyles.centeredContainer]}>
     <Text style={styles.text}>
       <Twemoji>😢</Twemoji>
     </Text>
@@ -15,11 +16,9 @@ const styles = StyleSheet.create({
   container: {
     height: '100%',
     width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   text: {
-    color: '#bbb',
+    color: color.primary,
     fontSize: 40,
     fontWeight: 'bold',
   },

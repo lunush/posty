@@ -12,6 +12,7 @@ import PostLikeButton from './PostLikeButton';
 import { DELETE_POST, GET_POSTS } from 'src/requests';
 import { useMutation } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
+import { color, globalStyles } from 'src/globalStyles';
 
 interface Props {
   post: {
@@ -45,21 +46,23 @@ const PostActionMenu: React.FC<Props> = ({ post }) => {
     <View style={styles.actionMenu}>
       <PostLikeButton post={post} />
       <View style={styles.commentContainer}>
-        <Text style={styles.icon}>
+        <Text style={[globalStyles.mediumText, { paddingTop: 2 }]}>
           <FaRegComments />
         </Text>
-        <Text style={styles.commentCountText}> {post.commentCount}</Text>
+        <Text style={globalStyles.smallText}> {post.commentCount}</Text>
       </View>
       <Menu>
         <MenuTrigger>
-          <Text style={styles.icon}>
+          <Text style={[globalStyles.mediumText, { paddingTop: 2 }]}>
             <BsThreeDots />
           </Text>
         </MenuTrigger>
         <MenuOptions customStyles={optionsStyles}>
           {currentUser?.username === post.username ? (
             <MenuOption onSelect={handleDelete}>
-              <View style={styles.flexContainer}>
+              <View
+                style={[globalStyles.centeredContainer, globalStyles.flexRow]}
+              >
                 <Text style={{ color: 'red' }}>
                   <BsFillTrashFill />{' '}
                 </Text>
@@ -79,11 +82,6 @@ const PostActionMenu: React.FC<Props> = ({ post }) => {
 };
 
 const styles = StyleSheet.create({
-  flexContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   actionMenu: {
     width: '100%',
     height: 50,
@@ -92,13 +90,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 1,
     borderColor: 'transparent',
-    borderTopColor: '#333',
-    borderBottomColor: '#333',
+    borderTopColor: color.border,
+    borderBottomColor: color.border,
     padding: 10,
     overflow: 'hidden',
   },
   text: {
-    color: '#bbb',
+    color: color.primary,
     fontSize: 40,
     fontWeight: 'bold',
   },
@@ -108,20 +106,18 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
-  icon: { color: '#bbb', fontSize: 20, paddingTop: 2 },
-  commentCountText: { color: '#bbb', fontSize: 14 },
 });
 
 const optionsStyles = {
   optionsContainer: {
-    backgroundColor: '#222',
+    backgroundColor: color.bgSecondary,
     padding: 10,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#333',
+    borderColor: color.border,
   },
   optionText: {
-    color: '#bbb',
+    color: color.primary,
   },
 };
 

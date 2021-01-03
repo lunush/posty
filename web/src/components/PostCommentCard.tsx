@@ -1,4 +1,6 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
+import Card from 'src/components/common/Card';
+import { color } from 'src/globalStyles';
 import PostCommentCardBottom from './PostCommentCardBottom';
 import PostCommentCardTop from './PostCommentCardTop';
 
@@ -16,35 +18,16 @@ interface Props {
 }
 
 const PostCommentCard: React.FC<Props> = ({ comment, postId }) => (
-  <View key={comment.id} style={styles.commentContainer}>
-    <View style={styles.commentInnerContainer}>
-      <PostCommentCardTop comment={comment} />
-      <Text style={styles.commentBody}>{comment.commentBody}</Text>
-      <PostCommentCardBottom comment={comment} postId={postId} />
-    </View>
-  </View>
+  <Card id={comment.id}>
+    <PostCommentCardTop comment={comment} />
+    <Text style={styles.commentBody}>{comment.commentBody}</Text>
+    <PostCommentCardBottom comment={comment} postId={postId} />
+  </Card>
 );
 
 const styles = StyleSheet.create({
-  commentContainer: {
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  commentInnerContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-    margin: 10,
-    borderRadius: 15,
-    height: '13rem',
-    overflow: 'hidden',
-    width: '100%',
-    maxWidth: 300,
-    backgroundColor: '#222',
-  },
   commentBody: {
-    color: '#bbb',
+    color: color.primary,
     height: '100%',
     width: '100%',
     padding: 8,
