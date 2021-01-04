@@ -51,7 +51,9 @@ const Post: React.FC = () => {
             </View>
           </View>
         </Link>
-        <Text style={globalStyles.smallText}>
+        <Text
+          style={[globalStyles.smallText, { transform: [{ translateY: -6 }] }]}
+        >
           {getRelativeDate(post.createdAt)}
         </Text>
       </View>

@@ -51,7 +51,9 @@ const PostCommentCardTop: React.FC<Props> = ({ comment }) => {
           </View>
         </View>
       </Link>
-      <Text style={globalStyles.smallText}>
+      <Text
+        style={[globalStyles.smallText, { transform: [{ translateY: -6 }] }]}
+      >
         {getRelativeDate(comment.createdAt)}
       </Text>
     </View>

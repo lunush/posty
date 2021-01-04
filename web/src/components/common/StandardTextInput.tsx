@@ -4,6 +4,7 @@ import { color } from 'src/globalStyles';
 interface Props {
   maxLength?: number;
   hintTextColor?: string;
+  customStyles?: object;
   title: string;
   [other: string]: any;
 }
@@ -11,13 +12,14 @@ interface Props {
 const StandardTextInput: React.FC<Props> = ({
   maxLength = 128,
   hintTextColor = '#555',
+  customStyles,
   title,
   ...other
 }) => (
   <View style={styles.container}>
     <Text style={{ color: hintTextColor, padding: 2 }}>{title}</Text>
     <TextInput
-      style={styles.textInput}
+      style={[styles.textInput, customStyles]}
       placeholderTextColor={hintTextColor}
       placeholder={title}
       maxLength={maxLength}

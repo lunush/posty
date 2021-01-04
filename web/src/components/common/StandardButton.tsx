@@ -26,7 +26,7 @@ const StandardButton: React.FC<Props> = ({
 export default StandardButton;
 
 const styles = StyleSheet.create({
-  title: { fontWeight: 'bold', color: '#bbb' },
+  title: { fontWeight: 'bold', color: color.primary },
   button: {
     justifyContent: 'center',
     alignItems: 'center',

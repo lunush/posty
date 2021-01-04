@@ -6,7 +6,13 @@ interface Props {
 }
 
 const Card: React.FC<Props> = ({ children, id = 'none' }) => (
-  <View key={id} style={[globalStyles.centeredContainer, { width: '100%' }]}>
+  <View
+    key={id}
+    style={[
+      globalStyles.centeredContainer,
+      { width: '100%', paddingHorizontal: 16 },
+    ]}
+  >
     <View style={styles.cardInnerContainer}>
       <View style={globalStyles.fullSpace}>{children}</View>
     </View>
@@ -15,13 +21,14 @@ const Card: React.FC<Props> = ({ children, id = 'none' }) => (
 
 const styles = StyleSheet.create({
   cardInnerContainer: {
-    padding: 20,
+    padding: 6,
+    paddingHorizontal: 10,
     margin: 10,
-    borderRadius: 15,
-    height: '13rem',
+    borderRadius: 8,
+    height: 'auto',
     overflow: 'hidden',
     width: '100%',
-    maxWidth: 300,
+    maxWidth: 400,
     backgroundColor: color.bgSecondary,
   },
 });
