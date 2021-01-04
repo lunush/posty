@@ -46,7 +46,7 @@ const PostCommentCardTop: React.FC<Props> = ({ comment }) => {
                 { marginLeft: 10, color: color.secondary },
               ]}
             >
-              @{truncate(comment.username, 20)}
+              @{truncate(comment.username)}
             </Text>
           </View>
         </View>

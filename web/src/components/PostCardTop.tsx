@@ -42,7 +42,7 @@ const PostCardTop: React.FC<Props> = ({ post }) => {
                 { marginLeft: 10, color: color.secondary },
               ]}
             >
-              @{truncate(post.username, 20)}
+              @{truncate(post.username)}
             </Text>
           </View>
         </View>

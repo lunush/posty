@@ -29,7 +29,7 @@ export const getRelativeDate = (unformattedDate: number | string) => {
   return rtf.format(secondsDiff, 'second');
 };
 
-export const truncate = (text: string, maxLength = 10) => {
+export const truncate = (text: string, maxLength = 20) => {
   return text.length > maxLength
     ? `${text.substr(0, maxLength).trim()}...`
     : text;
