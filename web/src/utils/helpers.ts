@@ -1,5 +1,5 @@
 export const getRelativeDate = (unformattedDate: number | string) => {
-  unformattedDate = (unformattedDate as any) * 1;
+  unformattedDate = Number(unformattedDate);
 
   const now = new Date();
   const date = new Date(unformattedDate);
