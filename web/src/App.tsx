@@ -3,31 +3,31 @@ import {
   ApolloProvider,
   createHttpLink,
   InMemoryCache,
-} from '@apollo/client';
-import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
-import React from 'react';
-import Home from './components/Home';
-import Login from './components/Login';
-import Register from './components/Register';
-import Settings from './components/Settings';
-import Profile from './components/Profile';
-import Layout from './layout/Layout';
-import { AuthProvider } from './utils/auth';
-import { setContext } from '@apollo/client/link/context';
-import Post from './components/Post';
-import { MenuProvider } from 'react-native-popup-menu';
+} from "@apollo/client";
+import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import React from "react";
+import Home from "./components/Home";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import Settings from "./components/Settings";
+import Profile from "./components/Profile";
+import Layout from "./layout/Layout";
+import { AuthProvider } from "./utils/auth";
+import { setContext } from "@apollo/client/link/context";
+import Post from "./components/Post";
+import { MenuProvider } from "react-native-popup-menu";
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:3456/graphql',
-  credentials: 'include',
+  uri: "http://localhost:3456/graphql",
+  credentials: "include",
 });
 
 const authLink = setContext((_, { headers }) => {
-  const token = sessionStorage.getItem('postyToken');
+  const token = sessionStorage.getItem("postyToken");
   return {
     headers: {
       ...headers,
-      Authorization: token ? `Bearer ${token}` : '',
+      Authorization: token ? `Bearer ${token}` : "",
     },
   };
 });

@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@apollo/client": "^3.3.6",
-    "graphql": "^15.4.0",
+    "@apollo/client": "^3.3.7",
+    "graphql": "^15.5.0",
     "jwt-decode": "^3.1.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -16,18 +16,18 @@
     "react-twemoji": "^0.3.0"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.11.8",
-    "@testing-library/react": "^11.2.2",
-    "@testing-library/user-event": "^12.6.0",
-    "@types/jest": "^26.0.19",
-    "@types/node": "^14.14.19",
+    "@testing-library/jest-dom": "^5.11.9",
+    "@testing-library/react": "^11.2.3",
+    "@testing-library/user-event": "^12.6.2",
+    "@types/jest": "^26.0.20",
+    "@types/node": "^14.14.22",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
-    "@types/react-native": "^0.63.43",
+    "@types/react-native": "^0.63.46",
     "@types/react-router-dom": "^5.1.7",
     "react-scripts": "next",
     "typescript": "next",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.1.0"
   },
   "scripts": {
     "predev": "cp verifyTypeScriptSetup.js node_modules/react-scripts/scripts/utils",
