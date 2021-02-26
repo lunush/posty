@@ -1,5 +1,5 @@
-import { useMutation } from '@apollo/client';
-import { useState } from 'react';
+import { useMutation } from '@apollo/client'
+import { useState } from 'react'
 import {
   ActivityIndicator,
   NativeSyntheticEvent,
@@ -7,51 +7,51 @@ import {
   Text,
   TextInput,
   TextInputChangeEventData,
-  View,
-} from 'react-native';
-import { CREATE_POST, GET_POSTS } from 'src/requests';
-import { useCurrentUserData } from 'src/utils/hooks';
-import Card from 'src/components/common/Card';
-import { color, globalStyles } from 'src/globalStyles';
-import StandardButton from './common/StandardButton';
+  View
+} from 'react-native'
+import { CREATE_POST, GET_POSTS } from 'src/requests'
+import { useCurrentUserData } from 'src/utils/hooks'
+import Card from 'src/components/common/Card'
+import { color, globalStyles } from 'src/globalStyles'
+import StandardButton from './common/StandardButton'
 
 const initialState = {
   post: '',
-  count: 0,
-};
+  count: 0
+}
 
 const PostsNewPost = () => {
-  const [state, setState] = useState(initialState);
-  const currentUser = useCurrentUserData();
+  const [state, setState] = useState(initialState)
+  const currentUser = useCurrentUserData()
 
   const [createPost, { loading }] = useMutation(CREATE_POST, {
     variables: {
-      postBody: state.post,
+      postBody: state.post
     },
     update(proxy, { data: { createPost } }) {
       const cachedPosts: any = proxy.readQuery({
-        query: GET_POSTS,
-      });
-      const updatedCachedPosts = [createPost, ...cachedPosts.getPosts];
+        query: GET_POSTS
+      })
+      const updatedCachedPosts = [createPost, ...cachedPosts.getPosts]
       proxy.writeQuery({
         query: GET_POSTS,
         data: {
           ...cachedPosts,
-          getPosts: updatedCachedPosts,
-        },
-      });
-      setState(initialState);
-    },
-  });
+          getPosts: updatedCachedPosts
+        }
+      })
+      setState(initialState)
+    }
+  })
 
   const handleChange = (e: NativeSyntheticEvent<TextInputChangeEventData>) => {
     const {
-      nativeEvent: { text },
-    } = e;
-    setState({ post: text, count: text.length });
-  };
+      nativeEvent: { text }
+    } = e
+    setState({ post: text, count: text.length })
+  }
 
-  const handleSubmit = () => createPost();
+  const handleSubmit = () => createPost()
 
   return (
     <Card>
@@ -68,7 +68,7 @@ const PostsNewPost = () => {
         <Text
           style={[
             globalStyles.smallText,
-            { fontWeight: 'bold', marginLeft: 10 },
+            { fontWeight: 'bold', marginLeft: 10 }
           ]}
         >
           {state.count}/140
@@ -84,19 +84,18 @@ const PostsNewPost = () => {
         )}
       </View>
     </Card>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   activityIndicator: {
-    padding: 14,
+    padding: 14
   },
   postBottom: {
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: '100%',
+    width: '100%'
   },
   textInput: {
     color: color.primary,
@@ -108,8 +107,8 @@ const styles = StyleSheet.create({
     backgroundColor: color.bgSecondary,
     fontSize: 16,
     marginTop: 10,
-    overflow: 'hidden',
-  },
-});
+    overflow: 'hidden'
+  }
+})
 
-export default PostsNewPost;
+export default PostsNewPost

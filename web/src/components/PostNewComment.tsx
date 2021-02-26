@@ -1,5 +1,5 @@
-import { useMutation } from '@apollo/client';
-import { useState } from 'react';
+import { useMutation } from '@apollo/client'
+import { useState } from 'react'
 import {
   ActivityIndicator,
   NativeSyntheticEvent,
@@ -7,60 +7,60 @@ import {
   Text,
   TextInput,
   TextInputChangeEventData,
-  View,
-} from 'react-native';
-import { CREATE_COMMENT, GET_POST } from 'src/requests';
-import Card from 'src/components/common/Card';
-import { color, globalStyles } from 'src/globalStyles';
-import StandardButton from './common/StandardButton';
+  View
+} from 'react-native'
+import { CREATE_COMMENT, GET_POST } from 'src/requests'
+import Card from 'src/components/common/Card'
+import { color, globalStyles } from 'src/globalStyles'
+import StandardButton from './common/StandardButton'
 
 const initialState = {
   comment: '',
-  count: 0,
-};
+  count: 0
+}
 
 interface Props {
   post: {
-    id: string;
-    createdAt: string;
-    username: string;
-    name: string;
-    postBody: string;
-    likeCount: number;
-    likes: any[];
-    commentCount: number;
-  };
+    id: string
+    createdAt: string
+    username: string
+    name: string
+    postBody: string
+    likeCount: number
+    likes: any[]
+    commentCount: number
+  }
 }
 
 const PostNewComment: React.FC<Props> = ({ post }) => {
-  const [state, setState] = useState(initialState);
+  const [state, setState] = useState(initialState)
 
   const [createComment, { loading }] = useMutation(CREATE_COMMENT, {
     variables: {
       commentBody: state.comment,
-      postId: post.id,
+      postId: post.id
     },
     update() {
-      setState(initialState);
+      setState(initialState)
     },
     refetchQueries: [
       {
         query: GET_POST,
         variables: {
-          postId: post.id,
-        },
-      },
-    ],
-  });
+          postId: post.id
+        }
+      }
+    ]
+  })
 
   const handleChange = (e: NativeSyntheticEvent<TextInputChangeEventData>) => {
     const {
-      nativeEvent: { text },
-    } = e;
-    setState({ comment: text, count: text.length });
-  };
+      nativeEvent: { text }
+    } = e
+    setState({ comment: text, count: text.length })
+  }
 
-  const handleSubmit = () => createComment();
+  const handleSubmit = () => createComment()
 
   return (
     <Card>
@@ -77,7 +77,7 @@ const PostNewComment: React.FC<Props> = ({ post }) => {
         <Text
           style={[
             globalStyles.smallText,
-            { fontWeight: 'bold', marginLeft: 10 },
+            { fontWeight: 'bold', marginLeft: 10 }
           ]}
         >
           {state.count}/140
@@ -88,36 +88,35 @@ const PostNewComment: React.FC<Props> = ({ post }) => {
           <StandardButton
             title="Comment"
             onPress={handleSubmit}
-            customStyles={{ marginVertical: 6 }}
+            customStyles={{ marginVertical: 16 }}
           />
         )}
       </View>
     </Card>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   activityIndicator: {
-    padding: 14,
+    padding: 14
   },
   commentBottom: {
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: '100%',
+    width: '100%'
   },
   textInput: {
     color: color.primary,
     height: '100%',
-    minHeight: 100,
     width: '100%',
+    minHeight: 120,
     padding: 20,
     borderRadius: 16,
     backgroundColor: color.bgSecondary,
     fontSize: 16,
-    overflow: 'hidden',
-  },
-});
+    overflow: 'hidden'
+  }
+})
 
-export default PostNewComment;
+export default PostNewComment
