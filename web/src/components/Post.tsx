@@ -1,29 +1,29 @@
-import { useQuery } from '@apollo/client';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { Link, useRouteMatch } from 'react-router-dom';
-import { GET_POST } from 'src/requests';
-import { getRelativeDate, truncate } from 'src/utils/helpers';
-import { useProfilePicture } from 'src/utils/hooks';
-import LoadingScreen from './LoadingScreen';
-import NotFound from './NotFound';
-import PostActionMenu from './PostActionMenu';
-import PostNewComment from './PostNewComment';
-import PostCommentCard from './PostCommentCard';
-import { color, globalStyles } from 'src/globalStyles';
+import { useQuery } from '@apollo/client'
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Link, useRouteMatch } from 'react-router-dom'
+import { GET_POST } from 'src/requests'
+import { getRelativeDate, truncate } from 'src/utils/helpers'
+import { useProfilePicture } from 'src/utils/hooks'
+import LoadingScreen from './LoadingScreen'
+import NotFound from './NotFound'
+import PostActionMenu from './PostActionMenu'
+import PostNewComment from './PostNewComment'
+import PostCommentCard from './PostCommentCard'
+import { color, globalStyles } from 'src/globalStyles'
 
 const Post: React.FC = () => {
   const {
-    params: { postId },
-  }: any = useRouteMatch();
+    params: { postId }
+  }: any = useRouteMatch()
 
   const { data, loading, error } = useQuery(GET_POST, {
-    variables: { postId },
-  });
-  const post = data?.getPost;
-  const profilePicture = useProfilePicture(post ? post.username : '');
+    variables: { postId }
+  })
+  const post = data?.getPost
+  const profilePicture = useProfilePicture(post ? post.username : '')
 
-  if (loading) return <LoadingScreen />;
-  if (error) return <NotFound />;
+  if (loading) return <LoadingScreen />
+  if (error) return <NotFound />
 
   return (
     <ScrollView style={globalStyles.fullSpace}>
@@ -43,7 +43,7 @@ const Post: React.FC = () => {
               <Text
                 style={[
                   globalStyles.smallText,
-                  { marginLeft: 10, color: color.secondary },
+                  { marginLeft: 10, color: color.secondary }
                 ]}
               >
                 @{truncate(post.username, 30)}
@@ -63,11 +63,11 @@ const Post: React.FC = () => {
       <PostActionMenu post={post} />
       <PostNewComment post={post} />
       {post.comments.map((c: any) => (
-        <PostCommentCard comment={c} postId={post.id} />
+        <PostCommentCard key={c.id} comment={c} postId={post.id} />
       ))}
     </ScrollView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   postTopContainer: {
@@ -76,37 +76,37 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingTop: 20,
+    paddingTop: 20
   },
   postBodyContainer: {
     width: '100%',
     minHeight: 160,
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   profilePicture: {
     height: 70,
     width: 70,
-    borderRadius: 9999,
+    borderRadius: 9999
   },
   commentContainer: {
     marginLeft: 10,
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   postBodyText: {
     color: color.primary,
     fontSize: 20,
-    padding: 32,
+    padding: 32
   },
   name: {
     marginLeft: 10,
     fontSize: 18,
     color: color.primary,
-    fontWeight: 'bold',
-  },
-});
+    fontWeight: 'bold'
+  }
+})
 
-export default Post;
+export default Post

@@ -1,40 +1,43 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
-import { Link, useHistory } from 'react-router-dom';
-import { useContext } from 'react';
-import { AuthContext } from 'src/utils/auth';
-import { GET_USER } from 'src/requests';
-import { useQuery } from '@apollo/client';
-import { AiOutlineLogin } from 'react-icons/ai';
-import { IoIosText } from 'react-icons/io';
+import { Image, StyleSheet, Text, View } from 'react-native'
+import { Link, useHistory } from 'react-router-dom'
+import { useContext } from 'react'
+import { AuthContext } from 'src/utils/auth'
+import { GET_USER } from 'src/requests'
+import { useQuery } from '@apollo/client'
+import { AiOutlineLogin } from 'react-icons/ai'
+import { IoIosText } from 'react-icons/io'
 import {
   Menu,
   MenuOption,
   MenuOptions,
-  MenuTrigger,
-} from 'react-native-popup-menu';
-import { useCurrentUserData } from 'src/utils/hooks';
-import { color } from 'src/globalStyles';
+  MenuTrigger
+} from 'react-native-popup-menu'
+import { useCurrentUserData } from 'src/utils/hooks'
+import { color } from 'src/globalStyles'
 
 const Layout: React.FC = ({ children }) => {
-  const history = useHistory();
-  const context = useContext(AuthContext);
-  const username = useCurrentUserData()?.username;
+  const history = useHistory()
+  const context = useContext(AuthContext)
+  const username = useCurrentUserData()?.username
 
+  // const { data } = useQuery(GET_USER, {
+  //   variables: { username }
+  // })
   const { data } = useQuery(GET_USER, {
-    variables: { username },
-  });
+    variables: { username }
+  })
 
-  const currentUserUsername = useCurrentUserData()?.username;
+  const currentUserUsername = useCurrentUserData()?.username
   const profilePicture = data?.getUser.profilePicture
     ? 'data:image/jpeg;base64,' + data.getUser.profilePicture
-    : null;
+    : null
 
-  const handleProfile = () => history.push(`/${currentUserUsername}`);
-  const handleSettings = () => history.push('/settings');
+  const handleProfile = () => history.push(`/${currentUserUsername}`)
+  const handleSettings = () => history.push('/settings')
   const handleLogout = () => {
-    context.logout();
-    history.push('/');
-  };
+    context.logout()
+    history.push('/')
+  }
 
   return (
     <View style={styles.screen}>
@@ -68,15 +71,15 @@ const Layout: React.FC = ({ children }) => {
       </View>
       {children}
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   screen: {
     height: '100vh',
     width: '100vw',
-    overflow: 'visible',
-    backgroundColor: color.bgPrimary,
+    overflow: 'hidden',
+    backgroundColor: color.bgPrimary
   },
   header: {
     width: '100%',
@@ -88,22 +91,22 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'transparent',
     borderBottomColor: color.border,
-    backgroundColor: color.bgSecondary,
+    backgroundColor: color.bgSecondary
   },
   authText: {
     color: color.primary,
-    fontSize: 25,
+    fontSize: 25
   },
   logo: {
     color: color.primary,
-    fontSize: 32,
+    fontSize: 32
   },
   image: {
     height: 40,
     width: 40,
-    borderRadius: 9999,
-  },
-});
+    borderRadius: 9999
+  }
+})
 
 const optionsStyles = {
   optionsContainer: {
@@ -113,13 +116,13 @@ const optionsStyles = {
     borderWidth: 1,
     borderColor: color.border,
     maxWidth: 120,
-    textAlign: 'center',
+    textAlign: 'center'
   },
   optionText: {
     color: color.primary,
     fontSize: 18,
-    width: '100%',
-  },
-};
+    width: '100%'
+  }
+}
 
-export default Layout;
+export default Layout

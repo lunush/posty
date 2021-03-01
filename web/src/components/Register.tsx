@@ -1,51 +1,51 @@
-import { useContext, useState } from 'react';
-import { useMutation } from '@apollo/client';
+import { useContext, useState } from 'react'
+import { useMutation } from '@apollo/client'
 import {
   StyleSheet,
   Text,
   View,
   NativeSyntheticEvent,
-  ActivityIndicator,
-} from 'react-native';
-import { REGISTER } from 'src/requests';
-import { useHistory, withRouter } from 'react-router-dom';
-import { AuthContext } from 'src/utils/auth';
-import StandardTextInput from './common/StandardTextInput';
-import StandardButton from './common/StandardButton';
-import { color } from 'src/globalStyles';
+  ActivityIndicator
+} from 'react-native'
+import { REGISTER } from 'src/requests'
+import { useHistory, withRouter } from 'react-router-dom'
+import { AuthContext } from 'src/utils/auth'
+import StandardTextInput from './common/StandardTextInput'
+import StandardButton from './common/StandardButton'
+import { color } from 'src/globalStyles'
 
 const Register: React.FC = () => {
-  const context = useContext(AuthContext);
-  const history = useHistory();
+  const context = useContext(AuthContext)
+  const history = useHistory()
   const [state, setState] = useState({
     Username: '',
     Name: '',
     Password: '',
-    'Confirm Password': '',
-  });
+    'Confirm Password': ''
+  })
 
-  if (context.token) history.push('/');
+  if (context.token) history.push('/')
 
   const [register, { error, loading }] = useMutation(REGISTER, {
     variables: {
       username: state.Username,
       name: state.Name,
-      password: state.Password,
+      password: state.Password
     },
     update(_, { data: { register: token } }) {
       if (token) {
-        context.login(token);
-        history.push('/');
+        context.login(token)
+        history.push('/')
       }
-    },
-  });
+    }
+  })
 
   const handleChange = (e: NativeSyntheticEvent<any>) => {
     setState({
       ...state,
-      [e.nativeEvent.srcElement.placeholder]: e.nativeEvent.text,
-    });
-  };
+      [e.nativeEvent.srcElement.placeholder]: e.nativeEvent.text
+    })
+  }
 
   const handleSubmit = () => {
     if (
@@ -54,8 +54,8 @@ const Register: React.FC = () => {
       state.Password.trim() !== '' &&
       state.Password === state['Confirm Password']
     )
-      register();
-  };
+      register()
+  }
 
   return (
     <View style={styles.box}>
@@ -89,26 +89,26 @@ const Register: React.FC = () => {
       )}
       {error && <Text style={styles.error}>{error.message}</Text>}
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   activityIndicator: {
     padding: 14,
-    marginVertical: 10,
+    marginVertical: 10
   },
   box: {
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100%',
+    height: '100%'
   },
   title: {
     color: color.primary,
     fontSize: 32,
     height: 40,
-    marginBottom: 10,
+    marginBottom: 10
   },
   textInput: {
     color: color.primary,
@@ -117,16 +117,16 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     backgroundColor: color.bgSecondary,
     fontSize: 20,
-    marginTop: 10,
+    marginTop: 10
   },
   text: {
     color: color.primary,
-    fontSize: 20,
+    fontSize: 20
   },
   error: {
     color: color.danger,
-    fontSize: 20,
-  },
-});
+    fontSize: 20
+  }
+})
 
-export default withRouter(Register);
+export default withRouter(Register)

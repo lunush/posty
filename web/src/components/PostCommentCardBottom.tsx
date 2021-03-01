@@ -1,44 +1,44 @@
-import { StyleSheet, Text, View } from 'react-native';
-import PostCommentCardLikeButton from './PostCommentCardLikeButton';
-import { Link } from 'react-router-dom';
-import { BsFillTrashFill, BsThreeDots } from 'react-icons/bs';
+import { StyleSheet, Text, View } from 'react-native'
+import PostCommentCardLikeButton from './PostCommentCardLikeButton'
+import { Link } from 'react-router-dom'
+import { BsFillTrashFill, BsThreeDots } from 'react-icons/bs'
 import {
   Menu,
   MenuOption,
   MenuOptions,
-  MenuTrigger,
-} from 'react-native-popup-menu';
-import { useCurrentUserData } from 'src/utils/hooks';
-import { useMutation } from '@apollo/client';
-import { DELETE_COMMENT, GET_POST } from 'src/requests';
-import { color, globalStyles, optionsStyles } from 'src/globalStyles';
+  MenuTrigger
+} from 'react-native-popup-menu'
+import { useCurrentUserData } from 'src/utils/hooks'
+import { useMutation } from '@apollo/client'
+import { DELETE_COMMENT, GET_POST } from 'src/requests'
+import { color, globalStyles, optionsStyles } from 'src/globalStyles'
 
 interface Props {
   comment: {
-    id: string;
-    createdAt: string;
-    username: string;
-    name: string;
-    commentBody: string;
-    likeCount: number;
-    likes: any[];
-  };
-  postId: string;
+    id: string
+    createdAt: string
+    username: string
+    name: string
+    commentBody: string
+    likeCount: number
+    likes: any[]
+  }
+  postId: string
 }
 
 const PostCommentCardBottom: React.FC<Props> = ({ comment, postId }) => {
-  const currentUser = useCurrentUserData();
+  const currentUser = useCurrentUserData()
 
   const [deleteComment] = useMutation(DELETE_COMMENT, {
     variables: { commentId: comment.id, postId },
     refetchQueries: [
       {
         query: GET_POST,
-        variables: { postId },
-      },
-    ],
-  });
-  const handleDelete = () => deleteComment();
+        variables: { postId }
+      }
+    ]
+  })
+  const handleDelete = () => deleteComment()
 
   return (
     <View style={styles.postBottomContainer}>
@@ -76,16 +76,16 @@ const PostCommentCardBottom: React.FC<Props> = ({ comment, postId }) => {
         </MenuOptions>
       </Menu>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   postBottomContainer: {
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-});
+    alignItems: 'center'
+  }
+})
 
-export default PostCommentCardBottom;
+export default PostCommentCardBottom

@@ -1,52 +1,52 @@
-import { useMutation } from '@apollo/client';
-import { useContext, useState } from 'react';
+import { useMutation } from '@apollo/client'
+import { useContext, useState } from 'react'
 import {
   ActivityIndicator,
   NativeSyntheticEvent,
   StyleSheet,
   Text,
-  View,
-} from 'react-native';
-import { LOGIN } from 'src/requests';
-import { Link, useHistory } from 'react-router-dom';
-import { AuthContext } from 'src/utils/auth';
-import StandardTextInput from './common/StandardTextInput';
-import StandardButton from './common/StandardButton';
-import { color, globalStyles } from 'src/globalStyles';
+  View
+} from 'react-native'
+import { LOGIN } from 'src/requests'
+import { Link, useHistory } from 'react-router-dom'
+import { AuthContext } from 'src/utils/auth'
+import StandardTextInput from './common/StandardTextInput'
+import StandardButton from './common/StandardButton'
+import { color, globalStyles } from 'src/globalStyles'
 
 const Login: React.FC = () => {
-  const context = useContext(AuthContext);
-  const history = useHistory();
+  const context = useContext(AuthContext)
+  const history = useHistory()
   const [state, setState] = useState({
     Username: '',
-    Password: '',
-  });
+    Password: ''
+  })
 
-  if (context.token) history.push('/');
+  if (context.token) history.push('/')
 
   const [login, { error, loading }] = useMutation(LOGIN, {
     variables: {
       username: state.Username,
-      password: state.Password,
+      password: state.Password
     },
     update(_, { data: { login: token } }) {
       if (token) {
-        context.login(token);
-        history.push('/');
+        context.login(token)
+        history.push('/')
       }
-    },
-  });
+    }
+  })
 
   const handleChange = (e: NativeSyntheticEvent<any>) => {
     setState({
       ...state,
-      [e.nativeEvent.srcElement.placeholder]: e.nativeEvent.text,
-    });
-  };
+      [e.nativeEvent.srcElement.placeholder]: e.nativeEvent.text
+    })
+  }
 
   const handleSubmit = () => {
-    if (state.Password.trim() !== '' && state.Username.trim() !== '') login();
-  };
+    if (state.Password.trim() !== '' && state.Username.trim() !== '') login()
+  }
 
   return (
     <View style={[globalStyles.fullSpace, globalStyles.centeredContainer]}>
@@ -80,19 +80,19 @@ const Login: React.FC = () => {
       </Text>
       {error && <Text style={globalStyles.mediumText}>{error.message}</Text>}
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   activityIndicator: {
     padding: 14,
-    marginVertical: 10,
+    marginVertical: 10
   },
   title: {
     color: color.primary,
     fontSize: 32,
-    height: 40,
-  },
-});
+    height: 40
+  }
+})
 
-export default Login;
+export default Login

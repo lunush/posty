@@ -1,22 +1,22 @@
-import { model, Schema, Document } from 'mongoose';
+import { model, Schema, Document } from 'mongoose'
 
 interface PostDocument extends Document {
-  postBody: string;
-  username: string;
-  name: string;
+  postBody: string
+  username: string
+  name: string
   likes: {
-    username: string;
-  }[];
+    username: string
+  }[]
   comments: [
     {
-      commentBody: string;
-      username: string;
-      name: string;
+      commentBody: string
+      username: string
+      name: string
       likes: {
-        username: string;
-      }[];
+        username: string
+      }[]
     }
-  ];
+  ]
 }
 
 const postSchema = new Schema({
@@ -27,13 +27,13 @@ const postSchema = new Schema({
   modifiedAt: { type: Date, default: Date.now },
   user: {
     type: Schema.Types.ObjectId,
-    ref: 'users',
+    ref: 'users'
   },
   likes: [
     {
       username: { type: String, required: true, unique: true },
-      createdAt: { type: Date, default: Date.now },
-    },
+      createdAt: { type: Date, default: Date.now }
+    }
   ],
   comments: [
     {
@@ -45,11 +45,11 @@ const postSchema = new Schema({
       likes: [
         {
           username: { type: String, required: true, unique: true },
-          createdAt: { type: Date, default: Date.now },
-        },
-      ],
-    },
-  ],
-});
+          createdAt: { type: Date, default: Date.now }
+        }
+      ]
+    }
+  ]
+})
 
-export default model<PostDocument>('Post', postSchema);
+export default model<PostDocument>('Post', postSchema)

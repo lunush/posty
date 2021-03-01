@@ -1,14 +1,14 @@
-import { model, Schema, Document } from 'mongoose';
+import { model, Schema, Document } from 'mongoose'
 
 export interface UserDocument extends Document {
-  username: string;
-  name: string;
-  password: string;
-  bio: string;
-  location: string;
-  profilePicture: string;
-  createdAt: Date;
-  modifiedAt: Date;
+  username: string
+  name: string
+  password: string
+  bio: string
+  location: string
+  profilePicture: string
+  createdAt: Date
+  modifiedAt: Date
 }
 
 const userSchema = new Schema({
@@ -19,7 +19,7 @@ const userSchema = new Schema({
   location: { type: String, default: '' },
   profilePicture: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
-  modifiedAt: { type: Date, default: Date.now },
-});
+  modifiedAt: { type: Date, default: Date.now }
+})
 
-export default model<UserDocument>('User', userSchema);
+export default model<UserDocument>('User', userSchema)

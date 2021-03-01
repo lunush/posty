@@ -1,5 +1,5 @@
-import { useMutation, useQuery } from '@apollo/client';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useMutation, useQuery } from '@apollo/client'
+import { useContext, useEffect, useRef, useState } from 'react'
 import {
   Animated,
   Easing,
@@ -8,48 +8,48 @@ import {
   Pressable,
   StyleSheet,
   Text,
-  View,
-} from 'react-native';
-import { useHistory } from 'react-router-dom';
+  View
+} from 'react-native'
+import { useHistory } from 'react-router-dom'
 import {
   GENERATE_NEW_PROFILE_PICTURE,
   GET_POSTS,
   GET_USER,
-  UPDATE_USER_PROFILE,
-} from 'src/requests';
-import { AuthContext } from 'src/utils/auth';
-import { useCurrentUserData } from 'src/utils/hooks';
-import { VscRefresh } from 'react-icons/vsc';
-import StandardTextInput from './common/StandardTextInput';
-import StandardButton from './common/StandardButton';
-import { color } from 'src/globalStyles';
+  UPDATE_USER_PROFILE
+} from 'src/requests'
+import { AuthContext } from 'src/utils/auth'
+import { useCurrentUserData } from 'src/utils/hooks'
+import { VscRefresh } from 'react-icons/vsc'
+import StandardTextInput from './common/StandardTextInput'
+import StandardButton from './common/StandardButton'
+import { color } from 'src/globalStyles'
 
 const Settings: React.FC = () => {
-  const context = useContext(AuthContext);
-  const history = useHistory();
-  if (!context.token) history.push('/login');
-  const username = useCurrentUserData()?.username;
+  const context = useContext(AuthContext)
+  const history = useHistory()
+  if (!context.token) history.push('/login')
+  const username = useCurrentUserData()?.username
 
-  let rotateAnimValue = useRef(new Animated.Value(0)).current;
+  let rotateAnimValue = useRef(new Animated.Value(0)).current
   const rotateData = rotateAnimValue.interpolate({
     inputRange: [0, 1],
-    outputRange: ['0deg', '360deg'],
-  });
+    outputRange: ['0deg', '360deg']
+  })
 
   const { data } = useQuery(GET_USER, {
-    variables: { username },
-  });
+    variables: { username }
+  })
 
   const [state, setState] = useState({
     Username: '',
     Name: '',
     Bio: '',
-    Location: '',
-  });
+    Location: ''
+  })
 
   const profilePicture = data?.getUser.profilePicture
     ? 'data:image/jpeg;base64,' + data.getUser.profilePicture
-    : null;
+    : null
 
   const [generateNewProfilePicture] = useMutation(
     GENERATE_NEW_PROFILE_PICTURE,
@@ -57,65 +57,65 @@ const Settings: React.FC = () => {
       refetchQueries: [
         {
           query: GET_USER,
-          variables: { username },
-        },
-      ],
+          variables: { username }
+        }
+      ]
     }
-  );
+  )
 
   const [updateUserProfile] = useMutation(UPDATE_USER_PROFILE, {
     variables: {
       username: state.Username,
       name: state.Name,
       bio: state.Bio,
-      location: state.Location,
+      location: state.Location
     },
     update(_, data: any) {
       if (data?.data?.updateUserProfile)
-        context.updateToken(data.data.updateUserProfile);
+        context.updateToken(data.data.updateUserProfile)
     },
     refetchQueries: [
       {
         query: GET_USER,
-        variables: { username },
+        variables: { username }
       },
       {
-        query: GET_POSTS,
-      },
-    ],
-  });
+        query: GET_POSTS
+      }
+    ]
+  })
 
   const handlePress = () => {
-    rotateAnimValue.setValue(0);
+    rotateAnimValue.setValue(0)
     Animated.timing(rotateAnimValue, {
       useNativeDriver: false,
       toValue: 1,
       duration: 500,
-      easing: Easing.inOut(Easing.ease),
-    }).start();
-    generateNewProfilePicture();
-  };
+      easing: Easing.inOut(Easing.ease)
+    }).start()
+    generateNewProfilePicture()
+  }
 
   const handleChange = (e: NativeSyntheticEvent<any>) => {
     setState({
       ...state,
-      [e.nativeEvent.srcElement.placeholder]: e.nativeEvent.text,
-    });
-  };
+      [e.nativeEvent.srcElement.placeholder]: e.nativeEvent.text
+    })
+  }
 
-  const handleSubmit = () => updateUserProfile();
+  const handleSubmit = () => updateUserProfile()
 
   useEffect(() => {
     if (data && data.getUser) {
-      const { getUser } = data;
+      const { getUser } = data
       setState({
         Username: getUser.username,
         Name: getUser.name,
         Bio: getUser.bio,
-        Location: getUser.location,
-      });
+        Location: getUser.location
+      })
     }
-  }, [data]);
+  }, [data])
 
   return (
     <View style={styles.container}>
@@ -128,7 +128,7 @@ const Settings: React.FC = () => {
         <Pressable style={styles.updateAvatarContainer} onPress={handlePress}>
           <Animated.View
             style={{
-              transform: [{ rotate: rotateData }],
+              transform: [{ rotate: rotateData }]
             }}
           >
             <Text style={styles.updateAvatarText}>
@@ -165,8 +165,8 @@ const Settings: React.FC = () => {
         />
       </View>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -174,13 +174,13 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100%',
+    height: '100%'
   },
   title: {
     color: color.primary,
     fontSize: 32,
     height: 40,
-    marginBottom: 40,
+    marginBottom: 40
   },
   updateAvatarContainer: {
     position: 'absolute',
@@ -192,19 +192,19 @@ const styles = StyleSheet.create({
     height: 10,
     width: 10,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   updateAvatarText: {
     color: color.primary,
     fontWeight: 'bold',
     fontSize: 24,
-    paddingTop: 6,
+    paddingTop: 6
   },
   image: {
     height: 150,
     width: 150,
-    borderRadius: 9999,
-  },
-});
+    borderRadius: 9999
+  }
+})
 
-export default Settings;
+export default Settings

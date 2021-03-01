@@ -1,23 +1,22 @@
-import { StyleSheet, View } from 'react-native';
-import { color, globalStyles } from 'src/globalStyles';
+import { StyleSheet, View } from 'react-native'
+import { color, globalStyles } from 'src/globalStyles'
 
 interface Props {
-  id?: string;
+  id?: string
 }
 
-const Card: React.FC<Props> = ({ children, id = 'none' }) => (
+const Card: React.FC<Props> = ({ children }) => (
   <View
-    key={id}
     style={[
       globalStyles.centeredContainer,
-      { width: '100%', paddingHorizontal: 16 },
+      { width: '100%', paddingHorizontal: 16 }
     ]}
   >
     <View style={styles.cardInnerContainer}>
       <View style={globalStyles.fullSpace}>{children}</View>
     </View>
   </View>
-);
+)
 
 const styles = StyleSheet.create({
   cardInnerContainer: {
@@ -29,8 +28,8 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     width: '100%',
     maxWidth: 400,
-    backgroundColor: color.bgSecondary,
-  },
-});
+    backgroundColor: color.bgSecondary
+  }
+})
 
-export default Card;
+export default Card

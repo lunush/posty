@@ -1,13 +1,13 @@
-import { useQuery } from '@apollo/client';
-import { GET_USER } from 'src/requests';
-import { useContext, useEffect } from 'react';
-import { AuthContext } from './auth';
-import jwtDecode from 'jwt-decode';
+import { useQuery } from '@apollo/client'
+import { GET_USER } from 'src/requests'
+import { useContext, useEffect } from 'react'
+import { AuthContext } from './auth'
+import jwtDecode from 'jwt-decode'
 
 interface UserPayload {
-  username: string;
-  name: string;
-  id: string;
+  username: string
+  name: string
+  id: string
 }
 
 export const useComponentVisible = (
@@ -19,29 +19,29 @@ export const useComponentVisible = (
     const handleClickOutside = (event: any) => {
       // @ts-ignore
       if (ref.current && !ref.current.contains(event.target)) {
-        toggle(!isVisible);
+        toggle(!isVisible)
       }
-    };
+    }
 
-    document.addEventListener('click', handleClickOutside);
+    document.addEventListener('click', handleClickOutside)
     return () => {
-      document.removeEventListener('click', handleClickOutside);
-    };
-  }, [ref, isVisible, toggle]);
-};
+      document.removeEventListener('click', handleClickOutside)
+    }
+  }, [ref, isVisible, toggle])
+}
 
 export const useProfilePicture = (username: string) => {
   const { data } = useQuery(GET_USER, {
-    variables: { username },
-  });
+    variables: { username }
+  })
 
   return data?.getUser.profilePicture
     ? 'data:image/jpeg;base64,' + data.getUser.profilePicture
-    : null;
-};
+    : null
+}
 
 export const useCurrentUserData = () => {
-  const context = useContext(AuthContext);
+  const context = useContext(AuthContext)
 
-  return context.token ? jwtDecode<UserPayload>(context.token) : null;
-};
+  return context.token ? jwtDecode<UserPayload>(context.token) : null
+}

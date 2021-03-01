@@ -1,29 +1,29 @@
-import { StyleSheet, Text } from 'react-native';
-import { color } from 'src/globalStyles';
-import Card from 'src/components/common/Card';
-import PostCardBottom from './PostCardBottom';
-import PostCardTop from './PostCardTop';
+import { StyleSheet, Text } from 'react-native'
+import { color } from 'src/globalStyles'
+import Card from 'src/components/common/Card'
+import PostCardBottom from './PostCardBottom'
+import PostCardTop from './PostCardTop'
 
 interface Props {
   post: {
-    id: string;
-    createdAt: string;
-    username: string;
-    name: string;
-    postBody: string;
-    likeCount: number;
-    likes: any[];
-    commentCount: number;
-  };
+    id: string
+    createdAt: string
+    username: string
+    name: string
+    postBody: string
+    likeCount: number
+    likes: any[]
+    commentCount: number
+  }
 }
 
 const PostCard: React.FC<Props> = ({ post }) => (
-  <Card id={post.id}>
+  <Card>
     <PostCardTop post={post} />
     <Text style={styles.postBody}>{post.postBody}</Text>
     <PostCardBottom post={post} />
   </Card>
-);
+)
 
 const styles = StyleSheet.create({
   postBody: {
@@ -31,8 +31,8 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
     padding: 4,
-    marginVertical: 10,
-  },
-});
+    marginVertical: 10
+  }
+})
 
-export default PostCard;
+export default PostCard

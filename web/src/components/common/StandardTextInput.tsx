@@ -1,12 +1,12 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native';
-import { color } from 'src/globalStyles';
+import { StyleSheet, Text, TextInput, View } from 'react-native'
+import { color } from 'src/globalStyles'
 
 interface Props {
-  maxLength?: number;
-  hintTextColor?: string;
-  customStyles?: object;
-  title: string;
-  [other: string]: any;
+  maxLength?: number
+  hintTextColor?: string
+  customStyles?: object
+  title: string
+  [other: string]: any
 }
 
 const StandardTextInput: React.FC<Props> = ({
@@ -26,15 +26,15 @@ const StandardTextInput: React.FC<Props> = ({
       {...other}
     />
   </View>
-);
+)
 
-export default StandardTextInput;
+export default StandardTextInput
 
 const styles = StyleSheet.create({
   container: {
     alignItems: 'flex-start',
     justifyContent: 'center',
-    marginBottom: 4,
+    marginBottom: 4
   },
   textInput: {
     color: color.primary,
@@ -42,6 +42,6 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 8,
     backgroundColor: color.bgSecondary,
-    fontSize: 18,
-  },
-});
+    fontSize: 18
+  }
+})

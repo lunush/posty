@@ -1,46 +1,46 @@
-import { BsFillTrashFill, BsThreeDots } from 'react-icons/bs';
-import { FaRegComments } from 'react-icons/fa';
-import { StyleSheet, Text, View } from 'react-native';
+import { BsFillTrashFill, BsThreeDots } from 'react-icons/bs'
+import { FaRegComments } from 'react-icons/fa'
+import { StyleSheet, Text, View } from 'react-native'
 import {
   Menu,
   MenuOption,
   MenuOptions,
-  MenuTrigger,
-} from 'react-native-popup-menu';
-import { useCurrentUserData } from 'src/utils/hooks';
-import PostLikeButton from './PostLikeButton';
-import { DELETE_POST, GET_POSTS } from 'src/requests';
-import { useMutation } from '@apollo/client';
-import { useHistory } from 'react-router-dom';
-import { color, globalStyles } from 'src/globalStyles';
+  MenuTrigger
+} from 'react-native-popup-menu'
+import { useCurrentUserData } from 'src/utils/hooks'
+import PostLikeButton from './PostLikeButton'
+import { DELETE_POST, GET_POSTS } from 'src/requests'
+import { useMutation } from '@apollo/client'
+import { useHistory } from 'react-router-dom'
+import { color, globalStyles } from 'src/globalStyles'
 
 interface Props {
   post: {
-    id: string;
-    createdAt: string;
-    username: string;
-    name: string;
-    postBody: string;
-    likeCount: number;
-    likes: any[];
-    commentCount: number;
-    comments: any[];
-  };
+    id: string
+    createdAt: string
+    username: string
+    name: string
+    postBody: string
+    likeCount: number
+    likes: any[]
+    commentCount: number
+    comments: any[]
+  }
 }
 
 const PostActionMenu: React.FC<Props> = ({ post }) => {
-  const currentUser = useCurrentUserData();
-  const history = useHistory();
+  const currentUser = useCurrentUserData()
+  const history = useHistory()
 
   const [deletePost] = useMutation(DELETE_POST, {
     variables: { postId: post.id },
     update() {
-      history.push('/');
+      history.push('/')
     },
-    refetchQueries: [{ query: GET_POSTS }],
-  });
+    refetchQueries: [{ query: GET_POSTS }]
+  })
 
-  const handleDelete = () => deletePost();
+  const handleDelete = () => deletePost()
 
   return (
     <View style={styles.actionMenu}>
@@ -78,8 +78,8 @@ const PostActionMenu: React.FC<Props> = ({ post }) => {
         </MenuOptions>
       </Menu>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   actionMenu: {
@@ -93,20 +93,20 @@ const styles = StyleSheet.create({
     borderTopColor: color.border,
     borderBottomColor: color.border,
     padding: 10,
-    overflow: 'hidden',
+    overflow: 'hidden'
   },
   text: {
     color: color.primary,
     fontSize: 40,
-    fontWeight: 'bold',
+    fontWeight: 'bold'
   },
   commentContainer: {
     marginLeft: 10,
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    alignItems: 'center',
-  },
-});
+    alignItems: 'center'
+  }
+})
 
 const optionsStyles = {
   optionsContainer: {
@@ -114,11 +114,11 @@ const optionsStyles = {
     padding: 10,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: color.border,
+    borderColor: color.border
   },
   optionText: {
-    color: color.primary,
-  },
-};
+    color: color.primary
+  }
+}
 
-export default PostActionMenu;
+export default PostActionMenu

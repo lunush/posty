@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native'
 
 export const color = {
   primary: '#bbb',
@@ -7,8 +7,8 @@ export const color = {
   bgSecondary: '#222',
   border: '#333',
   link: 'teal',
-  danger: 'red',
-};
+  danger: 'red'
+}
 
 export const optionsStyles = {
   optionsContainer: {
@@ -16,35 +16,35 @@ export const optionsStyles = {
     padding: 10,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: color.border,
+    borderColor: color.border
   },
   optionText: {
-    color: color.primary,
-  },
-};
+    color: color.primary
+  }
+}
 
 export const globalStyles = StyleSheet.create({
   centeredContainer: {
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   flexRow: {
-    flexDirection: 'row',
+    flexDirection: 'row'
   },
   fullSpace: {
     height: '100%',
-    width: '100%',
+    width: '100%'
   },
   smallText: {
     color: color.primary,
-    fontSize: 12,
+    fontSize: 12
   },
   mediumText: {
     color: color.primary,
-    fontSize: 18,
+    fontSize: 18
   },
   bigText: {
     color: color.primary,
-    fontSize: 24,
-  },
-});
+    fontSize: 24
+  }
+})

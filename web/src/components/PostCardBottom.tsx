@@ -1,41 +1,41 @@
-import { StyleSheet, Text, View } from 'react-native';
-import { FaRegComments } from 'react-icons/fa';
-import PostCardLikeButton from './PostCardLikeButton';
-import { Link } from 'react-router-dom';
-import { BsFillTrashFill, BsThreeDots } from 'react-icons/bs';
+import { StyleSheet, Text, View } from 'react-native'
+import { FaRegComments } from 'react-icons/fa'
+import PostCardLikeButton from './PostCardLikeButton'
+import { Link } from 'react-router-dom'
+import { BsFillTrashFill, BsThreeDots } from 'react-icons/bs'
 import {
   Menu,
   MenuOption,
   MenuOptions,
-  MenuTrigger,
-} from 'react-native-popup-menu';
-import { useCurrentUserData } from 'src/utils/hooks';
-import { DELETE_POST, GET_POSTS } from 'src/requests';
-import { useMutation } from '@apollo/client';
-import { color, globalStyles, optionsStyles } from 'src/globalStyles';
+  MenuTrigger
+} from 'react-native-popup-menu'
+import { useCurrentUserData } from 'src/utils/hooks'
+import { DELETE_POST, GET_POSTS } from 'src/requests'
+import { useMutation } from '@apollo/client'
+import { color, globalStyles, optionsStyles } from 'src/globalStyles'
 
 interface Props {
   post: {
-    id: string;
-    createdAt: string;
-    username: string;
-    name: string;
-    postBody: string;
-    likeCount: number;
-    likes: any[];
-    commentCount: number;
-  };
+    id: string
+    createdAt: string
+    username: string
+    name: string
+    postBody: string
+    likeCount: number
+    likes: any[]
+    commentCount: number
+  }
 }
 
 const PostCardBottom: React.FC<Props> = ({ post }) => {
-  const currentUser = useCurrentUserData();
+  const currentUser = useCurrentUserData()
 
   const [deletePost] = useMutation(DELETE_POST, {
     variables: { postId: post.id },
-    refetchQueries: [{ query: GET_POSTS }],
-  });
+    refetchQueries: [{ query: GET_POSTS }]
+  })
 
-  const handleDelete = () => deletePost();
+  const handleDelete = () => deletePost()
   return (
     <View style={styles.postBottomContainer}>
       <View style={[globalStyles.centeredContainer, globalStyles.flexRow]}>
@@ -79,22 +79,22 @@ const PostCardBottom: React.FC<Props> = ({ post }) => {
         </MenuOptions>
       </Menu>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   postBottomContainer: {
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   commentContainer: {
     marginLeft: 10,
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    alignItems: 'center',
-  },
-});
+    alignItems: 'center'
+  }
+})
 
-export default PostCardBottom;
+export default PostCardBottom

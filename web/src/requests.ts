@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from '@apollo/client'
 
 export const GET_POSTS = gql`
   query GetPosts($username: String) {
@@ -15,7 +15,7 @@ export const GET_POSTS = gql`
       commentCount
     }
   }
-`;
+`
 
 export const GET_POST = gql`
   query GetPost($postId: ID!) {
@@ -43,7 +43,7 @@ export const GET_POST = gql`
       }
     }
   }
-`;
+`
 
 export const CREATE_POST = gql`
   mutation CreatePost($postBody: String!) {
@@ -70,13 +70,13 @@ export const CREATE_POST = gql`
       }
     }
   }
-`;
+`
 
 export const DELETE_POST = gql`
   mutation DeletePost($postId: ID!) {
     deletePost(postId: $postId)
   }
-`;
+`
 
 export const TOGGLE_POST_LIKE = gql`
   mutation TogglePostLike($postId: ID!) {
@@ -87,7 +87,7 @@ export const TOGGLE_POST_LIKE = gql`
       likeCount
     }
   }
-`;
+`
 
 export const TOGGLE_COMMENT_LIKE = gql`
   mutation ToggleCommentLike($postId: ID!, $commentId: ID!) {
@@ -98,7 +98,7 @@ export const TOGGLE_COMMENT_LIKE = gql`
       likeCount
     }
   }
-`;
+`
 
 export const CREATE_COMMENT = gql`
   mutation CreateComment($postId: ID!, $commentBody: String!) {
@@ -125,25 +125,25 @@ export const CREATE_COMMENT = gql`
       }
     }
   }
-`;
+`
 
 export const DELETE_COMMENT = gql`
   mutation DeleteComment($postId: ID!, $commentId: ID!) {
     deleteComment(postId: $postId, commentId: $commentId)
   }
-`;
+`
 
 export const REGISTER = gql`
   mutation Register($username: String!, $name: String!, $password: String!) {
     register(username: $username, name: $name, password: $password)
   }
-`;
+`
 
 export const LOGIN = gql`
   mutation Login($username: String!, $password: String!) {
     login(username: $username, password: $password)
   }
-`;
+`
 
 export const GET_USER = gql`
   query GetUser($username: String!) {
@@ -157,13 +157,13 @@ export const GET_USER = gql`
       createdAt
     }
   }
-`;
+`
 
 export const GENERATE_NEW_PROFILE_PICTURE = gql`
   mutation GenerateNewProfilePicture {
     generateNewProfilePicture
   }
-`;
+`
 
 export const UPDATE_USER_PROFILE = gql`
   mutation UpdateUserProfile(
@@ -179,4 +179,4 @@ export const UPDATE_USER_PROFILE = gql`
       location: $location
     )
   }
-`;
+`
