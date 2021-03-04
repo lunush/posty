@@ -1,3 +1,4 @@
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: posty-web
@@ -15,4 +16,4 @@ spec:
         - name: posty-web
           image: lunush/posty-web:latest
           ports:
-            - containerPort: 3000
+            - containerPort: 5000
