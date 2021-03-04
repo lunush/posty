@@ -2,9 +2,10 @@ FROM node:15-alpine
 
 WORKDIR /app
 
-COPY . ./
-
+COPY package*.json .
 RUN npm install --production
+
+COPY . .
 RUN npm run build
 
 # tsc ignores *.graphql files
