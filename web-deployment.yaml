@@ -1,0 +1,18 @@
+kind: Deployment
+metadata:
+  name: posty-web
+spec:
+  selector:
+    matchLabels:
+      app: posty-web
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: posty-web
+    spec:
+      containers:
+        - name: posty-web
+          image: lunush/posty-web:latest
+          ports:
+            - containerPort: 3000

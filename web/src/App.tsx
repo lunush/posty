@@ -17,8 +17,11 @@ import { setContext } from '@apollo/client/link/context'
 import Post from './components/Post'
 import { MenuProvider } from 'react-native-popup-menu'
 
+const BACKEND_ADDRESS =
+  process.env.NODE_ENV === 'production' ? 'posty-server' : 'localhost'
+
 const httpLink = createHttpLink({
-  uri: 'http://localhost:3456/graphql',
+  uri: `http://${BACKEND_ADDRESS}:3456/graphql`,
   credentials: 'include'
 })
 

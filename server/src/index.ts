@@ -1,11 +1,18 @@
-import fs from 'fs'
-import express from 'express'
 import { ApolloServer, gql } from 'apollo-server-express'
-import mongoose from 'mongoose'
-import resolvers from './resolvers/index'
-import path from 'path'
-import cors from 'cors'
 import cookieParser from 'cookie-parser'
+import cors from 'cors'
+import express from 'express'
+import fs from 'fs'
+import mongoose from 'mongoose'
+import path from 'path'
+
+import resolvers from './resolvers/index'
+
+const MONGO_ADDRESS =
+  process.env.NODE_ENV === 'production' ? 'posty-mongo' : 'localhost'
+
+const FRONTEND_ADDRESS =
+  process.env.NODE_ENV === 'production' ? 'posty-web' : 'localhost'
 
 const typeDefs = (gql as any)`
 ${fs.readFileSync(path.resolve(__dirname, 'schema.graphql'), 'utf-8')}
@@ -14,25 +21,17 @@ ${fs.readFileSync(path.resolve(__dirname, 'schema.graphql'), 'utf-8')}
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({ req, res }) => ({
-    req,
-    res
-  })
+  context: ({ req, res }) => ({ req, res })
 })
 
 const app = express()
 
-app.use(
-  cors({
-    credentials: true,
-    origin: 'http://localhost:3000'
-  })
-)
+app.use(cors({ credentials: true, origin: `http://${FRONTEND_ADDRESS}:3000` }))
 
 app.use(cookieParser())
 
 mongoose
-  .connect('mongodb://localhost:27017/posty?retryWrites=true', {
+  .connect(`mongodb://${MONGO_ADDRESS}:27017/posty?retryWrites=true`, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
