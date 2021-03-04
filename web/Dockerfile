@@ -2,10 +2,10 @@ FROM node:15-alpine
 
 WORKDIR /app
 
-COPY package*.json .
+COPY web/package*.json .
 RUN npm install --production
 
-COPY . .
+COPY web/. .
 RUN npm install -g serve
 
 EXPOSE 3000
