@@ -16,4 +16,4 @@ COPY server/src/schema.graphql ./build/schema.graphql
 
 EXPOSE 3456
 
-CMD node build/index.js
+CMD node app/build/index.js
