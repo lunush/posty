@@ -8,6 +8,7 @@ COPY web/package*.json ./
 RUN npm install --production
 
 COPY web/. .
+RUN npm run build
 
 EXPOSE 5000
 
