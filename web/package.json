@@ -24,6 +24,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
     "react-twemoji": "^0.3.0",
+    "serve": "^11.3.2",
     "typescript": "next",
     "web-vitals": "^1.1.0"
   },
@@ -31,21 +32,15 @@
     "predev": "cp verifyTypeScriptSetup.js node_modules/react-scripts/scripts/utils",
     "dev": "react-scripts start",
     "build": "react-scripts build",
+    "start": "serve -s build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "extends": ["react-app", "react-app/jest"]
   },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
+    "production": [">0.2%", "not dead", "not op_mini all"],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
