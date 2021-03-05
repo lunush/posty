@@ -8,8 +8,8 @@ COPY web/package*.json ./
 RUN npm install --production
 
 COPY web/. .
-RUN npm install -g serve
+RUN npm install -g http-server
 
 EXPOSE 5000
 
-CMD serve -s build
+CMD http-server -p 5000 build
