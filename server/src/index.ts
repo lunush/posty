@@ -12,7 +12,9 @@ const MONGO_ADDRESS =
   process.env.NODE_ENV === 'production' ? 'posty-mongo' : 'localhost'
 
 const FRONTEND_ADDRESS =
-  process.env.NODE_ENV === 'production' ? 'posty-web' : 'localhost'
+  process.env.NODE_ENV === 'production'
+    ? 'http://posty-web'
+    : 'http://localhost:3000'
 
 const typeDefs = (gql as any)`
 ${fs.readFileSync(path.resolve(__dirname, 'schema.graphql'), 'utf-8')}
@@ -26,7 +28,7 @@ const server = new ApolloServer({
 
 const app = express()
 
-app.use(cors({ credentials: true, origin: `http://${FRONTEND_ADDRESS}:3000` }))
+app.use(cors({ credentials: true, origin: FRONTEND_ADDRESS }))
 
 app.use(cookieParser())
 
