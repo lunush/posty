@@ -38,6 +38,6 @@ mongoose
     useUnifiedTopology: true
   })
   .then(() => {
-    server.applyMiddleware({ app, path: '/graphql', cors: false })
+    server.applyMiddleware({ app, path: '/', cors: false })
     app.listen({ port: 3456 })
   })
