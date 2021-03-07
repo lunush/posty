@@ -13,7 +13,7 @@ const MONGO_ADDRESS =
 
 const FRONTEND_ADDRESS =
   process.env.NODE_ENV === 'production'
-    ? 'http://posty.lunu.sh'
+    ? 'https://posty.lunu.sh'
     : 'http://localhost:3000'
 
 const typeDefs = (gql as any)`
