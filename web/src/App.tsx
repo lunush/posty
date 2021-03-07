@@ -18,10 +18,12 @@ import Post from './components/Post'
 import { MenuProvider } from 'react-native-popup-menu'
 
 const BACKEND_ADDRESS =
-  process.env.NODE_ENV === 'production' ? 'posty-server' : 'localhost'
+  process.env.NODE_ENV === 'production'
+    ? 'https://posty.lunu.sh/graphql'
+    : 'http://localhost:3456'
 
 const httpLink = createHttpLink({
-  uri: `http://${BACKEND_ADDRESS}:3456/graphql`,
+  uri: BACKEND_ADDRESS,
   credentials: 'include'
 })
 
