@@ -1,0 +1,97 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: posty-mongo
+spec:
+  selector:
+    matchLabels:
+      app: posty-mongo
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: posty-mongo
+    spec:
+      containers:
+        - name: posty-mongo
+          image: mongo:latest
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: data
+              mountPath: /mnt/posty
+              readOnly: false
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: mongo-data
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongo-data
+  labels:
+    app: posty-mongo
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 300Mi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: posty-mongo
+  labels:
+    app: posty-mongo
+spec:
+  ports:
+    - name: posty-mongo
+      port: 27017
+      targetPort: 27017
+  selector:
+    app: posty-mongo
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: posty-server
+spec:
+  selector:
+    matchLabels:
+      app: posty-server
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: posty-server
+    spec:
+      containers:
+        - name: posty-server
+          image: lunush/posty-server:latest
+          ports:
+            - containerPort: 3456
+          volumeMounts:
+            - name: data
+              mountPath: /mnt/posty
+              readOnly: false
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: mongo-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: posty-server
+spec:
+  ports:
+    - port: 80
+      targetPort: 3456
+      protocol: TCP
+  selector:
+    app: posty-server

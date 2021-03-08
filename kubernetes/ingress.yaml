@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: posty-web-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: posty-cert-issuer
+spec:
+  rules:
+    - host: posty.lunu.sh
+      http:
+        paths:
+        - path: /graphql
+          pathType: Prefix
+          backend:
+            service:
+              name: posty-server
+              port: 
+                number: 80
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: posty-web
+              port: 
+                number: 80
+  tls:
+  - hosts:
+    - posty.lunu.sh
+    secretName: posty-cert-secret

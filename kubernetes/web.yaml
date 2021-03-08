@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: posty-web
+  labels:
+    app: posty-web
+spec:
+  type: LoadBalancer
+#  externalIPs:
+#    - 65.21.62.20
+  ports:
+  - port: 80
+    targetPort: 5000
+    protocol: TCP
+  selector:
+    app: posty-web
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: posty-web
+spec:
+  selector:
+    matchLabels:
+      app: posty-web
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: posty-web
+    spec:
+      containers:
+        - name: posty-web
+          image: lunush/posty-web:latest
+          ports:
+            - containerPort: 5000
