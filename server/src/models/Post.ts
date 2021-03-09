@@ -31,7 +31,7 @@ const postSchema = new Schema({
   },
   likes: [
     {
-      username: { type: String, required: true, unique: true },
+      username: { type: String, required: true },
       createdAt: { type: Date, default: Date.now }
     }
   ],
@@ -44,7 +44,7 @@ const postSchema = new Schema({
       modifiedAt: { type: Date, default: Date.now },
       likes: [
         {
-          username: { type: String, required: true, unique: true },
+          username: { type: String, required: true },
           createdAt: { type: Date, default: Date.now }
         }
       ]
